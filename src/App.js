@@ -39,7 +39,15 @@ function App() {
   }
 
   const addFavouriteMovie = async (movie) => {
-    const newFavouriteList = [...favourites, movie]
+    let newFavouriteList = []
+
+    if(favourites !== null){
+      newFavouriteList = [...favourites, movie]
+    }
+    else{
+      newFavouriteList = [movie]
+    }
+
     setFavourites(newFavouriteList)
     saveToLocalStorage(newFavouriteList)
   }
@@ -85,6 +93,10 @@ function App() {
       if(Object.keys(streamingInfo).length !== 0){
         const streamingInfoUS = streamingInfo.us // The API only provides info for the US region
         setStreamOptions(streamingInfoUS)
+      }
+      else{
+        const noStreamingOptions = {}
+        setStreamOptions(noStreamingOptions)
       }
     } catch (error) {
       console.error(error);
