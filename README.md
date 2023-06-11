@@ -2,7 +2,7 @@
 
 Allows the user to search for movies and series, building a watchlist, and allows the user to check in which platforms a movie can be streamed.
 
-* GIF SHOWING AN ITEM BEING ADDED TO THE WATCHLIST, THEN CHECKING THE STREAMING SERVICES AND CLICKING ONE OF THEM
+![Usage Example GIF](img/example.gif)
 
 This project was created with: 
 * React 
