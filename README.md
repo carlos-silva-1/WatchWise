@@ -6,6 +6,7 @@ Allows the user to search for movies and series, building a watchlist, and allow
 
 This project was created with: 
 * React 
-* fetch API with OMDB's & Streaming Availability's APIs
+* Fetch API with OMDB's & Streaming Availability's APIs
 
 This project is hosted:
+https://watchlist-1.herokuapp.com/
