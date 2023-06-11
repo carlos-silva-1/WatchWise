@@ -6,6 +6,7 @@ Allows the user to search for movies and series, building a watchlist, and allow
 
 This project was created with: 
 * React 
+* React Bootstrap
 * Fetch API with OMDB's & Streaming Availability's APIs
 
 This project is hosted:
