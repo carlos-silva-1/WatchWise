@@ -10,4 +10,4 @@ This project was created with:
 * Fetch API with OMDB's & Streaming Availability's APIs
 
 This project is hosted:
-https://watchlist-1.herokuapp.com/
+
