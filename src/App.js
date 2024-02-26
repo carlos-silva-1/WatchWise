@@ -8,6 +8,9 @@ import AddFavourite from './components/AddFavourites';
 import RemoveFavourites from './components/RemoveFavourites';
 import IMDB from './components/IMDB';
 import Drop from './components/Dropdown';
+import Button from 'react-bootstrap/Button';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 
 function App() {
   const [movies, setMovies] = useState([])
@@ -90,7 +93,7 @@ function App() {
       const responseJSON = await response.json();
       const streamingInfo = responseJSON.result.streamingInfo
 
-      if(Object.keys(streamingInfo).length !== 0){
+      if(Object.keys(streamingInfo).length !== 0){ // CHANGE FOR A MORE DESCRIPTIVE FUNCTION
         const streamingInfoUS = streamingInfo.us // The API only provides info for the US region
         setStreamOptions(streamingInfoUS)
       }
@@ -106,16 +109,34 @@ function App() {
   return (
     <div className="container-fluid movie-app">
 
-      <div className='row d-flex align-items-center mt-4 mb-4 watchlist'>
-        <MovieListHeading heading='Watchlist'/>
+      <div className='d-flex align-items-center mt-4 header'>
+
+        <Navbar>
+          <Navbar.Brand href="/index.html" id='brand'>MyMovieQueue</Navbar.Brand>
+          <Nav>
+            <Nav.Link href="/movies.html" id='movie-nav-item'>Movies</Nav.Link>
+            <Nav.Link href="/series.html" id='series-nav-item'>Series</Nav.Link>
+            <Nav.Link href="/mymoviequeue.html"id='my-movie-queue-nav-item'>My List</Nav.Link>
+          </Nav>
+        </Navbar>
+
         <Searchbox searchValue={searchValue} setSearchValue={setSearchValue}/>
+
+        <Button variant="outline-warning" className="p-2 mr-3" id='login-btn'>Login</Button>
+        <Button variant="outline-warning" className="p-2" id='sign-up-btn'>Sign Up</Button>
       </div>
 
-      <div className="row">
-        <MovieList movies={favourites} 
-        handleFavouritesClick={removeFavouriteMovie} favouriteComponent={RemoveFavourites}
-        handleIMDBClick={goToIMDBPage} imdbComponent={IMDB}
-        handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}/>
+      <div className="my-movie-queue">
+        <div className='row d-flex align-items-center mb-4 heading'>
+          <MovieListHeading heading='My Movie Queue'/>
+        </div>
+
+        <div className="row">
+          <MovieList movies={favourites} 
+          handleFavouritesClick={removeFavouriteMovie} favouriteComponent={RemoveFavourites}
+          handleIMDBClick={goToIMDBPage} imdbComponent={IMDB}
+          handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}/>
+        </div>
       </div>
 
       <div className='row d-flex align-items-center mt-4 mb-4 heading'>
@@ -134,3 +155,5 @@ function App() {
 }
 
 export default App;
+
+// Only show search results if a search has been made

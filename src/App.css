@@ -1,18 +1,76 @@
 body{
-  color: #fff;
-  background: url('./img/background.png');
-  position: relative;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #e9e9e9;
+  background: #141725;
+  font-family:Ubuntu, "times new roman", times, roman, serif;
+  padding-left:3%;
+  padding-right:3%;
 }
 
-.watchlist{
-  position: relative;
-  top: -24px;
-  padding-top: 5px;
+/* HEADER */
+
+.header{
+  position: fixed;
+  color: #D0C200;
+  background-color: #0D0F19;
+  width: 100%;
+  left: 0;
+  top: -25px;
+  z-index: 1;
 }
 
-.heading {
-  padding-top: 10px;
+#brand {
+  position: relative;
+  color: #FFC107;
+  font-size: 36px;
+  left: 75px;
+}
+
+#movie-nav-item, 
+#series-nav-item, 
+#my-movie-queue-nav-item {
+  color:#fff;
+  font-size: 22px;
+  padding-left:30px;
+  padding-top: 16px;
+  position: relative;
+  left: 100px;
+}
+
+#movie-nav-item:hover,
+#series-nav-item:hover, 
+#my-movie-queue-nav-item:hover { 
+  color: #D4A108;
+}
+
+.searchbox {
+  position: fixed;
+  background-color: rgba(230,230,230,0.05);
+  top: 22px;
+  right: 200px;
+  width: 400px;
+}
+
+#login-btn {
+  position: fixed;
+  top: 20px;
+  right: 100px;
+}
+
+#sign-up-btn {
+  position: fixed;
+  top: 20px;
+  right: 30px;
+}
+
+.searchbox:focus {
+  background-color: rgba(200,200,200,0.1);
+}
+
+/* MOVIES/SERIES LIST */
+
+.my-movie-queue {
+  position: relative;
+  top: 100px;
 }
 
 .movie-app > .row {
