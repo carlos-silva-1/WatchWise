@@ -109,6 +109,7 @@ function App() {
   return (
     <div className="container-fluid movie-app">
 
+      {/* HEADER */}
       <div className='d-flex align-items-center mt-4 header'>
 
         <Navbar>
@@ -126,30 +127,44 @@ function App() {
         <Button variant="outline-warning" className="p-2" id='sign-up-btn'>Sign Up</Button>
       </div>
 
-      <div className="my-movie-queue">
-        <div className='row d-flex align-items-center mb-4 heading'>
-          <MovieListHeading heading='My Movie Queue'/>
-        </div>
+      {
+        searchValue === ''?
+          <>
+            {/* MY MOVIE QUEUE */}
+            <div className="my-movie-queue">
+              <div className='row d-flex align-items-center'>
+                <MovieListHeading heading='My Movie Queue'/>
+              </div>
 
-        <div className="row">
-          <MovieList movies={favourites} 
-          handleFavouritesClick={removeFavouriteMovie} favouriteComponent={RemoveFavourites}
-          handleIMDBClick={goToIMDBPage} imdbComponent={IMDB}
-          handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}/>
-        </div>
-      </div>
+              <div className="row">
+                <MovieList movies={favourites} 
+                handleFavouritesClick={removeFavouriteMovie} favouriteComponent={RemoveFavourites}
+                handleIMDBClick={goToIMDBPage} imdbComponent={IMDB}
+                handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}/>
+              </div>
+            </div>
 
-      <div className='row d-flex align-items-center mt-4 mb-4 heading'>
-        <MovieListHeading heading='Search Results'/>
-      </div>
+            {/* NEW MOVIES QUEUE */}
 
-      <div className="row">
-        <MovieList movies={movies} 
-        handleFavouritesClick={addFavouriteMovie} favouriteComponent={AddFavourite}
-        handleIMDBClick={goToIMDBPage} imdbComponent={IMDB}
-        handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}/>
-      </div>
+            {/* NEW SERIES QUEUE */}
+          </>
+        :
+          <>
+            {/* SEARCH RESULTS */}
+            <div className="search-queue">
+              <div className='row d-flex align-items-center'>
+                <MovieListHeading heading='Search Results'/>
+              </div>
 
+              <div className="row">
+                <MovieList movies={movies} 
+                handleFavouritesClick={addFavouriteMovie} favouriteComponent={AddFavourite}
+                handleIMDBClick={goToIMDBPage} imdbComponent={IMDB}
+                handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}/>
+              </div>
+            </div>
+          </>
+      }
     </div>
   );
 }
