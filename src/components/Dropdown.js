@@ -6,14 +6,14 @@ const Drop = (props) => {
     const StreamOptions = Object.entries(props.streamOptions)
 
     return(
-        <Dropdown>
-            <Dropdown.Toggle variant="warning" id="dropdown-basic">
+        <Dropdown className="dropdown-btn">
+            <Dropdown.Toggle variant="warning" id="dropdown-basic" className="dropdown-btn">
                 Stream
             </Dropdown.Toggle>
 
-            <Dropdown.Menu>
+            <Dropdown.Menu className="dropdown-menu">
                 {StreamOptions.map((option) => (
-                    <Dropdown.Item href={option[1][0].link} target="_blank" key={option[0].toString()}>
+                    <Dropdown.Item className="dropdown-item" href={option[1][0].link} target="_blank" key={option[0].toString()}>
                         {option[0].toString().toUpperCase()}
                     </Dropdown.Item>
                 ))}

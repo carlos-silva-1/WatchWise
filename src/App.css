@@ -70,11 +70,7 @@ body{
 
 /* MOVIES/SERIES LIST */
 
-.my-movie-queue {
-  position: relative;
-  top: 100px;
-}
-
+.my-movie-queue, 
 .search-queue {
   position: relative;
   top: 100px;
@@ -115,50 +111,76 @@ body{
 .favourite-overlay {
   position: absolute;
   background: #FFC107;
-  width: 15%; /*change to px; put height*/
-  /*transition: 0.5s ease;*/
+  width: 42px;
+  height: 42px;
   transition: 0s;
   opacity: 0;
   top: 0;
   font-size: 20px;
   padding-right: 8px;
-  padding-top: 6px;
-  padding-bottom: 12px;
-  /*text-align: center;*/
+  padding-bottom: 8px;
   color: #000;
 }
 
 .imdb-overlay {
   position: absolute;
-  background: rgba(0, 0, 0, 0.8);
-  width: 120px;
-  height: 50px;
-  transition: 0.5s ease;
+  background: #FFC107;
+  width: 100px;
+  height: 42px;
+  transition: 0s;
   opacity: 0;
-  bottom: 0;
+  top: 0;
+  left: 78px;
   font-size: 20px;
   text-align: center;
+  color: #000;
 }
 
+.favourite-overlay:hover,
 .imdb-overlay:hover {
   color: #FFC107;
-}
-
-.favourite-overlay:hover {
-  color: #FFC107;
-  background: #000;
+  background: #141725;
   border: 1px solid #FFC107;
 }
 
 .stream-overlay {
   position: absolute;
   background: #FFC107;
-  /*width: 120px;*/
-  height: 100px;
-  transition: 0.5s ease;
+  transition: 0s;
   opacity: 0;
   top: 0;
   right: 0;
   font-size: 20px;
   text-align: center;
+  border: 1px solid #FFC107;
 }
+
+.stream-overlay:hover {
+  color: #FFC107;
+  background: #141725;
+}
+
+.dropdown-btn {
+  height: 42px;
+  transition: 0s;
+}
+
+.dropdown-btn:hover {
+  color: #FFC107;
+  background: #141725;
+}
+
+.dropdown-menu {
+  background:#FFC107;
+}
+
+.dropdown-item {
+  color: #000;
+  background: #FFC107;
+}
+
+.dropdown-item:hover {
+  color: #FFC107;
+  background: #141725;
+}
+
