@@ -127,6 +127,7 @@ function App() {
         <Button variant="outline-warning" className="p-2" id='sign-up-btn'>Sign Up</Button>
       </div>
 
+      {/* IF A SEARCH IS BEING MADE, ONLY SHOW THE SEARCH RESULTS. ELSE SHOW MYMOVIEQUEUE, NEW MOVIES AND NEW SERIES */}
       {
         searchValue === ''?
           <>
@@ -170,5 +171,3 @@ function App() {
 }
 
 export default App;
-
-// Only show search results if a search has been made

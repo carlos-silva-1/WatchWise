@@ -5,6 +5,7 @@ const MovieList = (props) => {
     const IMDBComponent = props.imdbComponent
     const DropdownComponent = props.dropdownComponent
     const StreamOptions = props.streamOptions
+    const MovieTitleComponent = props.movieTitleComponent
 
     if(props.movies !== null){
         return(
@@ -26,6 +27,9 @@ const MovieList = (props) => {
                         <div className='favourite-overlay d-flex align-items-center justify-content-center'
                              onClick={() => props.handleFavouritesClick(movie)}>
                             <FavouriteComponent/>
+                        </div>
+                        <div className='title-overlay d-flex align-items-center justify-content-center'>
+                            {movie.Title}
                         </div>
                     </div>
                 ))}
