@@ -4,10 +4,9 @@ import './App.css'
 import MovieList from './components/MovieList';
 import MovieListHeading from './components/MovieListHeading';
 import Searchbox from './components/Searchbox';
-import AddFavourite from './components/AddFavourites';
-import RemoveFavourites from './components/RemoveFavourites';
 import IMDB from './components/IMDB';
 import Drop from './components/Dropdown';
+import Favourite from './components/Favourite'
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -39,6 +38,17 @@ function App() {
   const getFavouriteMovies = () => {
     const favouriteList = JSON.parse(localStorage.getItem('react-movie-app-favourites'))
     setFavourites(favouriteList)
+  }
+
+  const handleFavouriteMovie = async (movie) => {
+    const favouriteMoviesIDs = favourites.map(obj => obj.imdbID);
+    
+    if(favouriteMoviesIDs.includes(movie.imdbID)) {
+      removeFavouriteMovie(movie)
+    }
+    else {
+      addFavouriteMovie(movie)
+    }
   }
 
   const addFavouriteMovie = async (movie) => {
@@ -139,7 +149,7 @@ function App() {
 
               <div className="row">
                 <MovieList movies={favourites} 
-                handleFavouritesClick={removeFavouriteMovie} favouriteComponent={RemoveFavourites}
+                handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
                 handleIMDBClick={goToIMDBPage} imdbComponent={IMDB}
                 handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}/>
               </div>
@@ -159,7 +169,7 @@ function App() {
 
               <div className="row">
                 <MovieList movies={movies} 
-                handleFavouritesClick={addFavouriteMovie} favouriteComponent={AddFavourite}
+                handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
                 handleIMDBClick={goToIMDBPage} imdbComponent={IMDB}
                 handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}/>
               </div>

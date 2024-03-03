@@ -166,6 +166,9 @@ body{
   background: #FFC107;
   color: #000;
   opacity: 0;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dropdown-btn {

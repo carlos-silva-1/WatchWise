@@ -1,37 +1,45 @@
 import React from 'react'
+import truncateText from './../util/truncate'
 
 const MovieList = (props) => {
     const FavouriteComponent = props.favouriteComponent
     const IMDBComponent = props.imdbComponent
     const DropdownComponent = props.dropdownComponent
     const StreamOptions = props.streamOptions
-    const MovieTitleComponent = props.movieTitleComponent
+    const FavouriteMovies = props.favouriteMovies
 
     if(props.movies !== null){
         return(
             <>
                 {props.movies.map( (movie, index) => (
-                    <div className='d-flex justify-content-start m-3 image-container' key={index}>
-
-                        {/* CHANGE TO: IF MOVIE HAS POSTER IMAGE, INCLUDE IT IN THE ROW, OTHERWISE DONT */}
-
-                        <img src={movie.Poster} alt='movie'></img>
-                        <div className='stream-overlay d-flex align-items-center justify-content-center'
-                             onMouseEnter={() => props.handleStreamMouseEnter(movie)}>
-                            <DropdownComponent streamOptions={StreamOptions}/>
-                        </div>
-                        <div className='imdb-overlay d-flex align-items-center justify-content-center'
-                             onClick={() => props.handleIMDBClick(movie)}>
-                            <IMDBComponent/>
-                        </div>
-                        <div className='favourite-overlay d-flex align-items-center justify-content-center'
-                             onClick={() => props.handleFavouritesClick(movie)}>
-                            <FavouriteComponent/>
-                        </div>
-                        <div className='title-overlay d-flex align-items-center justify-content-center'>
-                            {movie.Title}
-                        </div>
-                    </div>
+                    <>
+                        {
+                            movie.Poster !== 'N/A'?
+                                <>
+                                    <div className='d-flex justify-content-start m-3 image-container' key={index}>
+                                        <img src={movie.Poster} alt='movie'></img>
+                                        <div className='stream-overlay d-flex align-items-center justify-content-center'
+                                             onMouseEnter={() => props.handleStreamMouseEnter(movie)}>
+                                            <DropdownComponent streamOptions={StreamOptions}/>
+                                        </div>
+                                        <div className='imdb-overlay d-flex align-items-center justify-content-center'
+                                             onClick={() => props.handleIMDBClick(movie)}>
+                                            <IMDBComponent/>
+                                        </div>
+                                        <div className='favourite-overlay d-flex align-items-center justify-content-center'
+                                             onClick={() => props.handleFavouritesClick(movie)}>
+                                            <FavouriteComponent favouriteMovies={FavouriteMovies} movie={movie}/>
+                                        </div>
+                                        <div className='title-overlay d-flex align-items-center justify-content-center'>
+                                            {truncateText(movie.Title, 30)}
+                                        </div>
+                                    </div>
+                                </>
+                            :
+                                <>
+                                </>
+                        }
+                    </>
                 ))}
             </>
         )
