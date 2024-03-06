@@ -18,19 +18,19 @@ const MovieList = (props) => {
                                 <>
                                     <div className='d-flex justify-content-start m-3 image-container' key={index}>
                                         <img src={movie.Poster} alt='movie'></img>
-                                        <div className='stream-overlay d-flex align-items-center justify-content-center'
+                                        <div className='overlay stream-overlay d-flex align-items-center justify-content-center'
                                              onMouseEnter={() => props.handleStreamMouseEnter(movie)}>
                                             <DropdownComponent streamOptions={StreamOptions}/>
                                         </div>
-                                        <div className='imdb-overlay d-flex align-items-center justify-content-center'
+                                        <div className='overlay imdb-overlay d-flex align-items-center justify-content-center'
                                              onClick={() => props.handleIMDBClick(movie)}>
                                             <IMDBComponent/>
                                         </div>
-                                        <div className='favourite-overlay d-flex align-items-center justify-content-center'
+                                        <div className='overlay favourite-overlay d-flex align-items-center justify-content-center'
                                              onClick={() => props.handleFavouritesClick(movie)}>
                                             <FavouriteComponent favouriteMovies={FavouriteMovies} movie={movie}/>
                                         </div>
-                                        <div className='title-overlay d-flex align-items-center justify-content-center'>
+                                        <div className='overlay title-overlay d-flex align-items-center justify-content-center'>
                                             {truncateText(movie.Title, 30)}
                                         </div>
                                     </div>
