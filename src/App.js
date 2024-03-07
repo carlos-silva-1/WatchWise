@@ -122,13 +122,16 @@ function App() {
       {/* HEADER */}
       <div className='d-flex align-items-center mt-4 header'>
 
-        <Navbar>
+        <Navbar expand="lg" variant="dark">
           <Navbar.Brand href="/index.html" id='brand'>MyMovieQueue</Navbar.Brand>
-          <Nav>
-            <Nav.Link href="/movies.html" id='movie-nav-item'>Movies</Nav.Link>
-            <Nav.Link href="/series.html" id='series-nav-item'>Series</Nav.Link>
-            <Nav.Link href="/mymoviequeue.html"id='my-movie-queue-nav-item'>My List</Nav.Link>
-          </Nav>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" id="navbar-menu-icon"/>
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav>
+              <Nav.Link href="/movies.html" id='movie-nav-item'>Movies</Nav.Link>
+              <Nav.Link href="/series.html" id='series-nav-item'>Series</Nav.Link>
+              <Nav.Link href="/mymoviequeue.html"id='my-movie-queue-nav-item'>My List</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
         </Navbar>
 
         <Searchbox searchValue={searchValue} setSearchValue={setSearchValue}/>
