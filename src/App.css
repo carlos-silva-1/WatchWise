@@ -78,8 +78,8 @@ body{
 
 #navbar-menu-icon{
   position: relative;
-  left: calc(var(--screen-width) * 0.225);
-  bottom: 34px;
+  left: 70px;
+  bottom: 36px;
 }
 
 /* MOVIES/SERIES LIST */
@@ -238,6 +238,45 @@ body{
     font-size: 18px;
     left: 18%;
     width: 80px;
+  }
+
+}
+
+@media (max-width: 646px) {
+
+  .header {
+    height: 190px;
+  }
+
+  #brand {
+    position: fixed;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  #navbar-menu-icon{
+    position: fixed;
+    top: 70px;
+    left: 33%;
+    height: 40px;
+    transform: translateX(-50%);
+  }
+
+  #login-btn {
+    top: 70px;
+    left: calc(66% - 70px);
+    transform: translateX(-50%);
+  }
+
+  #sign-up-btn {
+    top: 70px;
+    left: 66%;
+    transform: translateX(-50%);
+  }
+
+  .searchbox {
+    top: 130px;
   }
 
 }
