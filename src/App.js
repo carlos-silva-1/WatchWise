@@ -10,6 +10,7 @@ import Favourite from './components/Favourite'
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import Container from 'react-bootstrap/Container';
 
 function App() {
   const [movies, setMovies] = useState([])
@@ -26,9 +27,17 @@ function App() {
   }, [])
 
   const getMovieRequest = async (searchValue) => {
-    const url = `https://www.omdbapi.com/?s=${searchValue}&apikey=${process.env.REACT_APP_OMDB_KEY}`
-    const response = await fetch(url)
+    const url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&query=${searchValue}&include_adult=false&language=en-US&page=1`
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ODJhMjdlM2QxYjU4NjlmNjc1MjQ5MTNjYTlhM2E4NCIsInN1YiI6IjY1ZDZiZGIxNjA5NzUwMDE2MjIzNTY5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mr2YERxD-URJb64LONU5yXyPxMDtYs3mZr4CVr4yw3I'
+      }
+    }
+    const response = await fetch(url, options)
     const responseJSON = await response.json()
+    //console.log(responseJSON)
 
     if(responseJSON.Search){
       setMovies(responseJSON.Search)
@@ -123,15 +132,17 @@ function App() {
       <div className='d-flex align-items-center mt-4 header'>
 
         <Navbar expand="lg" variant="dark">
-          <Navbar.Brand href="/index.html" id='brand'>MyMovieQueue</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" id="navbar-menu-icon"/>
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav>
-              <Nav.Link href="/movies.html" id='movie-nav-item'>Movies</Nav.Link>
-              <Nav.Link href="/series.html" id='series-nav-item'>Series</Nav.Link>
-              <Nav.Link href="/mymoviequeue.html"id='my-movie-queue-nav-item'>My List</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
+          <Container>
+            <Navbar.Brand href="/index.html" id='brand'>MyMovieQueue</Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" id="navbar-menu-icon"/>
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav>
+                <Nav.Link href="/movies.html" id='movie-nav-item'>Movies</Nav.Link>
+                <Nav.Link href="/series.html" id='series-nav-item'>Series</Nav.Link>
+                <Nav.Link href="/mymoviequeue.html"id='my-movie-queue-nav-item'>My List</Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
         </Navbar>
 
         <Searchbox searchValue={searchValue} setSearchValue={setSearchValue}/>

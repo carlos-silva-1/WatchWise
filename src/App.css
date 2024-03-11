@@ -66,20 +66,14 @@ body{
 
 #login-btn {
   position: fixed;
-  top: 20px;
+  top: 22px;
   right: 130px;
 }
 
 #sign-up-btn {
   position: fixed;
-  top: 20px;
+  top: 22px;
   right: 60px;
-}
-
-#navbar-menu-icon{
-  position: relative;
-  left: 70px;
-  bottom: 36px;
 }
 
 /* MOVIES/SERIES LIST */
@@ -229,7 +223,9 @@ body{
 @media (max-width: 978px) {
 
   #brand {
-    left: 64px;
+    position: fixed;
+    left: 94px;
+    top: 7px;
   }
 
   #movie-nav-item, 
@@ -238,6 +234,22 @@ body{
     font-size: 18px;
     left: 18%;
     width: 80px;
+  }
+
+  #navbar-menu-icon{
+    position: fixed;
+    left: 368px;
+    top: 24px;
+  }
+
+  #basic-navbar-nav {
+    position: relative;
+    top: 20px;
+    left: 410px;
+    z-index: 2;
+    background: var(--background-dark-color);
+    padding-top: 50px;
+    padding-right: 30px;
   }
 
 }
@@ -263,20 +275,30 @@ body{
     transform: translateX(-50%);
   }
 
+  #basic-navbar-nav {
+    top: 60px;
+    left: 5px;
+  }
+
   #login-btn {
-    top: 70px;
+    top: 68px;
     left: calc(66% - 70px);
     transform: translateX(-50%);
   }
 
   #sign-up-btn {
-    top: 70px;
+    top: 68px;
     left: 66%;
     transform: translateX(-50%);
   }
 
   .searchbox {
     top: 130px;
+  }
+
+  .my-movie-queue, 
+  .search-queue {
+    top: 200px;
   }
 
 }
