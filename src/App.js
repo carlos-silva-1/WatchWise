@@ -35,12 +35,12 @@ function App() {
         Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ODJhMjdlM2QxYjU4NjlmNjc1MjQ5MTNjYTlhM2E4NCIsInN1YiI6IjY1ZDZiZGIxNjA5NzUwMDE2MjIzNTY5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mr2YERxD-URJb64LONU5yXyPxMDtYs3mZr4CVr4yw3I'
       }
     }
+
     const response = await fetch(url, options)
     const responseJSON = await response.json()
-    //console.log(responseJSON)
 
-    if(responseJSON.Search){
-      setMovies(responseJSON.Search)
+    if(responseJSON.results.length > 0){
+      setMovies(responseJSON.results)
     }
   }
 
@@ -50,9 +50,9 @@ function App() {
   }
 
   const handleFavouriteMovie = async (movie) => {
-    const favouriteMoviesIDs = favourites.map(obj => obj.imdbID);
+    const favouriteMoviesIDs = favourites.map(obj => obj.id);
     
-    if(favouriteMoviesIDs.includes(movie.imdbID)) {
+    if(favouriteMoviesIDs.includes(movie.id)) {
       removeFavouriteMovie(movie)
     }
     else {
@@ -76,7 +76,7 @@ function App() {
 
   const removeFavouriteMovie = (movie) => {
     const newFavouriteList = favourites.filter((favourite) => (
-      favourite.imdbID !== movie.imdbID
+      favourite.id !== movie.id
     ))
     setFavourites(newFavouriteList)
     saveToLocalStorage(newFavouriteList)
@@ -86,19 +86,34 @@ function App() {
     localStorage.setItem('react-movie-app-favourites', JSON.stringify(items))
   }
 
-  const goToIMDBPage = async (movie) => {
-    const url = `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&t="${movie.Title}"`
+  const getIMDBID = async (movie) => {
+    const url = `https://api.themoviedb.org/3/movie/${movie.id}/external_ids?api_key=${process.env.REACT_APP_TMDB_KEY}`;
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ODJhMjdlM2QxYjU4NjlmNjc1MjQ5MTNjYTlhM2E4NCIsInN1YiI6IjY1ZDZiZGIxNjA5NzUwMDE2MjIzNTY5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mr2YERxD-URJb64LONU5yXyPxMDtYs3mZr4CVr4yw3I'
+      }
+    };
+
     const response = await fetch(url)
     const responseJSON = await response.json()
 
-    if(responseJSON.imdbID){
-      const imdbUrl = `https://www.imdb.com/title/${responseJSON.imdbID}`
+    return responseJSON.imdb_id
+  }
+
+  const goToIMDBPage = async (movie) => {
+    const imdb_id = await getIMDBID(movie)
+
+    if(imdb_id){
+      const imdbUrl = `https://www.imdb.com/title/${imdb_id}`
       window.open(imdbUrl)
     }
   }
 
   const updateStreamOptions = async (movie) => {
-    const url = `https://streaming-availability.p.rapidapi.com/v2/get/basic?country=us&imdb_id=${movie.imdbID}&output_language=en`;
+    const imdb_id = await getIMDBID(movie)
+    const url = `https://streaming-availability.p.rapidapi.com/v2/get/basic?country=us&imdb_id=${imdb_id}&output_language=en`;
     const options = {
       method: 'GET',
       headers: {
@@ -110,11 +125,11 @@ function App() {
     try {
       const response = await fetch(url, options);
       const responseJSON = await response.json();
-      const streamingInfo = responseJSON.result.streamingInfo
+      const streamingOptions = responseJSON.result.streamingInfo
 
-      if(Object.keys(streamingInfo).length !== 0){ // CHANGE FOR A MORE DESCRIPTIVE FUNCTION
-        const streamingInfoUS = streamingInfo.us // The API only provides info for the US region
-        setStreamOptions(streamingInfoUS)
+      if(Object.keys(streamingOptions).length !== 0){
+        const streamingOptionsUS = streamingOptions.us // The API only provides info for the US region
+        setStreamOptions(streamingOptionsUS)
       }
       else{
         const noStreamingOptions = {}

@@ -14,6 +14,11 @@ body{
   font-family:Ubuntu, "times new roman", times, roman, serif;
 }
 
+img{
+  height: 500px;
+  width: 330px;
+}
+
 /* HEADER */
 
 .header{
