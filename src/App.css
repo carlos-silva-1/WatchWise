@@ -19,6 +19,10 @@ img{
   width: 330px;
 }
 
+img:hover{
+  cursor: pointer;
+}
+
 /* HEADER */
 
 .header{
@@ -184,6 +188,14 @@ img{
 .dropdown-item:hover {
   color: var(--primary-color);
   background: var(--background-dark-color);
+}
+
+/* MOVIE DETAILS */
+
+.movie-details {
+  position: relative;
+  left: 80px;
+  top: 100px;
 }
 
 @media (max-width: 1300px) {

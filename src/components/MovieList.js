@@ -17,7 +17,8 @@ const MovieList = (props) => {
                             movie.poster_path != null?
                                 <>
                                     <div className='d-flex justify-content-start m-3 image-container' key={index}>
-                                        <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='movie'></img>
+                                        <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='movie'
+                                            onClick={() => props.handleMovieClick(movie)}></img>
                                         <div className='overlay stream-overlay d-flex align-items-center justify-content-center'
                                              onMouseEnter={() => props.handleStreamMouseEnter(movie)}>
                                             <DropdownComponent streamOptions={StreamOptions}/>
