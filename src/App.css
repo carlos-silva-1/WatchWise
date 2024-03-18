@@ -90,11 +90,6 @@ img{
   left: 64px;
 }
 
-.movie-app > .row {
-  overflow: auto;
-  flex-wrap: nowrap;
-}
-
 .image-container {
   position: relative;
   transition: transform 0.2s;

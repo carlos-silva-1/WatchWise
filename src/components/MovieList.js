@@ -9,8 +9,6 @@ const MovieList = (props) => {
     const FavouriteMovies = props.favouriteMovies
 
     if(props.movies !== null){
-        console.log("LOGGING")
-        console.log(props.movies)
         return(
             <>
                 {props.movies.map( (movie, index) => (
@@ -33,7 +31,16 @@ const MovieList = (props) => {
                                             <FavouriteComponent favouriteMovies={FavouriteMovies} movie={movie}/>
                                         </div>
                                         <div className='overlay title-overlay d-flex align-items-center justify-content-center'>
-                                            {truncateText(movie.title, 30)}
+                                            {
+                                                movie.title !== undefined?
+                                                    <>
+                                                        {truncateText(movie.title, 30)}
+                                                    </>
+                                                :
+                                                    <>
+                                                        {truncateText(movie.name, 30)}
+                                                    </>
+                                            }
                                         </div>
                                     </div>
                                 </>
