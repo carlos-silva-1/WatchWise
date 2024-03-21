@@ -14,15 +14,6 @@ body{
   font-family:Ubuntu, "times new roman", times, roman, serif;
 }
 
-img{
-  height: 500px;
-  width: 330px;
-}
-
-img:hover{
-  cursor: pointer;
-}
-
 /* HEADER */
 
 .header{
@@ -101,6 +92,12 @@ img:hover{
 
 .image-container > img {
   border: 1px solid var(--primary-color);
+  height: 500px;
+  width: 330px;
+}
+
+.image-container > img:hover {
+  cursor: pointer;
 }
 
 .image-container:hover {
@@ -112,6 +109,32 @@ img:hover{
 .image-container:hover .stream-overlay {
   cursor: pointer;
   opacity: 1;
+}
+
+.details-poster {
+  height: 700px;
+  position: relative;
+  top: 120px;
+  left: 82px;
+  border: 1px solid var(--primary-color);
+}
+
+.deeets {
+  position: relative;
+  top:120px;
+  left: 80px;
+}
+
+.imdb {
+  width: 100px;
+  text-align: center;
+  background-color: var(--background-light-color);
+}
+
+.imdb:hover {
+  cursor: pointer;
+  background: red;
+  color: red;
 }
 
 .image-container:hover .title-overlay {

@@ -22,6 +22,7 @@ function App() {
   const [streamOptions, setStreamOptions] = useState({})
   const [selectedMovie, setSelectedMovie] = useState({})
   const [movieHasBeenSelected, setMovieHasBeenSelected] = useState(false)
+  const [selectedMovieDetails, setSelectedMovieDetails] = useState({})
 
   useEffect(() => {
     getMovieRequest(searchValue)
@@ -160,7 +161,7 @@ function App() {
       }
     };
 
-    const response = await fetch(url)
+    const response = await fetch(url, options)
     const responseJSON = await response.json()
 
     return responseJSON.imdb_id
@@ -204,17 +205,28 @@ function App() {
     }
   }
 
-  const showMovieDetails = (movie) => {
-    setMovieHasBeenSelected(true)
-    setSelectedMovie(movie)
+  const getDetails = async (movie) => {
+    const url = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US`
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ODJhMjdlM2QxYjU4NjlmNjc1MjQ5MTNjYTlhM2E4NCIsInN1YiI6IjY1ZDZiZGIxNjA5NzUwMDE2MjIzNTY5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mr2YERxD-URJb64LONU5yXyPxMDtYs3mZr4CVr4yw3I'
+      }
+    };
 
-    /*
-    CREATE A COMPONENT:
-    heading of the item's title
-    show imdb button on this page
-    bigger poster image
-    show details
-    */
+    const response = await fetch(url, options)
+    const responseJSON = await response.json()
+
+    return responseJSON
+  }
+
+  const showMovieDetails = async (movie) => {
+    const details = await getDetails(movie)
+
+    setSelectedMovie(movie)
+    setSelectedMovieDetails(details)
+    setMovieHasBeenSelected(true)
   }
 
   return (
@@ -258,7 +270,6 @@ function App() {
                   <div className="row">
                     <MovieList movies={favourites} 
                     handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
-                    handleIMDBClick={goToIMDBPage} imdbComponent={IMDB}
                     handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
                     handleMovieClick={showMovieDetails}/>
                   </div>
@@ -273,7 +284,6 @@ function App() {
                   <div className="row">
                     <MovieList movies={popularMovies} 
                     handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
-                    handleIMDBClick={goToIMDBPage} imdbComponent={IMDB}
                     handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
                     handleMovieClick={showMovieDetails}/>
                   </div>
@@ -288,7 +298,6 @@ function App() {
                   <div className="row">
                     <MovieList movies={popularSeries} 
                     handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
-                    handleIMDBClick={goToIMDBPage} imdbComponent={IMDB}
                     handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
                     handleMovieClick={showMovieDetails}/>
                   </div>
@@ -305,7 +314,6 @@ function App() {
                   <div className="row">
                     <MovieList movies={movies} 
                     handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
-                    handleIMDBClick={goToIMDBPage} imdbComponent={IMDB}
                     handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
                     handleMovieClick={showMovieDetails}/>
                   </div>
@@ -314,7 +322,8 @@ function App() {
           </>
         :
           <>
-            <MovieDetails movie={selectedMovie}/>
+            <MovieDetails movie={selectedMovie} details={selectedMovieDetails}
+            handleIMDBClick={goToIMDBPage} imdbComponent={IMDB}/>
           </>
       }
     </div>
