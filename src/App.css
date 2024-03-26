@@ -112,15 +112,18 @@ body{
 }
 
 .details-poster {
-  height: 700px;
-  position: relative;
-  left: 82px;
   border: 1px solid var(--primary-color);
+}
+
+.primary-color {
+  color: var(--primary-color);
 }
 
 .deeets {
   position: relative;
-  left: 80px;
+  left: 15px;
+  top: 40px;
+  padding-bottom: 10px;
 }
 
 #imdb-btn {
@@ -226,8 +229,18 @@ body{
 
 .details-title {
   margin-top: 100px;
-  margin-left: 64px;
+  margin-left: 0px;
   z-index: 3;
+}
+
+.trailer-wrapper {
+  /*position: relative;*/
+}
+
+.react-player {
+  /*position: absolute;
+  top: 0;
+  left: 0;*/
 }
 
 @media (max-width: 1300px) {
