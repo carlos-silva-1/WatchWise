@@ -114,18 +114,21 @@ body{
 .details-poster {
   height: 700px;
   position: relative;
-  top: 120px;
   left: 82px;
   border: 1px solid var(--primary-color);
 }
 
 .deeets {
   position: relative;
-  top:120px;
   left: 80px;
 }
 
-.imdb {
+#imdb-btn {
+  height: 44px;
+}
+
+/* IS THIS ONE USED ANYWHERE? */
+.imdb { 
   width: 100px;
   text-align: center;
   background-color: var(--background-light-color);
@@ -215,10 +218,16 @@ body{
 
 /* MOVIE DETAILS */
 
-.movie-details {
-  position: relative;
-  left: 80px;
-  top: 100px;
+.details-body {
+  margin-top: -20px;
+  padding-top: 0px;
+  z-index: -2;
+}
+
+.details-title {
+  margin-top: 100px;
+  margin-left: 64px;
+  z-index: 3;
 }
 
 @media (max-width: 1300px) {

@@ -1,8 +1,31 @@
 import React from 'react'
+import Button from 'react-bootstrap/Button';
+import formatAsDollarAmount from './../util/formatAsDollar'
 
-/*
-    show details to the side of the poster
-*/
+const getIMDBID = async (movie) => {
+    const url = `https://api.themoviedb.org/3/movie/${movie.id}/external_ids?api_key=${process.env.REACT_APP_TMDB_KEY}`;
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ODJhMjdlM2QxYjU4NjlmNjc1MjQ5MTNjYTlhM2E4NCIsInN1YiI6IjY1ZDZiZGIxNjA5NzUwMDE2MjIzNTY5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mr2YERxD-URJb64LONU5yXyPxMDtYs3mZr4CVr4yw3I'
+      }
+    };
+
+    const response = await fetch(url, options)
+    const responseJSON = await response.json()
+
+    return responseJSON.imdb_id
+}
+
+const goToIMDBPage = async (movie) => {
+    const imdb_id = await getIMDBID(movie)
+
+    if(imdb_id){
+      const imdbUrl = `https://www.imdb.com/title/${imdb_id}`
+      window.open(imdbUrl)
+    }
+}
 
 const MovieDetails = (props) => {
     const movie = props.movie
@@ -15,7 +38,7 @@ const MovieDetails = (props) => {
 
     return(
         <>
-        	<div className="movie-details row">
+        	<div className="row details-title">
                 <div className="col-auto">
         		  <h1>{movie.title}</h1>
                 </div>
@@ -28,12 +51,10 @@ const MovieDetails = (props) => {
                         <h5 className="d-inline ml-3">({details.vote_count} votes)</h5>
                     </div>
                 </div>
-                <div className="col mt-1" onClick={() => props.handleIMDBClick(movie)}>
-                    <IMDBComponent/>
-                </div>
+                <IMDBComponent handleIMDBClick={goToIMDBPage} movie={movie}/>
         	</div>
 
-            <div className="row">
+            <div className="row details-body mt-3">
                 <div className="col-auto">
                     <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='movie' className="details-poster"/>
                 </div>
@@ -66,6 +87,14 @@ const MovieDetails = (props) => {
                         <div id="details-runtime" className="mt-4">
                             <h2>Runtime</h2>
                             {details.runtime} Minutes
+                        </div>
+                        <div className="mt-4">
+                            <h2>Budget</h2>
+                            {formatAsDollarAmount(details.budget)}
+                        </div>
+                        <div className="mt-4">
+                            <h2>Revenue</h2>
+                            {formatAsDollarAmount(details.revenue)}
                         </div>
                     </div>
                 </div>
