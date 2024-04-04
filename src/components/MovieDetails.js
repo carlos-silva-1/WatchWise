@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import formatAsDollarAmount from './../util/formatAsDollar'
 import ReactPlayer from 'react-player'
 import movieTrailer from 'movie-trailer'
@@ -48,6 +48,7 @@ const MovieDetails = (props) => {
                 <div className="col-auto">
         		  <h1>{movie.title}</h1>
                 </div>
+
                 <div className="col-auto">
                     <div className="mt-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#FFC107" class="bi bi-star-fill" viewBox="0 0 16 16" className="mr-2 mb-2 pb-1">
@@ -57,6 +58,7 @@ const MovieDetails = (props) => {
                         <h5 className="d-inline ml-3">({details.vote_count} votes)</h5>
                     </div>
                 </div>
+                
                 <IMDBComponent handleIMDBClick={goToIMDBPage} movie={movie}/>
         	</div>
 
@@ -64,13 +66,8 @@ const MovieDetails = (props) => {
                 <div className="col-auto">
                     <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='poster' className="details-poster"/>
                 </div>
-                <div className="col trailer-wrapper">
-                    <ReactPlayer className="react-player" width="100%" height="100%" url={trailerURL} controls={true} />
-                </div>
-            </div>
 
-            <div className="row">
-                <div className="deeets">
+                <div className="col">
                     <div id="details-overview">
                         <h2 className="primary-color">Overview</h2>
                         {details.overview}
@@ -114,6 +111,10 @@ const MovieDetails = (props) => {
                         ))}
                     </div>
                 </div>
+            </div>
+
+            <div className="row trailer-wrapper mt-4 mr-3 mb-5">
+                    <ReactPlayer className="react-player" width="80%" height="80%" url={trailerURL} controls={true} />
             </div>
         </>
     )

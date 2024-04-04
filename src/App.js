@@ -115,7 +115,9 @@ function App() {
   }
 
   const handleFavouriteMovie = async (movie) => {
-    const favouriteMoviesIDs = favourites.map(obj => obj.id);
+    let favouriteMoviesIDs = []
+    if(favourites !== null)
+      favouriteMoviesIDs = favourites.map(obj => obj.id);
     
     if(favouriteMoviesIDs.includes(movie.id)) {
       removeFavouriteMovie(movie)
@@ -259,66 +261,76 @@ function App() {
       {
         movieHasBeenSelected === false?
           <>
-            searchValue === ''?
-              <>
-                {/* MY MOVIE QUEUE */}
-                <div className="my-movie-queue">
-                  <div className='row d-flex align-items-center'>
-                    <MovieListHeading heading='My Movie Queue'/>
+            {
+              searchValue === ''?
+                <>
+                  {/* MY MOVIE QUEUE */}
+                  {
+                    favourites !== null && favourites.length !== 0?
+                      <>
+                        <div className="movie-queue">
+                          <div className='row d-flex align-items-center'>
+                            <MovieListHeading heading='My Movie Queue'/>
+                          </div>
+
+                          <div className="row">
+                            <MovieList movies={favourites} 
+                            handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
+                            handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
+                            handleMovieClick={showMovieDetails}/>
+                          </div>
+                        </div>
+                      </>
+                    :
+                      <>
+                      </>
+                  }
+
+                  {/* POPULAR MOVIES QUEUE */}
+                  <div className="movie-queue">
+                    <div className='row d-flex align-items-center'>
+                      <MovieListHeading heading='Popular Movies'/>
+                    </div>
+
+                    <div className="row">
+                      <MovieList movies={popularMovies} 
+                      handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
+                      handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
+                      handleMovieClick={showMovieDetails}/>
+                    </div>
                   </div>
 
-                  <div className="row">
-                    <MovieList movies={favourites} 
-                    handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
-                    handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
-                    handleMovieClick={showMovieDetails}/>
-                  </div>
-                </div>
+                  {/* POPULAR SERIES QUEUE */}
+                  <div className="movie-queue">
+                    <div className='row d-flex align-items-center'>
+                      <MovieListHeading heading='Popular Series'/>
+                    </div>
 
-                {/* POPULAR MOVIES QUEUE */}
-                <div className="my-movie-queue">
-                  <div className='row d-flex align-items-center'>
-                    <MovieListHeading heading='Popular Movies'/>
+                    <div className="row">
+                      <MovieList movies={popularSeries} 
+                      handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
+                      handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
+                      handleMovieClick={showMovieDetails}/>
+                    </div>
                   </div>
+                </>
+              :
+                <>
+                  {/* SEARCH RESULTS */}
+                  <div className="movie-queue">
+                    <div className='row d-flex align-items-center'>
+                      <MovieListHeading heading='Search Results'/>
+                    </div>
 
-                  <div className="row">
-                    <MovieList movies={popularMovies} 
-                    handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
-                    handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
-                    handleMovieClick={showMovieDetails}/>
+                    <div className="row">
+                      <MovieList movies={movies} 
+                      handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
+                      handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
+                      handleMovieClick={showMovieDetails}/>
+                    </div>
                   </div>
-                </div>
-
-                {/* POPULAR SERIES QUEUE */}
-                <div className="my-movie-queue">
-                  <div className='row d-flex align-items-center'>
-                    <MovieListHeading heading='Popular Series'/>
-                  </div>
-
-                  <div className="row">
-                    <MovieList movies={popularSeries} 
-                    handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
-                    handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
-                    handleMovieClick={showMovieDetails}/>
-                  </div>
-                </div>
-              </>
-            :
-              <>
-                {/* SEARCH RESULTS */}
-                <div className="search-queue">
-                  <div className='row d-flex align-items-center'>
-                    <MovieListHeading heading='Search Results'/>
-                  </div>
-
-                  <div className="row">
-                    <MovieList movies={movies} 
-                    handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
-                    handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
-                    handleMovieClick={showMovieDetails}/>
-                  </div>
-                </div>
-              </>
+                </>
+            }
           </>
         :
           <>

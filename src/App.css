@@ -14,7 +14,11 @@ body{
   font-family:Ubuntu, "times new roman", times, roman, serif;
 }
 
-/* HEADER */
+.primary-color {
+  color: var(--primary-color);
+}
+
+/********************************** HEADER **********************************/
 
 .header{
   position: fixed;
@@ -76,14 +80,15 @@ body{
   right: 60px;
 }
 
-/* MOVIES/SERIES LIST */
+/********************************* MOVIES LIST **********************************/
 
-.my-movie-queue, 
-.search-queue {
+.movie-queue {
   position: relative;
   top: 100px;
   left: 64px;
 }
+
+/********************************* MOVIE POSTERS **********************************/
 
 .image-container {
   position: relative;
@@ -105,42 +110,9 @@ body{
 }
 
 .image-container:hover .favourite-overlay, 
-.image-container:hover .imdb-overlay,
 .image-container:hover .stream-overlay {
   cursor: pointer;
   opacity: 1;
-}
-
-.details-poster {
-  border: 1px solid var(--primary-color);
-}
-
-.primary-color {
-  color: var(--primary-color);
-}
-
-.deeets {
-  position: relative;
-  left: 15px;
-  top: 40px;
-  padding-bottom: 10px;
-}
-
-#imdb-btn {
-  height: 44px;
-}
-
-/* IS THIS ONE USED ANYWHERE? */
-.imdb { 
-  width: 100px;
-  text-align: center;
-  background-color: var(--background-light-color);
-}
-
-.imdb:hover {
-  cursor: pointer;
-  background: red;
-  color: red;
 }
 
 .image-container:hover .title-overlay {
@@ -163,15 +135,7 @@ body{
   padding-bottom: 8px;
 }
 
-.imdb-overlay {
-  width: 100px;
-  top: 0;
-  left: 78px;
-  text-align: center;
-}
-
-.favourite-overlay:hover,
-.imdb-overlay:hover {
+.favourite-overlay:hover {
   color: var(--primary-color);
   background: var(--background-dark-color);
   border: 1px solid var(--primary-color);
@@ -219,13 +183,7 @@ body{
   background: var(--background-dark-color);
 }
 
-/* MOVIE DETAILS */
-
-.details-body {
-  margin-top: -20px;
-  padding-top: 0px;
-  z-index: -2;
-}
+/********************************* MOVIE DETAILS *********************************/
 
 .details-title {
   margin-top: 100px;
@@ -233,15 +191,36 @@ body{
   z-index: 3;
 }
 
+#imdb-btn {
+  height: 44px;
+  margin-left: 18px;
+}
+
+.details-poster {
+  border: 1px solid var(--primary-color);
+}
+
+.details-body {
+  margin-top: -20px;
+  padding-top: 0px;
+  z-index: -2;
+}
+
 .trailer-wrapper {
-  /*position: relative;*/
+  width: auto;
+  height: auto;
+  position: relative;
+  padding-top: 56.25%;
 }
 
 .react-player {
-  /*position: absolute;
+  border: 1px solid var(--primary-color);
+  position: absolute;
   top: 0;
-  left: 0;*/
+  left: 14px;
 }
+
+/********************************* MAX-WIDTH 1300PX *********************************/
 
 @media (max-width: 1300px) {
 
@@ -268,16 +247,25 @@ body{
     width: calc(var(--screen-width) - 140px);
   }
 
-  /* MOVIES */
+  /* MOVIES LIST */
 
-  .my-movie-queue, 
-  .search-queue {
+  .movie-queue {
     top: 180px;
+  }
+
+  /* DETAILS */
+
+  .details-title {
+    margin-top: 180px;
   }
 
 }
 
+/********************************* MAX-WIDTH 978PX *********************************/
+
 @media (max-width: 978px) {
+
+  /* HEADER */
 
   #brand {
     position: fixed;
@@ -311,7 +299,11 @@ body{
 
 }
 
+/********************************* MAX-WIDTH 646PX *********************************/
+
 @media (max-width: 646px) {
+
+  /* HEADER */
 
   .header {
     height: 190px;
@@ -353,9 +345,16 @@ body{
     top: 130px;
   }
 
-  .my-movie-queue, 
-  .search-queue {
+  /* MOVIES LIST */
+
+  .movie-queue {
     top: 200px;
+  }
+
+  /* DETAILS */
+
+  .details-title {
+    margin-top: 200px;
   }
 
 }
