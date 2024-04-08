@@ -169,15 +169,6 @@ function App() {
     return responseJSON.imdb_id
   }
 
-  const goToIMDBPage = async (movie) => {
-    const imdb_id = await getIMDBID(movie)
-
-    if(imdb_id){
-      const imdbUrl = `https://www.imdb.com/title/${imdb_id}`
-      window.open(imdbUrl)
-    }
-  }
-
   const updateStreamOptions = async (movie) => {
     const imdb_id = await getIMDBID(movie)
     const url = `https://streaming-availability.p.rapidapi.com/v2/get/basic?country=us&imdb_id=${imdb_id}&output_language=en`;
@@ -334,8 +325,7 @@ function App() {
           </>
         :
           <>
-            <MovieDetails movie={selectedMovie} details={selectedMovieDetails}
-            handleIMDBClick={goToIMDBPage} imdbComponent={IMDB}/>
+            <MovieDetails movie={selectedMovie} details={selectedMovieDetails} imdbComponent={IMDB}/>
           </>
       }
     </div>
