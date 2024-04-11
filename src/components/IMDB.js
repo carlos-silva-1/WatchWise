@@ -1,12 +1,10 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 
-const IMDB = (props) => {
-    const movie = props.movie
-
+const IMDB = ({ movie, handleIMDBClick }) => {
     return(
         <>
-            <Button variant="outline-warning" className="p-2" id='imdb-btn' onClick={() => props.handleIMDBClick(movie)}>
+            <Button variant="outline-warning" className="p-2" id='imdb-btn' onClick={() => handleIMDBClick(movie)}>
                 IMDB
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right ml-2 mb-1" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>

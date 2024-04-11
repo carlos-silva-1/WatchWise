@@ -28,10 +28,8 @@ const goToIMDBPage = async (movie) => {
     }
 }
 
-const MovieDetails = (props) => {
-    const movie = props.movie
-    const details = props.details
-    const IMDBComponent = props.imdbComponent
+const MovieDetails = ({ movie, details, imdbComponent }) => {
+    const IMDBComponent = imdbComponent
     const [trailerURL, setTrailerURL] = useState("")
 
     movieTrailer(movie.title)

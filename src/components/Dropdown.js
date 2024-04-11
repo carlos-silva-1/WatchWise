@@ -1,8 +1,8 @@
 import React from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
 
-const Drop = (props) => {
-    const StreamOptions = Object.entries(props.streamOptions)
+const Drop = ({ streamOptions }) => {
+    const StreamOptions = Object.entries(streamOptions)
 
     return(
         <Dropdown className="dropdown-btn">

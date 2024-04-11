@@ -1,32 +1,30 @@
 import React from 'react'
 import truncateText from './../util/truncate'
 
-const MovieList = (props) => {
-    const FavouriteComponent = props.favouriteComponent
-    const DropdownComponent = props.dropdownComponent
-    const StreamOptions = props.streamOptions
-    const FavouriteMovies = props.favouriteMovies
-
-    if(props.movies !== null){
+const MovieList = ({ favouriteComponent, dropdownComponent, streamOptions, favouriteMovies, movies, handleMovieClick, handleStreamMouseEnter, handleFavouritesClick }) => {
+    const FavouriteComponent = favouriteComponent
+    const DropdownComponent = dropdownComponent
+    
+    if(movies != null){
         return(
             <>
-                {props.movies.map( (movie, index) => (
+                {movies.map( (movie, index) => (
                     <>
                         {
                             movie.poster_path != null? // if the film doesn't have a poster image, the movie is not included
                                 <>
                                     <div className='d-flex justify-content-start m-3 image-container' key={index}>
                                         <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='movie'
-                                            onClick={() => props.handleMovieClick(movie)}></img>
+                                            onClick={() => handleMovieClick(movie)}></img>
 
                                         <div className='overlay stream-overlay d-flex align-items-center justify-content-center'
-                                             onMouseEnter={() => props.handleStreamMouseEnter(movie)}>
-                                            <DropdownComponent streamOptions={StreamOptions}/>
+                                             onMouseEnter={() => handleStreamMouseEnter(movie)}>
+                                            <DropdownComponent streamOptions={streamOptions}/>
                                         </div>
                                         
                                         <div className='overlay favourite-overlay d-flex align-items-center justify-content-center'
-                                             onClick={() => props.handleFavouritesClick(movie)}>
-                                            <FavouriteComponent favouriteMovies={FavouriteMovies} movie={movie}/>
+                                             onClick={() => handleFavouritesClick(movie)}>
+                                            <FavouriteComponent favouriteMovies={favouriteMovies} movie={movie}/>
                                         </div>
 
                                         <div className='overlay title-overlay d-flex align-items-center justify-content-center'>
