@@ -11,7 +11,9 @@ import MovieDetails from './components/MovieDetails';
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
+import Filter from './components/Filter';
 
 function App() {
   const [movies, setMovies] = useState([])
@@ -23,6 +25,8 @@ function App() {
   const [selectedMovie, setSelectedMovie] = useState({})
   const [movieHasBeenSelected, setMovieHasBeenSelected] = useState(false)
   const [selectedMovieDetails, setSelectedMovieDetails] = useState({})
+  const [showMovies, setShowMovies] = useState(true)
+  const [showSeries, setShowSeries] = useState(true)
 
   useEffect(() => {
     getMovieRequest(searchValue)
@@ -48,7 +52,7 @@ function App() {
   }, []);
 
   const getMovieRequest = async (searchValue) => {
-    const url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&query=${searchValue}&include_adult=false&language=en-US&page=1`
+    const url = `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_TMDB_KEY}&query=${searchValue}&include_adult=false&language=en-US&page=1`
     const options = {
       method: 'GET',
       headers: {
@@ -199,7 +203,20 @@ function App() {
   }
 
   const getDetails = async (movie) => {
-    const url = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US`
+    console.log("GETDETAILS - MOVIE")
+    console.log(movie)
+    
+    let url
+    if("release_date" in movie) {
+      url = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US`
+    }
+    else {
+      url = `https://api.themoviedb.org/3/tv/${movie.id}?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US`
+    }
+
+
+
+    //const url = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US`
     const options = {
       method: 'GET',
       headers: {
@@ -222,6 +239,24 @@ function App() {
     setMovieHasBeenSelected(true)
   }
 
+  const handleMoviesCheckboxChange = () => {
+    if(showMovies) {
+      setShowMovies(false)
+    }
+    else {
+      setShowMovies(true)
+    }
+  }
+
+  const handleSeriesCheckboxChange = () => {
+    if(showSeries) {
+      setShowSeries(false)
+    }
+    else {
+      setShowSeries(true)
+    }
+  }
+
   return (
     <div className="container-fluid movie-app">
 
@@ -234,9 +269,9 @@ function App() {
             <Navbar.Toggle aria-controls="basic-navbar-nav" id="navbar-menu-icon"/>
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav>
-                <Nav.Link href="/movies.html" id='movie-nav-item'>Movies</Nav.Link>
-                <Nav.Link href="/series.html" id='series-nav-item'>Series</Nav.Link>
-                <Nav.Link href="/mymoviequeue.html"id='my-movie-queue-nav-item'>My List</Nav.Link>
+                <NavDropdown title="Filter" id="nav-dropdown">
+                  <Filter showMovies={showMovies} showSeries={showSeries} changeShowMovies={handleMoviesCheckboxChange} changeShowSeries={handleSeriesCheckboxChange}/>
+                </NavDropdown>
               </Nav>
             </Navbar.Collapse>
           </Container>
@@ -265,7 +300,7 @@ function App() {
                           </div>
 
                           <div className="row">
-                            <MovieList movies={favourites} 
+                            <MovieList movies={favourites} showMovies={showMovies} showSeries={showSeries}
                             handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
                             handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
                             handleMovieClick={showMovieDetails}/>
@@ -278,32 +313,48 @@ function App() {
                   }
 
                   {/* POPULAR MOVIES QUEUE */}
-                  <div className="movie-queue">
-                    <div className='row d-flex align-items-center'>
-                      <MovieListHeading heading='Popular Movies'/>
-                    </div>
+                  {
+                    showMovies === true?
+                      <>
+                        <div className="movie-queue">
+                          <div className='row d-flex align-items-center'>
+                            <MovieListHeading heading='Popular Movies'/>
+                          </div>
 
-                    <div className="row">
-                      <MovieList movies={popularMovies} 
-                      handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
-                      handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
-                      handleMovieClick={showMovieDetails}/>
-                    </div>
-                  </div>
+                          <div className="row">
+                            <MovieList movies={popularMovies} showMovies={showMovies} showSeries={showSeries}
+                            handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
+                            handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
+                            handleMovieClick={showMovieDetails}/>
+                          </div>
+                        </div>
+                      </>
+                    :
+                      <>
+                      </>
+                  }
 
                   {/* POPULAR SERIES QUEUE */}
-                  <div className="movie-queue">
-                    <div className='row d-flex align-items-center'>
-                      <MovieListHeading heading='Popular Series'/>
-                    </div>
+                  {
+                    showSeries === true?
+                      <>
+                        <div className="movie-queue">
+                          <div className='row d-flex align-items-center'>
+                            <MovieListHeading heading='Popular Series'/>
+                          </div>
 
-                    <div className="row">
-                      <MovieList movies={popularSeries} 
-                      handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
-                      handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
-                      handleMovieClick={showMovieDetails}/>
-                    </div>
-                  </div>
+                          <div className="row">
+                            <MovieList movies={popularSeries} showMovies={showMovies} showSeries={showSeries}
+                            handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
+                            handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
+                            handleMovieClick={showMovieDetails}/>
+                          </div>
+                        </div>
+                      </>
+                    :
+                      <>
+                      </>
+                  }
                 </>
               :
                 <>
@@ -314,7 +365,7 @@ function App() {
                     </div>
 
                     <div className="row">
-                      <MovieList movies={movies} 
+                      <MovieList movies={movies} showMovies={showMovies} showSeries={showSeries}
                       handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
                       handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
                       handleMovieClick={showMovieDetails}/>

@@ -4,7 +4,11 @@ import ReactPlayer from 'react-player'
 import movieTrailer from 'movie-trailer'
 
 const getIMDBID = async (movie) => {
-    const url = `https://api.themoviedb.org/3/movie/${movie.id}/external_ids?api_key=${process.env.REACT_APP_TMDB_KEY}`;
+    const url = "release_date" in movie? 
+                `https://api.themoviedb.org/3/movie/${movie.id}/external_ids?api_key=${process.env.REACT_APP_TMDB_KEY}`
+                :
+                `https://api.themoviedb.org/3/tv/${movie.id}/external_ids?api_key=${process.env.REACT_APP_TMDB_KEY}`
+
     const options = {
       method: 'GET',
       headers: {
@@ -44,7 +48,16 @@ const MovieDetails = ({ movie, details, imdbComponent }) => {
         <>
         	<div className="row details-title">
                 <div className="col-auto">
-        		  <h1>{movie.title}</h1>
+                    {
+                        "release_date" in movie?
+                            <>
+                                <h1>{movie.title}</h1>
+                            </>
+                        :
+                            <>
+                                <h1>{movie.name}</h1>
+                            </>
+                    }
                 </div>
 
                 <div className="col-auto">
@@ -71,49 +84,103 @@ const MovieDetails = ({ movie, details, imdbComponent }) => {
                         {details.overview}
                     </div>
 
-                    <div id="details-genres" className="mt-4">
-                        <h2 className="primary-color">Genres</h2>
-                        {details.genres.map( (genre, index) => (
+                    {
+                        "release_date" in movie?
                             <>
-                                <span className="mr-4 d-inline">{genre.name}</span>
+                                <div id="details-genres" className="mt-4">
+                                    <h2 className="primary-color">Genres</h2>
+                                    {details.genres.map( (genre, index) => (
+                                        <>
+                                            <span className="mr-4 d-inline">{genre.name}</span>
+                                        </>
+                                    ))}
+                                </div>
+
+                                <div id="details-release-date" className="mt-4">
+                                    <h2 className="primary-color">Release Date</h2>
+                                    {details.release_date}
+                                </div>
+
+                                <div id="details-runtime" className="mt-4">
+                                    <h2 className="primary-color">Runtime</h2>
+                                    {details.runtime} Minutes
+                                </div>
+
+                                <div className="mt-4">
+                                    <h2 className="primary-color">Budget</h2>
+                                    {formatAsDollarAmount(details.budget)}
+                                </div>
+
+                                <div className="mt-4">
+                                    <h2 className="primary-color">Revenue</h2>
+                                    {formatAsDollarAmount(details.revenue)}
+                                </div>
+
+                                <div id="details-companies" className="mt-4">
+                                    <h2 className="primary-color">Production Companies</h2>
+                                    {details.production_companies.map( (company, index) => (
+                                        <>
+                                            <span className="mr-4 d-inline">{company.name}</span>
+                                        </>
+                                    ))}
+                                </div>
                             </>
-                        ))}
-                    </div>
-
-                    <div id="details-release-date" className="mt-4">
-                        <h2 className="primary-color">Release Date</h2>
-                        {details.release_date}
-                    </div>
-
-                    <div id="details-runtime" className="mt-4">
-                        <h2 className="primary-color">Runtime</h2>
-                        {details.runtime} Minutes
-                    </div>
-
-                    <div className="mt-4">
-                        <h2 className="primary-color">Budget</h2>
-                        {formatAsDollarAmount(details.budget)}
-                    </div>
-
-                    <div className="mt-4">
-                        <h2 className="primary-color">Revenue</h2>
-                        {formatAsDollarAmount(details.revenue)}
-                    </div>
-
-                    <div id="details-companies" className="mt-4">
-                        <h2 className="primary-color">Production Companies</h2>
-                        {details.production_companies.map( (company, index) => (
+                        :
                             <>
-                                <span className="mr-4 d-inline">{company.name}</span>
+                                <div id="details-genres" className="mt-4">
+                                    <h2 className="primary-color">Genres</h2>
+                                    {details.genres.map( (genre, index) => (
+                                        <>
+                                            <span className="mr-4 d-inline">{genre.name}</span>
+                                        </>
+                                    ))}
+                                </div>
+
+                                <div id="details-release-date" className="mt-4">
+                                    <h2 className="primary-color">First Air Date</h2>
+                                    {details.first_air_date}
+                                </div>
+
+                                <div id="details-runtime" className="mt-4">
+                                    <h2 className="primary-color">Episode Runtime</h2>
+                                    {details.episode_run_time[0]} Minutes
+                                </div>
+
+                                <div className="mt-4">
+                                    <h2 className="primary-color">Number of Seasons</h2>
+                                    {details.number_of_seasons}
+                                </div>
+
+                                <div className="mt-4">
+                                    <h2 className="primary-color">Number of Episodes</h2>
+                                    {details.number_of_episodes}
+                                </div>
+
+                                <div id="details-companies" className="mt-4">
+                                    <h2 className="primary-color">Production Companies</h2>
+                                    {details.production_companies.map( (company, index) => (
+                                        <>
+                                            <span className="mr-4 d-inline">{company.name}</span>
+                                        </>
+                                    ))}
+                                </div>
                             </>
-                        ))}
-                    </div>
+                    }
                 </div>
             </div>
 
-            <div className="row trailer-wrapper mt-4 mr-3 mb-5">
-                    <ReactPlayer className="react-player" width="80%" height="80%" url={trailerURL} controls={true} />
-            </div>
+
+            {
+                "release_date" in movie?
+                    <>
+                        <div className="row trailer-wrapper mt-4 mr-3 mb-5">
+                            <ReactPlayer className="react-player" width="80%" height="80%" url={trailerURL} controls={true} />
+                        </div>
+                    </>
+                :
+                    <>
+                    </>
+            }
         </>
     )
 }
