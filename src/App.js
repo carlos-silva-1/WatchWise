@@ -14,6 +14,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
 import Filter from './components/Filter';
+import Sort from './components/Sort';
+import genres from './resources/genres.json';
 
 function App() {
   const [movies, setMovies] = useState([])
@@ -27,6 +29,8 @@ function App() {
   const [selectedMovieDetails, setSelectedMovieDetails] = useState({})
   const [showMovies, setShowMovies] = useState(true)
   const [showSeries, setShowSeries] = useState(true)
+  const [unselectedGenres, setUnselectedGenres] = useState([])
+  const [sortParameter, setSortParameter] = useState('')
 
   useEffect(() => {
     getMovieRequest(searchValue)
@@ -203,9 +207,6 @@ function App() {
   }
 
   const getDetails = async (movie) => {
-    console.log("GETDETAILS - MOVIE")
-    console.log(movie)
-    
     let url
     if("release_date" in movie) {
       url = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US`
@@ -214,9 +215,6 @@ function App() {
       url = `https://api.themoviedb.org/3/tv/${movie.id}?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US`
     }
 
-
-
-    //const url = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US`
     const options = {
       method: 'GET',
       headers: {
@@ -257,6 +255,14 @@ function App() {
     }
   }
 
+  const handleFilterGenre = (unselectedGenresArray) => {
+    setUnselectedGenres(unselectedGenresArray)
+  }
+
+  const handleSortClick = (selectedSortParameter) => {
+    setSortParameter(selectedSortParameter)
+  }
+
   return (
     <div className="container-fluid movie-app">
 
@@ -269,8 +275,12 @@ function App() {
             <Navbar.Toggle aria-controls="basic-navbar-nav" id="navbar-menu-icon"/>
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav>
-                <NavDropdown title="Filter" id="nav-dropdown">
-                  <Filter showMovies={showMovies} showSeries={showSeries} changeShowMovies={handleMoviesCheckboxChange} changeShowSeries={handleSeriesCheckboxChange}/>
+                <NavDropdown title="Filter" id="filter-dropdown">
+                  <Filter showMovies={showMovies} showSeries={showSeries} changeShowMovies={handleMoviesCheckboxChange} changeShowSeries={handleSeriesCheckboxChange}
+                  genres={genres} unselectedGenres={unselectedGenres} handleFilterGenre={handleFilterGenre}/>
+                </NavDropdown>
+                <NavDropdown title="Sort" id="sort-dropdown">
+                  <Sort sortParameter={sortParameter} handleSortClick={handleSortClick}/>
                 </NavDropdown>
               </Nav>
             </Navbar.Collapse>
@@ -286,98 +296,102 @@ function App() {
       {/* IF A SEARCH IS BEING MADE, ONLY SHOW THE SEARCH RESULTS. ELSE SHOW MYMOVIEQUEUE, POPULAR MOVIES AND POPULAR SERIES */}
       {
         movieHasBeenSelected === false?
-          <>
-            {
-              searchValue === ''?
+        <>
+          {
+            searchValue === ''?
+            <>
+              {/* MY MOVIE QUEUE */}
+              {
+                favourites !== null && favourites.length !== 0?
                 <>
-                  {/* MY MOVIE QUEUE */}
-                  {
-                    favourites !== null && favourites.length !== 0?
-                      <>
-                        <div className="movie-queue">
-                          <div className='row d-flex align-items-center'>
-                            <MovieListHeading heading='My Movie Queue'/>
-                          </div>
-
-                          <div className="row">
-                            <MovieList movies={favourites} showMovies={showMovies} showSeries={showSeries}
-                            handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
-                            handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
-                            handleMovieClick={showMovieDetails}/>
-                          </div>
-                        </div>
-                      </>
-                    :
-                      <>
-                      </>
-                  }
-
-                  {/* POPULAR MOVIES QUEUE */}
-                  {
-                    showMovies === true?
-                      <>
-                        <div className="movie-queue">
-                          <div className='row d-flex align-items-center'>
-                            <MovieListHeading heading='Popular Movies'/>
-                          </div>
-
-                          <div className="row">
-                            <MovieList movies={popularMovies} showMovies={showMovies} showSeries={showSeries}
-                            handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
-                            handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
-                            handleMovieClick={showMovieDetails}/>
-                          </div>
-                        </div>
-                      </>
-                    :
-                      <>
-                      </>
-                  }
-
-                  {/* POPULAR SERIES QUEUE */}
-                  {
-                    showSeries === true?
-                      <>
-                        <div className="movie-queue">
-                          <div className='row d-flex align-items-center'>
-                            <MovieListHeading heading='Popular Series'/>
-                          </div>
-
-                          <div className="row">
-                            <MovieList movies={popularSeries} showMovies={showMovies} showSeries={showSeries}
-                            handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
-                            handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
-                            handleMovieClick={showMovieDetails}/>
-                          </div>
-                        </div>
-                      </>
-                    :
-                      <>
-                      </>
-                  }
-                </>
-              :
-                <>
-                  {/* SEARCH RESULTS */}
                   <div className="movie-queue">
                     <div className='row d-flex align-items-center'>
-                      <MovieListHeading heading='Search Results'/>
+                      <MovieListHeading heading='My Movie Queue'/>
                     </div>
 
                     <div className="row">
-                      <MovieList movies={movies} showMovies={showMovies} showSeries={showSeries}
+                      <MovieList movies={favourites} 
+                      showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
                       handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
                       handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
-                      handleMovieClick={showMovieDetails}/>
+                      handleMovieClick={showMovieDetails} sortParameter={sortParameter}/>
                     </div>
                   </div>
                 </>
-            }
-          </>
+                :
+                <>
+                </>
+              }
+
+              {/* POPULAR MOVIES QUEUE */}
+              {
+                showMovies === true?
+                <>
+                  <div className="movie-queue">
+                    <div className='row d-flex align-items-center'>
+                      <MovieListHeading heading='Popular Movies'/>
+                    </div>
+
+                    <div className="row">
+                      <MovieList movies={popularMovies} 
+                      showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
+                      handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
+                      handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
+                      handleMovieClick={showMovieDetails} sortParameter={sortParameter}/>
+                    </div>
+                  </div>
+                </>
+                :
+                <>
+                </>
+              }
+
+              {/* POPULAR SERIES QUEUE */}
+              {
+                showSeries === true?
+                <>
+                  <div className="movie-queue">
+                    <div className='row d-flex align-items-center'>
+                      <MovieListHeading heading='Popular Series'/>
+                    </div>
+
+                    <div className="row">
+                      <MovieList movies={popularSeries} 
+                      showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
+                      handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
+                      handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
+                      handleMovieClick={showMovieDetails} sortParameter={sortParameter}/>
+                    </div>
+                  </div>
+                </>
+                :
+                <>
+                </>
+              }
+            </>
+            :
+            <>
+              {/* SEARCH RESULTS */}
+              <div className="movie-queue">
+                <div className='row d-flex align-items-center'>
+                  <MovieListHeading heading='Search Results'/>
+                </div>
+
+                <div className="row">
+                  <MovieList movies={movies} 
+                  showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
+                  handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
+                  handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
+                  handleMovieClick={showMovieDetails} sortParameter={sortParameter}/>
+                </div>
+              </div>
+            </>
+          }
+        </>
         :
-          <>
-            <MovieDetails movie={selectedMovie} details={selectedMovieDetails} imdbComponent={IMDB}/>
-          </>
+        <>
+          <MovieDetails movie={selectedMovie} details={selectedMovieDetails} imdbComponent={IMDB}/>
+        </>
       }
     </div>
   );
