@@ -9,7 +9,7 @@ const Filter = ({ showMovies, showSeries, changeShowMovies, changeShowSeries, ge
 
                 {/* MEDIA TYPE */}
                 <Navbar expand="lg" variant="dark">
-                    <h4 className="mr-3">Media Type: </h4>
+                    <h4 className="mr-3">Media Type </h4>
                     {
                         showMovies?
                         <>
@@ -34,7 +34,7 @@ const Filter = ({ showMovies, showSeries, changeShowMovies, changeShowSeries, ge
 
                 {/* GENRE */}
                 <Navbar expand="lg" variant="dark">
-                    <h4 className="mr-3">Genres: </h4>
+                    <h4 className="mr-3">Genres </h4>
                     <div className="d-flex flex-wrap">
                         {genres.genres.map( (genre, index) => (
                             <>

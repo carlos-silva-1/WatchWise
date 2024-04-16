@@ -6,7 +6,6 @@ const Sort = ({ sortParameter, handleSortClick }) => {
     return(
         <>
         	<div id="sort">
-                {console.log(`sort component sortParameter: ${sortParameter}`)}
         		<Navbar expand="lg" variant="dark">
                     <Form>
                     	{
