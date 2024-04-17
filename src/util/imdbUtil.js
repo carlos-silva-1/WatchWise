@@ -27,4 +27,4 @@ const goToIMDBPage = async (movie) => {
     }
 }
 
-export default goToIMDBPage
+export { getIMDBID, goToIMDBPage }

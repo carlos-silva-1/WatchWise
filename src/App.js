@@ -15,6 +15,7 @@ import Pagination from 'react-bootstrap/Pagination';
 import Filter from './components/Filter';
 import Sort from './components/Sort';
 import genres from './resources/genres.json';
+import { getIMDBID } from './util/imdbUtil'
 
 function App() {
   const [movies, setMovies] = useState([])
@@ -22,7 +23,6 @@ function App() {
   const [popularSeries, setPopularSeries] = useState([])
   const [favourites, setFavourites] = useState([])
   const [searchValue, setSearchValue] = useState('')
-  const [streamOptions, setStreamOptions] = useState({})
   const [selectedMovie, setSelectedMovie] = useState({})
   const [movieHasBeenSelected, setMovieHasBeenSelected] = useState(false)
   const [selectedMovieDetails, setSelectedMovieDetails] = useState({})
@@ -160,51 +160,6 @@ function App() {
     localStorage.setItem('react-movie-app-favourites', JSON.stringify(items))
   }
 
-  const getIMDBID = async (movie) => {
-    const url = `https://api.themoviedb.org/3/movie/${movie.id}/external_ids?api_key=${process.env.REACT_APP_TMDB_KEY}`;
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ODJhMjdlM2QxYjU4NjlmNjc1MjQ5MTNjYTlhM2E4NCIsInN1YiI6IjY1ZDZiZGIxNjA5NzUwMDE2MjIzNTY5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mr2YERxD-URJb64LONU5yXyPxMDtYs3mZr4CVr4yw3I'
-      }
-    };
-
-    const response = await fetch(url, options)
-    const responseJSON = await response.json()
-
-    return responseJSON.imdb_id
-  }
-
-  const updateStreamOptions = async (movie) => {
-    const imdb_id = await getIMDBID(movie)
-    const url = `https://streaming-availability.p.rapidapi.com/v2/get/basic?country=us&imdb_id=${imdb_id}&output_language=en`;
-    const options = {
-      method: 'GET',
-      headers: {
-        'X-RapidAPI-Key': process.env.REACT_APP_RAPID_KEY,
-        'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
-      }
-    }
-
-    try {
-      const response = await fetch(url, options);
-      const responseJSON = await response.json();
-      const streamingOptions = responseJSON.result.streamingInfo
-
-      if(Object.keys(streamingOptions).length !== 0){
-        const streamingOptionsUS = streamingOptions.us // The API only provides info for the US region
-        setStreamOptions(streamingOptionsUS)
-      }
-      else{
-        const noStreamingOptions = {}
-        setStreamOptions(noStreamingOptions)
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   const getDetails = async (movie) => {
     let url
     if("release_date" in movie) {
@@ -292,12 +247,34 @@ function App() {
         <Button variant="outline-warning" className="p-2" id='sign-up-btn'>Sign Up</Button>
       </div>
 
-      {/* IF A SEARCH IS BEING MADE, ONLY SHOW THE SEARCH RESULTS. ELSE SHOW MYMOVIEQUEUE, POPULAR MOVIES AND POPULAR SERIES */}
+      {/* BODY */}
       {
-        movieHasBeenSelected === false?
+        // If a movie has been clicked, show its details
+        movieHasBeenSelected === true?
+        <>
+          <MovieDetails movie={selectedMovie} details={selectedMovieDetails} imdbComponent={IMDB}/>
+        </>
+        :
         <>
           {
-            searchValue === ''?
+            // IF A SEARCH IS BEING MADE, ONLY SHOW THE SEARCH RESULTS. ELSE SHOW MOVIE QUEUES
+            searchValue !== ''?
+            <>
+              {/* SEARCH RESULTS */}
+              <div className="movie-queue">
+                <div className='row d-flex align-items-center'>
+                  <MovieListHeading heading='Search Results'/>
+                </div>
+
+                <div className="row">
+                  <MovieList movies={movies} numberOfMovies={favourites.length}
+                  showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
+                  handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
+                  handleMovieClick={showMovieDetails} sortParameter={sortParameter}/>
+                </div>
+              </div>
+            </>
+            :
             <>
               {/* MY MOVIE QUEUE */}
               {
@@ -312,7 +289,6 @@ function App() {
                       <MovieList movies={favourites} numberOfMovies={favourites.length}
                       showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                      handleStreamMouseEnter={updateStreamOptions} streamOptions={streamOptions}
                       handleMovieClick={showMovieDetails} sortParameter={sortParameter}/>
                     </div>
 
@@ -342,7 +318,6 @@ function App() {
                       <MovieList movies={popularMovies} numberOfMovies={favourites.length}
                       showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                      handleStreamMouseEnter={updateStreamOptions} streamOptions={streamOptions}
                       handleMovieClick={showMovieDetails} sortParameter={sortParameter}/>
                     </div>
 
@@ -372,7 +347,6 @@ function App() {
                       <MovieList movies={popularSeries} numberOfMovies={favourites.length}
                       showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                      handleStreamMouseEnter={updateStreamOptions} streamOptions={streamOptions}
                       handleMovieClick={showMovieDetails} sortParameter={sortParameter}/>
                     </div>
 
@@ -389,28 +363,7 @@ function App() {
                 </>
               }
             </>
-            :
-            <>
-              {/* SEARCH RESULTS */}
-              <div className="movie-queue">
-                <div className='row d-flex align-items-center'>
-                  <MovieListHeading heading='Search Results'/>
-                </div>
-
-                <div className="row">
-                  <MovieList movies={movies} numberOfMovies={favourites.length}
-                  showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
-                  handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                  handleStreamMouseEnter={updateStreamOptions} streamOptions={streamOptions}
-                  handleMovieClick={showMovieDetails} sortParameter={sortParameter}/>
-                </div>
-              </div>
-            </>
           }
-        </>
-        :
-        <>
-          <MovieDetails movie={selectedMovie} details={selectedMovieDetails} imdbComponent={IMDB}/>
         </>
       }
     </div>

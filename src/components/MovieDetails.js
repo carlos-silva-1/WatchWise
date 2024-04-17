@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import formatAsDollarAmount from './../util/formatAsDollar'
 import ReactPlayer from 'react-player'
 import movieTrailer from 'movie-trailer'
-import goToIMDBPage from './../util/imdbUtil'
+import { goToIMDBPage}  from './../util/imdbUtil'
 
 const MovieDetails = ({ movie, details, imdbComponent }) => {
     const IMDBComponent = imdbComponent

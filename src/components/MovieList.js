@@ -1,13 +1,12 @@
 import React from 'react'
 import Drop from './Dropdown';
 import Favourite from './Favourite';
+import Movie from './Movie'
 import truncateText from './../util/truncate'
 import hasIntersection from './../util/hasIntersection'
 import { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, sortMoviesByDate } from './../util/sortMovies'
 
-const MovieList = ({ streamOptions, favouriteMovies, movies, handleMovieClick, handleStreamMouseEnter, handleFavouritesClick, 
-                    showMovies, showSeries, unselectedGenres, sortParameter, pageNumber = 1, numberOfMovies }) => {
-
+const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavouritesClick, showMovies, showSeries, unselectedGenres, sortParameter, pageNumber = 1, numberOfMovies }) => {
     if(movies != null) {
         if(sortParameter.toLowerCase() === "alphabetically")
             sortMoviesAlphabetically(movies)
@@ -36,33 +35,7 @@ const MovieList = ({ streamOptions, favouriteMovies, movies, handleMovieClick, h
                             !hasIntersection(movie.genre_ids, unselectedGenres) && 
                             movie.poster_path != null? 
                             <>
-                                <div className='d-flex justify-content-start m-3 image-container' key={index}>
-                                    <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='movie'
-                                        onClick={() => handleMovieClick(movie)}></img>
-
-                                    <div className='overlay stream-overlay d-flex align-items-center justify-content-center'
-                                         onMouseEnter={() => handleStreamMouseEnter(movie)}>
-                                        <Drop streamOptions={streamOptions}/>
-                                    </div>
-                                    
-                                    <div className='overlay favourite-overlay d-flex align-items-center justify-content-center'
-                                         onClick={() => handleFavouritesClick(movie)}>
-                                        <Favourite favouriteMovies={favouriteMovies} movie={movie}/>
-                                    </div>
-
-                                    <div className='overlay title-overlay d-flex align-items-center justify-content-center'>
-                                        {
-                                            movie.title !== undefined?
-                                            <>
-                                                {truncateText(movie.title, 30)}
-                                            </>
-                                            :
-                                            <>
-                                                {truncateText(movie.name, 30)}
-                                            </>
-                                        }
-                                    </div>
-                                </div>
+                                <Movie movieData={movie} handleMovieClick={handleMovieClick} handleFavouritesClick={handleFavouritesClick} favouriteMovies={favouriteMovies} />
                             </>
                             :
                             <>
