@@ -1,11 +1,12 @@
 import React from 'react'
+import Drop from './Dropdown';
+import Favourite from './Favourite';
 import truncateText from './../util/truncate'
 import hasIntersection from './../util/hasIntersection'
 import { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, sortMoviesByDate } from './../util/sortMovies'
 
-const MovieList = ({ favouriteComponent, dropdownComponent, streamOptions, favouriteMovies, movies, handleMovieClick, handleStreamMouseEnter, handleFavouritesClick, showMovies, showSeries, unselectedGenres, sortParameter }) => {
-    const FavouriteComponent = favouriteComponent
-    const DropdownComponent = dropdownComponent
+const MovieList = ({ streamOptions, favouriteMovies, movies, handleMovieClick, handleStreamMouseEnter, handleFavouritesClick, 
+                    showMovies, showSeries, unselectedGenres, sortParameter, pageNumber = 1, numberOfMovies }) => {
 
     if(movies != null) {
         if(sortParameter.toLowerCase() === "alphabetically")
@@ -18,10 +19,14 @@ const MovieList = ({ favouriteComponent, dropdownComponent, streamOptions, favou
             sortMoviesByDate(movies)
     }
 
-    if(movies != null){
+    const startIndex = pageNumber === 1? 0 : 10*(pageNumber-1)
+    const endIndex = (10*pageNumber-1) > numberOfMovies? numberOfMovies-1 : (10*pageNumber-1)
+    const pageOfMovies = movies.slice(startIndex, endIndex+1)
+
+    if(pageOfMovies != null){
         return(
             <>
-                {movies.map( (movie, index) => (
+                {pageOfMovies.map( (movie, index) => (
                     <>
                         {
                             // renders the item if its a movie and 'showMovies' is checked, or if its a series and 'showSeries' is checked &&
@@ -37,12 +42,12 @@ const MovieList = ({ favouriteComponent, dropdownComponent, streamOptions, favou
 
                                     <div className='overlay stream-overlay d-flex align-items-center justify-content-center'
                                          onMouseEnter={() => handleStreamMouseEnter(movie)}>
-                                        <DropdownComponent streamOptions={streamOptions}/>
+                                        <Drop streamOptions={streamOptions}/>
                                     </div>
                                     
                                     <div className='overlay favourite-overlay d-flex align-items-center justify-content-center'
                                          onClick={() => handleFavouritesClick(movie)}>
-                                        <FavouriteComponent favouriteMovies={favouriteMovies} movie={movie}/>
+                                        <Favourite favouriteMovies={favouriteMovies} movie={movie}/>
                                     </div>
 
                                     <div className='overlay title-overlay d-flex align-items-center justify-content-center'>

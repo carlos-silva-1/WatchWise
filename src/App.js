@@ -5,14 +5,13 @@ import MovieList from './components/MovieList';
 import MovieListHeading from './components/MovieListHeading';
 import Searchbox from './components/Searchbox';
 import IMDB from './components/IMDB';
-import Drop from './components/Dropdown';
-import Favourite from './components/Favourite';
 import MovieDetails from './components/MovieDetails';
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
+import Pagination from 'react-bootstrap/Pagination';
 import Filter from './components/Filter';
 import Sort from './components/Sort';
 import genres from './resources/genres.json';
@@ -304,17 +303,24 @@ function App() {
               {
                 favourites !== null && favourites.length !== 0?
                 <>
-                  <div className="movie-queue">
+                  <div className="movie-queue pb-5">
                     <div className='row d-flex align-items-center'>
                       <MovieListHeading heading='My Movie Queue'/>
                     </div>
 
                     <div className="row">
-                      <MovieList movies={favourites} 
+                      <MovieList movies={favourites} numberOfMovies={favourites.length}
                       showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
-                      handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
-                      handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
+                      handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
+                      handleStreamMouseEnter={updateStreamOptions} streamOptions={streamOptions}
                       handleMovieClick={showMovieDetails} sortParameter={sortParameter}/>
+                    </div>
+
+                    <div className="row justify-content-center pr-5 mt-3">
+                      <Pagination className="pr-5">
+                        <Pagination.Prev id="pagination"/>
+                        <Pagination.Next id="pagination"/>
+                      </Pagination>
                     </div>
                   </div>
                 </>
@@ -327,17 +333,24 @@ function App() {
               {
                 showMovies === true?
                 <>
-                  <div className="movie-queue">
+                  <div className="movie-queue pb-5 mt-5">
                     <div className='row d-flex align-items-center'>
                       <MovieListHeading heading='Popular Movies'/>
                     </div>
 
                     <div className="row">
-                      <MovieList movies={popularMovies} 
+                      <MovieList movies={popularMovies} numberOfMovies={favourites.length}
                       showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
-                      handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
-                      handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
+                      handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
+                      handleStreamMouseEnter={updateStreamOptions} streamOptions={streamOptions}
                       handleMovieClick={showMovieDetails} sortParameter={sortParameter}/>
+                    </div>
+
+                    <div className="row justify-content-center pr-5 mt-3">
+                      <Pagination className="pr-5">
+                        <Pagination.Prev id="pagination"/>
+                        <Pagination.Next id="pagination"/>
+                      </Pagination>
                     </div>
                   </div>
                 </>
@@ -350,17 +363,24 @@ function App() {
               {
                 showSeries === true?
                 <>
-                  <div className="movie-queue">
+                  <div className="movie-queue mt-5">
                     <div className='row d-flex align-items-center'>
                       <MovieListHeading heading='Popular Series'/>
                     </div>
 
                     <div className="row">
-                      <MovieList movies={popularSeries} 
+                      <MovieList movies={popularSeries} numberOfMovies={favourites.length}
                       showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
-                      handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
-                      handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
+                      handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
+                      handleStreamMouseEnter={updateStreamOptions} streamOptions={streamOptions}
                       handleMovieClick={showMovieDetails} sortParameter={sortParameter}/>
+                    </div>
+
+                    <div className="row justify-content-center pr-5 mt-3">
+                      <Pagination className="pr-5">
+                        <Pagination.Prev id="pagination"/>
+                        <Pagination.Next id="pagination"/>
+                      </Pagination>
                     </div>
                   </div>
                 </>
@@ -378,10 +398,10 @@ function App() {
                 </div>
 
                 <div className="row">
-                  <MovieList movies={movies} 
+                  <MovieList movies={movies} numberOfMovies={favourites.length}
                   showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
-                  handleFavouritesClick={handleFavouriteMovie} favouriteComponent={Favourite} favouriteMovies={favourites}
-                  handleStreamMouseEnter={updateStreamOptions} dropdownComponent={Drop} streamOptions={streamOptions}
+                  handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
+                  handleStreamMouseEnter={updateStreamOptions} streamOptions={streamOptions}
                   handleMovieClick={showMovieDetails} sortParameter={sortParameter}/>
                 </div>
               </div>
