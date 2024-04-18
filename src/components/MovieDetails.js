@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
+import IMDB from './IMDB';
 import formatAsDollarAmount from './../util/formatAsDollar'
 import ReactPlayer from 'react-player'
 import movieTrailer from 'movie-trailer'
 import { goToIMDBPage}  from './../util/imdbUtil'
 
-const MovieDetails = ({ movie, details, imdbComponent }) => {
-    const IMDBComponent = imdbComponent
+const MovieDetails = ({ movie, details }) => {
     const [trailerURL, setTrailerURL] = useState("")
 
     movieTrailer(movie.title)
@@ -42,7 +42,7 @@ const MovieDetails = ({ movie, details, imdbComponent }) => {
                     </div>
                 </div>
                 
-                <IMDBComponent handleIMDBClick={goToIMDBPage} movie={movie}/>
+                <IMDB handleIMDBClick={goToIMDBPage} movie={movie}/>
         	</div>
 
             <div className="row details-body mt-3">

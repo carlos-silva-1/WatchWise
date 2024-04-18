@@ -4,7 +4,6 @@ import './App.css'
 import MovieList from './components/MovieList';
 import MovieListHeading from './components/MovieListHeading';
 import Searchbox from './components/Searchbox';
-import IMDB from './components/IMDB';
 import MovieDetails from './components/MovieDetails';
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
@@ -250,7 +249,7 @@ function App() {
         // If a movie has been clicked, show its details
         movieHasBeenSelected === true?
         <>
-          <MovieDetails movie={selectedMovie} details={selectedMovieDetails} imdbComponent={IMDB}/>
+          <MovieDetails movie={selectedMovie} details={selectedMovieDetails}/>
         </>
         :
         <>
