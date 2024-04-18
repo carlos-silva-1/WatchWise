@@ -13,6 +13,7 @@ import Container from 'react-bootstrap/Container';
 import Filter from './components/Filter';
 import Sort from './components/Sort';
 import genres from './resources/genres.json';
+import { searchMovie, fetchPopular, getDetails } from './api/api_handler'
 
 function App() {
   const [movies, setMovies] = useState([])
@@ -29,7 +30,16 @@ function App() {
   const [sortParameter, setSortParameter] = useState('')
 
   useEffect(() => {
-    getMovieRequest(searchValue)
+    const fetchMovies = async () => {
+      try {
+        const searchResults = await searchMovie(searchValue)
+        setMovies(searchResults)
+      } catch (error) {
+        console.error(`Error occured when searching movies: ${error}`)
+      }
+    }
+
+    fetchMovies()
   }, [searchValue])
 
   useEffect(() => {
@@ -39,35 +49,29 @@ function App() {
   useEffect(() => { // Updates popular movies/series once per day
     const lastUpdateDate = localStorage.getItem('lastUpdateDate');
     const currentDate = new Date().toLocaleDateString();
+
+    const fetchPopularMoviesAndSeries = async () => {
+      try {
+        const fetchedMovies = await fetchPopular("movie")
+        const fetchedSeries = await fetchPopular("tv")
+        setPopularMovies(fetchedMovies)
+        setPopularSeries(fetchedSeries)
+        localStorage.setItem('react-movie-app-popular-movies', JSON.stringify(fetchedMovies))
+        localStorage.setItem('react-movie-app-popular-series', JSON.stringify(fetchedSeries))
+        localStorage.setItem('lastUpdateDate', currentDate);
+      } catch (error) {
+        console.error(`Error occured when fetching popular items: ${error}`)
+      }
+    }
     
     if (lastUpdateDate !== currentDate) {
-      fetchPopularMovies()
-      fetchPopularSeries()
-      localStorage.setItem('lastUpdateDate', currentDate);
+      fetchPopularMoviesAndSeries()
     }
     else {
       getPopularMovies()
       getPopularSeries()
     }
   }, []);
-
-  const getMovieRequest = async (searchValue) => {
-    const url = `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_TMDB_KEY}&query=${searchValue}&include_adult=false&language=en-US&page=1`
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ODJhMjdlM2QxYjU4NjlmNjc1MjQ5MTNjYTlhM2E4NCIsInN1YiI6IjY1ZDZiZGIxNjA5NzUwMDE2MjIzNTY5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mr2YERxD-URJb64LONU5yXyPxMDtYs3mZr4CVr4yw3I'
-      }
-    }
-
-    const response = await fetch(url, options)
-    const responseJSON = await response.json()
-
-    if(responseJSON.results.length > 0){
-      setMovies(responseJSON.results)
-    }
-  }
 
   const getFavouriteMovies = () => {
     const favouriteList = JSON.parse(localStorage.getItem('react-movie-app-favourites'))
@@ -82,40 +86,6 @@ function App() {
   const getPopularSeries = () => {
     const popularSeriesList = JSON.parse(localStorage.getItem('react-movie-app-popular-series'))
     setPopularSeries(popularSeriesList)
-  }
-
-  const fetchPopularMovies = async () => {
-    const url = `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&page=1`
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ODJhMjdlM2QxYjU4NjlmNjc1MjQ5MTNjYTlhM2E4NCIsInN1YiI6IjY1ZDZiZGIxNjA5NzUwMDE2MjIzNTY5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mr2YERxD-URJb64LONU5yXyPxMDtYs3mZr4CVr4yw3I'
-      }
-    };
-
-    const response = await fetch(url, options)
-    const responseJSON = await response.json()
-
-    setPopularMovies(responseJSON.results)
-    localStorage.setItem('react-movie-app-popular-movies', JSON.stringify(responseJSON.results))
-  }
-
-  const fetchPopularSeries = async () => {
-    const url = `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&page=1`
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ODJhMjdlM2QxYjU4NjlmNjc1MjQ5MTNjYTlhM2E4NCIsInN1YiI6IjY1ZDZiZGIxNjA5NzUwMDE2MjIzNTY5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mr2YERxD-URJb64LONU5yXyPxMDtYs3mZr4CVr4yw3I'
-      }
-    };
-
-    const response = await fetch(url, options)
-    const responseJSON = await response.json()
-
-    setPopularSeries(responseJSON.results)
-    localStorage.setItem('react-movie-app-popular-series', JSON.stringify(responseJSON.results))
   }
 
   const handleFavouriteMovie = async (movie) => {
@@ -155,29 +125,6 @@ function App() {
 
   const saveFavouritesToLocalStorage = (items) => {
     localStorage.setItem('react-movie-app-favourites', JSON.stringify(items))
-  }
-
-  const getDetails = async (movie) => {
-    let url
-    if("release_date" in movie) {
-      url = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US`
-    }
-    else {
-      url = `https://api.themoviedb.org/3/tv/${movie.id}?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US`
-    }
-
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ODJhMjdlM2QxYjU4NjlmNjc1MjQ5MTNjYTlhM2E4NCIsInN1YiI6IjY1ZDZiZGIxNjA5NzUwMDE2MjIzNTY5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mr2YERxD-URJb64LONU5yXyPxMDtYs3mZr4CVr4yw3I'
-      }
-    };
-
-    const response = await fetch(url, options)
-    const responseJSON = await response.json()
-
-    return responseJSON
   }
 
   const showMovieDetails = async (movie) => {
