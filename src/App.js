@@ -267,10 +267,10 @@ function App() {
                 </div>
 
                 <div className="row">
-                  <MovieList movies={movies} numberOfMovies={favourites.length}
+                  <MovieList movies={movies} numberOfMovies={favourites.length} sortParameter={sortParameter}
                   showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
                   handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                  handleMovieClick={showMovieDetails} sortParameter={sortParameter}/>
+                  handleMovieClick={showMovieDetails} />
                 </div>
               </div>
             </>
@@ -286,10 +286,10 @@ function App() {
                     </div>
 
                     <div className="row">
-                      <MovieList movies={favourites} numberOfMovies={favourites.length}
+                      <MovieList movies={favourites} numberOfMovies={favourites.length} sortParameter={sortParameter}
                       showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                      handleMovieClick={showMovieDetails} sortParameter={sortParameter}/>
+                      handleMovieClick={showMovieDetails} />
                     </div>
 
                     <div className="row justify-content-center pr-5 mt-3">
@@ -315,10 +315,10 @@ function App() {
                     </div>
 
                     <div className="row">
-                      <MovieList movies={popularMovies} numberOfMovies={favourites.length}
+                      <MovieList movies={popularMovies} numberOfMovies={favourites.length} sortParameter={sortParameter}
                       showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                      handleMovieClick={showMovieDetails} sortParameter={sortParameter}/>
+                      handleMovieClick={showMovieDetails} />
                     </div>
 
                     <div className="row justify-content-center pr-5 mt-3">
@@ -344,10 +344,10 @@ function App() {
                     </div>
 
                     <div className="row">
-                      <MovieList movies={popularSeries} numberOfMovies={favourites.length}
+                      <MovieList movies={popularSeries} numberOfMovies={favourites.length} sortParameter={sortParameter}
                       showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                      handleMovieClick={showMovieDetails} sortParameter={sortParameter}/>
+                      handleMovieClick={showMovieDetails} />
                     </div>
 
                     <div className="row justify-content-center pr-5 mt-3">

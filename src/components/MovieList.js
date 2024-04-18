@@ -1,12 +1,12 @@
 import React from 'react'
-import Drop from './Dropdown';
-import Favourite from './Favourite';
 import Movie from './Movie'
-import truncateText from './../util/truncate'
 import hasIntersection from './../util/hasIntersection'
 import { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, sortMoviesByDate } from './../util/sortMovies'
 
+// if movies.length <= 10, <Pagination.Item disabled> for both previous and next
+
 const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavouritesClick, showMovies, showSeries, unselectedGenres, sortParameter, pageNumber = 1, numberOfMovies }) => {
+    
     if(movies != null) {
         if(sortParameter.toLowerCase() === "alphabetically")
             sortMoviesAlphabetically(movies)
@@ -43,6 +43,8 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                         }
                     </>
                 ))}
+
+
             </>
         )
     }
