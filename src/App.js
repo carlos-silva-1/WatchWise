@@ -11,11 +11,9 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
-import Pagination from 'react-bootstrap/Pagination';
 import Filter from './components/Filter';
 import Sort from './components/Sort';
 import genres from './resources/genres.json';
-import { getIMDBID } from './util/imdbUtil'
 
 function App() {
   const [movies, setMovies] = useState([])
@@ -291,13 +289,6 @@ function App() {
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
                       handleMovieClick={showMovieDetails} />
                     </div>
-
-                    <div className="row justify-content-center pr-5 mt-3">
-                      <Pagination className="pr-5">
-                        <Pagination.Prev id="pagination"/>
-                        <Pagination.Next id="pagination"/>
-                      </Pagination>
-                    </div>
                   </div>
                 </>
                 :
@@ -320,13 +311,6 @@ function App() {
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
                       handleMovieClick={showMovieDetails} />
                     </div>
-
-                    <div className="row justify-content-center pr-5 mt-3">
-                      <Pagination className="pr-5">
-                        <Pagination.Prev id="pagination"/>
-                        <Pagination.Next id="pagination"/>
-                      </Pagination>
-                    </div>
                   </div>
                 </>
                 :
@@ -348,13 +332,6 @@ function App() {
                       showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
                       handleMovieClick={showMovieDetails} />
-                    </div>
-
-                    <div className="row justify-content-center pr-5 mt-3">
-                      <Pagination className="pr-5">
-                        <Pagination.Prev id="pagination"/>
-                        <Pagination.Next id="pagination"/>
-                      </Pagination>
                     </div>
                   </div>
                 </>

@@ -1,9 +1,8 @@
 import React from 'react'
+import Pagination from 'react-bootstrap/Pagination';
 import Movie from './Movie'
 import hasIntersection from './../util/hasIntersection'
 import { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, sortMoviesByDate } from './../util/sortMovies'
-
-// if movies.length <= 10, <Pagination.Item disabled> for both previous and next
 
 const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavouritesClick, showMovies, showSeries, unselectedGenres, sortParameter, pageNumber = 1, numberOfMovies }) => {
     
@@ -44,7 +43,28 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                     </>
                 ))}
 
-
+                <div className="container">
+                    {
+                        movies.length <= 10?
+                        <>
+                            <div className="row d-flex justify-content-center mt-3 mr-5">
+                                <Pagination className="mr-5">
+                                    <Pagination.Prev disabled id="pagination-disabled"/>
+                                    <Pagination.Next disabled id="pagination-disabled"/>
+                                </Pagination>
+                            </div>
+                        </>
+                        :
+                        <>
+                            <div className="row d-flex justify-content-center mt-3 mr-5">
+                                <Pagination className="mr-5">
+                                    <Pagination.Prev id="pagination"/>
+                                    <Pagination.Next id="pagination"/>
+                                </Pagination>
+                            </div>
+                        </>
+                    }
+                </div>
             </>
         )
     }

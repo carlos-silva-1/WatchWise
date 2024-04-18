@@ -114,6 +114,12 @@ body{
   background: var(--primary-color);
 }
 
+#pagination-disabled {
+  color: var(--secondary-color);
+  background: var(--background-light-color);
+  border: 1px solid var(--secondary-color);
+}
+
 /********************************* MOVIE POSTERS **********************************/
 
 .image-container {
