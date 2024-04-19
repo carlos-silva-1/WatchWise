@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Pagination from 'react-bootstrap/Pagination';
 import Movie from './Movie'
 import hasIntersection from './../util/hasIntersection'
 import { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, sortMoviesByDate } from './../util/sortMovies'
+import { searchMovie, fetchPopular } from './../api/api_handler'
 
-const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavouritesClick, showMovies, showSeries, unselectedGenres, sortParameter, pageNumber = 1, numberOfMovies }) => {
-    
+const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavouritesClick, showMovies, showSeries, unselectedGenres, sortParameter, numberOfMovies, name }) => {
+    const [pageNumber, setPageNumber] = useState(1)
+
     if(movies != null) {
         if(sortParameter.toLowerCase() === "alphabetically")
             sortMoviesAlphabetically(movies)
@@ -16,7 +18,7 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
         else if(sortParameter.toLowerCase() === "release date")
             sortMoviesByDate(movies)
     }
-
+    
     const startIndex = pageNumber === 1? 0 : 10*(pageNumber-1)
     const endIndex = (10*pageNumber-1) > numberOfMovies? numberOfMovies-1 : (10*pageNumber-1)
     const pageOfMovies = movies.slice(startIndex, endIndex+1)
@@ -58,8 +60,26 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                         <>
                             <div className="row d-flex justify-content-center mt-3 mr-5">
                                 <Pagination className="mr-5">
-                                    <Pagination.Prev id="pagination"/>
-                                    <Pagination.Next id="pagination"/>
+                                    {
+                                        pageNumber === 1?
+                                        <>
+                                            <Pagination.Prev disabled id="pagination"/>
+                                        </>
+                                        :
+                                        <>
+                                            <Pagination.Prev id="pagination" onClick={() => {setPageNumber(pageNumber - 1)}}/>
+                                        </>
+                                    }
+                                    {
+                                        endIndex + 1 === movies.length?
+                                        <>
+                                            <Pagination.Next disabled id="pagination"/>
+                                        </>
+                                        :
+                                        <>
+                                            <Pagination.Next id="pagination" onClick={() => {setPageNumber(pageNumber + 1)}}/>
+                                        </>
+                                    }
                                 </Pagination>
                             </div>
                         </>

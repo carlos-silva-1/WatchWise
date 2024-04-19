@@ -1,5 +1,5 @@
-const searchMovie = async (searchValue) => {
-    const url = `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_TMDB_KEY}&query=${searchValue}&include_adult=false&language=en-US&page=1`
+const searchMovie = async (searchValue, pageNumber = 1) => {
+    const url = `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_TMDB_KEY}&query=${searchValue}&include_adult=false&language=en-US&page=${pageNumber}`
     const options = {
         method: 'GET',
         headers: {
@@ -14,8 +14,8 @@ const searchMovie = async (searchValue) => {
     return responseJSON.results
 }
 
-const fetchPopular = async (mediaType = "movie") => {
-    const url = `https://api.themoviedb.org/3/${mediaType}/popular?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&page=1`
+const fetchPopular = async (mediaType = "movie", pageNumber = 1) => {
+    const url = `https://api.themoviedb.org/3/${mediaType}/popular?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&page=${pageNumber}`
     const options = {
         method: 'GET',
         headers: {

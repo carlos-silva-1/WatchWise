@@ -211,10 +211,11 @@ function App() {
                 </div>
 
                 <div className="row">
-                  <MovieList movies={movies} numberOfMovies={favourites.length} sortParameter={sortParameter}
+                  <MovieList movies={movies} numberOfMovies={movies.length} sortParameter={sortParameter}
                   showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
                   handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                  handleMovieClick={showMovieDetails} />
+                  handleMovieClick={showMovieDetails} 
+                  name={"SEARCHRESULTS"}/>
                 </div>
               </div>
             </>
@@ -233,7 +234,8 @@ function App() {
                       <MovieList movies={favourites} numberOfMovies={favourites.length} sortParameter={sortParameter}
                       showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                      handleMovieClick={showMovieDetails} />
+                      handleMovieClick={showMovieDetails} 
+                      name={"MYMOVIEQUEUE"}/>
                     </div>
                   </div>
                 </>
@@ -252,10 +254,11 @@ function App() {
                     </div>
 
                     <div className="row">
-                      <MovieList movies={popularMovies} numberOfMovies={favourites.length} sortParameter={sortParameter}
+                      <MovieList movies={popularMovies} numberOfMovies={popularMovies.length} sortParameter={sortParameter}
                       showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                      handleMovieClick={showMovieDetails} />
+                      handleMovieClick={showMovieDetails} 
+                      name={"POPULARMOVIES"}/>
                     </div>
                   </div>
                 </>
@@ -274,10 +277,11 @@ function App() {
                     </div>
 
                     <div className="row">
-                      <MovieList movies={popularSeries} numberOfMovies={favourites.length} sortParameter={sortParameter}
+                      <MovieList movies={popularSeries} numberOfMovies={popularSeries.length} sortParameter={sortParameter}
                       showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                      handleMovieClick={showMovieDetails} />
+                      handleMovieClick={showMovieDetails} 
+                      name={"POPULARSERIES"}/>
                     </div>
                   </div>
                 </>
