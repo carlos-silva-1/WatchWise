@@ -3,6 +3,7 @@ import Drop from './Dropdown';
 import Favourite from './Favourite';
 import truncateText from './../util/truncate'
 import { getIMDBID } from './../util/imdbUtil'
+import poster_not_available from './../poster_not_available.jpg';
 
 const Movie = ({ movieData, handleMovieClick, handleFavouritesClick, favouriteMovies }) => {
 	const [streamOptions, setStreamOptions] = useState({})
@@ -39,8 +40,18 @@ const Movie = ({ movieData, handleMovieClick, handleFavouritesClick, favouriteMo
 	return(
         <>
         	<div className='d-flex justify-content-start m-3 image-container'>
-                <img src={`https://image.tmdb.org/t/p/w500/${movieData.poster_path}`} alt='movie poster'
-                    onClick={() => handleMovieClick(movieData)}></img>
+        		{
+        			movieData.poster_path != null?
+        			<>
+        				<img src={`https://image.tmdb.org/t/p/w500/${movieData.poster_path}`} alt='movie poster'
+                    	onClick={() => handleMovieClick(movieData)}></img>
+        			</>
+        			:
+        			<>
+        				<img src={poster_not_available} alt='movie poster'
+                    	onClick={() => handleMovieClick(movieData)}></img>
+        			</>
+        		}
 
                 <div className='overlay stream-overlay d-flex align-items-center justify-content-center'
                      onMouseEnter={() => updateStreamOptions(movieData)}>

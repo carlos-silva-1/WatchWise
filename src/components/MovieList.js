@@ -76,8 +76,7 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                             // renders the item if none of its genres are in 'unselectedGenres' &&
                             // renders the item it it has a poster
                             ((showMovies && "release_date" in movie) || (showSeries && "first_air_date" in movie)) &&
-                            !hasIntersection(movie.genre_ids, unselectedGenres) && 
-                            movie.poster_path != null? 
+                            !hasIntersection(movie.genre_ids, unselectedGenres)? 
                             <>
                                 <Movie movieData={movie} handleMovieClick={handleMovieClick} handleFavouritesClick={handleFavouritesClick} favouriteMovies={favouriteMovies} />
                             </>

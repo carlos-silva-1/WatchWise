@@ -4,6 +4,7 @@ import formatAsDollarAmount from './../util/formatAsDollar'
 import ReactPlayer from 'react-player'
 import movieTrailer from 'movie-trailer'
 import { goToIMDBPage}  from './../util/imdbUtil'
+import poster_not_available from './../poster_not_available.jpg';
 
 const MovieDetails = ({ movie, details }) => {
     const [trailerURL, setTrailerURL] = useState("")
@@ -47,7 +48,16 @@ const MovieDetails = ({ movie, details }) => {
 
             <div className="row details-body mt-3">
                 <div className="col-auto">
-                    <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='poster' className="details-poster"/>
+                    {
+                        movie.poster_path != null?
+                        <>
+                            <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='poster' className="details-poster"/>
+                        </>
+                        :
+                        <>
+                            <img src={poster_not_available} alt='poster' className="details-poster"/>
+                        </>
+                    }
                 </div>
 
                 <div className="col">
