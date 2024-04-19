@@ -222,7 +222,7 @@ function App() {
             <>
               {/* MY MOVIE QUEUE */}
               {
-                favourites !== null && favourites.length !== 0?
+                favourites != null && favourites.length !== 0 && (showMovies === true || showSeries === true)?
                 <>
                   <div className="movie-queue pb-5">
                     <div className='row d-flex align-items-center'>
