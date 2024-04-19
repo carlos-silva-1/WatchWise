@@ -211,10 +211,11 @@ function App() {
                 </div>
 
                 <div className="row">
-                  <MovieList movies={movies} numberOfMovies={movies.length} sortParameter={sortParameter}
-                  showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
+                  <MovieList movies={movies} type={"search"} searchValue={searchValue}
+                  sortParameter={sortParameter} unselectedGenres={unselectedGenres}
+                  showMovies={showMovies} showSeries={showSeries}
                   handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                  handleMovieClick={showMovieDetails} type={"search"} searchValue={searchValue}/>
+                  handleMovieClick={showMovieDetails} />
                 </div>
               </div>
             </>
@@ -222,7 +223,8 @@ function App() {
             <>
               {/* MY MOVIE QUEUE */}
               {
-                favourites != null && favourites.length !== 0 && (showMovies === true || showSeries === true)?
+                favourites != null && favourites.length !== 0 && 
+                (showMovies === true || showSeries === true)?
                 <>
                   <div className="movie-queue pb-5">
                     <div className='row d-flex align-items-center'>
@@ -230,11 +232,11 @@ function App() {
                     </div>
 
                     <div className="row">
-                      <MovieList movies={favourites} numberOfMovies={favourites.length} sortParameter={sortParameter}
-                      showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
-                      handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                      handleMovieClick={showMovieDetails} 
-                      name={"MYMOVIEQUEUE"}/>
+                      <MovieList movies={favourites} 
+                      sortParameter={sortParameter} unselectedGenres={unselectedGenres}
+                      showMovies={showMovies} showSeries={showSeries}
+                      handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites} 
+                      handleMovieClick={showMovieDetails}/>
                     </div>
                   </div>
                 </>
@@ -253,10 +255,11 @@ function App() {
                     </div>
 
                     <div className="row">
-                      <MovieList movies={popularMovies} numberOfMovies={popularMovies.length} sortParameter={sortParameter}
-                      showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
-                      handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                      handleMovieClick={showMovieDetails} type={"movie"}/>
+                      <MovieList movies={popularMovies} type={"movie"}
+                      sortParameter={sortParameter} unselectedGenres={unselectedGenres}
+                      showMovies={showMovies} showSeries={showSeries} 
+                      handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites} 
+                      handleMovieClick={showMovieDetails}/>
                     </div>
                   </div>
                 </>
@@ -275,10 +278,11 @@ function App() {
                     </div>
 
                     <div className="row">
-                      <MovieList movies={popularSeries} numberOfMovies={popularSeries.length} sortParameter={sortParameter}
-                      showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
+                      <MovieList movies={popularSeries} type={"tv"}
+                      sortParameter={sortParameter} unselectedGenres={unselectedGenres}
+                      showMovies={showMovies} showSeries={showSeries}
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                      handleMovieClick={showMovieDetails} type={"tv"}/>
+                      handleMovieClick={showMovieDetails}/>
                     </div>
                   </div>
                 </>

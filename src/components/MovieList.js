@@ -5,26 +5,19 @@ import hasIntersection from './../util/hasIntersection'
 import { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, sortMoviesByDate } from './../util/sortMovies'
 import { searchMovie, fetchPopular } from './../api/api_handler'
 
-const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavouritesClick, showMovies, showSeries, unselectedGenres, sortParameter, numberOfMovies, type, searchValue }) => {
+const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavouritesClick, showMovies, showSeries, unselectedGenres, sortParameter, type, searchValue }) => {
     const [pageNumber, setPageNumber] = useState(1)
     const [maxPageNumberReached, setMaxPageNumberReached] = useState(1)
     const [shouldFetchNextPage, setShouldFetchNextPage] = useState(false)
     const [shouldUpdateMovies, setShouldUpdateMovies] = useState(false)
-    const moviesRef = useRef() // stores movies that where just fetched and appended to the original movies array, before thay can be passed on to the original array
-
-    // rerenders the component to update 'movies'
-    useEffect(() => {
-        if(shouldUpdateMovies === true)
-            setShouldUpdateMovies(false)
-    }, [shouldUpdateMovies])
+    const updatedMovies = useRef()
 
     useEffect(() => {
         const fetchNextPage = async () => {
             if(type === "search") {
                 console.log("SEARCH")
                 let searchResults = await searchMovie(searchValue, pageNumber)
-                moviesRef.current = movies.concat(searchResults)
-                setShouldUpdateMovies(true)
+                updatedMovies.current = movies.concat(searchResults)
             }
             else if (type === "movie") {
                 console.log("MOVIE")
@@ -36,6 +29,7 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                 console.log(await fetchPopular("tv", pageNumber))
                 // put in local storage
             }
+            setShouldUpdateMovies(true)
         }
 
         if(shouldFetchNextPage) {
@@ -44,10 +38,14 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
         }
     }, [shouldFetchNextPage])
 
-    if(moviesRef.current != null) {
-        movies = moviesRef.current
-        numberOfMovies = movies.length
-    }
+    // rerenders the component to execute a conditional that updates 'movies'
+    useEffect(() => {
+        if(shouldUpdateMovies === true)
+            setShouldUpdateMovies(false)
+    }, [shouldUpdateMovies])
+
+    if(updatedMovies.current != null)
+        movies = updatedMovies.current
 
     if(movies != null) {
         if(sortParameter.toLowerCase() === "alphabetically")
@@ -61,10 +59,10 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
     }
 
     const startIndex = pageNumber === 1? 0 : 10*(pageNumber-1) // avoids negative index if at the start of array
-    const endIndex = (10*pageNumber-1) > numberOfMovies? numberOfMovies-1 : (10*pageNumber-1) // avoids array out of bounds if at the end of array
+    const endIndex = (10*pageNumber-1) > movies.length? movies.length-1 : (10*pageNumber-1) // avoids array out of bounds if at the end of array
     const pageOfMovies = movies.slice(startIndex, endIndex+1)
 
-    console.log(`pageNumber: ${pageNumber} - startIndex: ${startIndex} - endIndex: ${endIndex} - numberOfMovies: ${numberOfMovies}`)
+    console.log(`pageNumber: ${pageNumber} - startIndex: ${startIndex} - endIndex: ${endIndex} - movies.length: ${movies.length}`)
 
     if(pageOfMovies != null){
         return(
@@ -73,8 +71,7 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                     <>
                         {
                             // renders the item if its a movie and 'showMovies' is checked, or if its a series and 'showSeries' is checked &&
-                            // renders the item if none of its genres are in 'unselectedGenres' &&
-                            // renders the item it it has a poster
+                            // renders the item if none of its genres are in 'unselectedGenres'
                             ((showMovies && "release_date" in movie) || (showSeries && "first_air_date" in movie)) &&
                             !hasIntersection(movie.genre_ids, unselectedGenres)? 
                             <>
