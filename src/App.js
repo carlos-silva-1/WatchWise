@@ -214,8 +214,7 @@ function App() {
                   <MovieList movies={movies} numberOfMovies={movies.length} sortParameter={sortParameter}
                   showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
                   handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                  handleMovieClick={showMovieDetails} 
-                  name={"SEARCHRESULTS"}/>
+                  handleMovieClick={showMovieDetails} type={"search"} searchValue={searchValue}/>
                 </div>
               </div>
             </>
@@ -257,8 +256,7 @@ function App() {
                       <MovieList movies={popularMovies} numberOfMovies={popularMovies.length} sortParameter={sortParameter}
                       showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                      handleMovieClick={showMovieDetails} 
-                      name={"POPULARMOVIES"}/>
+                      handleMovieClick={showMovieDetails} type={"movie"}/>
                     </div>
                   </div>
                 </>
@@ -280,8 +278,7 @@ function App() {
                       <MovieList movies={popularSeries} numberOfMovies={popularSeries.length} sortParameter={sortParameter}
                       showMovies={showMovies} showSeries={showSeries} unselectedGenres={unselectedGenres}
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                      handleMovieClick={showMovieDetails} 
-                      name={"POPULARSERIES"}/>
+                      handleMovieClick={showMovieDetails} type={"tv"}/>
                     </div>
                   </div>
                 </>
