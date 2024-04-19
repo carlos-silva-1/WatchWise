@@ -15,19 +15,18 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
     useEffect(() => {
         const fetchNextPage = async () => {
             if(type === "search") {
-                console.log("SEARCH")
                 let searchResults = await searchMovie(searchValue, pageNumber)
                 updatedMovies.current = movies.concat(searchResults)
             }
             else if (type === "movie") {
-                console.log("MOVIE")
-                console.log(await fetchPopular("movie", pageNumber))
-                // put in local storage
+                let fetchedPopularMovies = await fetchPopular("movie", pageNumber)
+                updatedMovies.current = movies.concat(fetchedPopularMovies)
+                localStorage.setItem('react-movie-app-popular-movies', JSON.stringify(updatedMovies.current))
             }
             else if (type === "tv") {
-                console.log("TV")
-                console.log(await fetchPopular("tv", pageNumber))
-                // put in local storage
+                let fetchedPopularSeries = await fetchPopular("tv", pageNumber)
+                updatedMovies.current = movies.concat(fetchedPopularSeries)
+                localStorage.setItem('react-movie-app-popular-series', JSON.stringify(updatedMovies.current))
             }
             setShouldUpdateMovies(true)
         }
@@ -61,8 +60,6 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
     const startIndex = pageNumber === 1? 0 : 10*(pageNumber-1) // avoids negative index if at the start of array
     const endIndex = (10*pageNumber-1) > movies.length? movies.length-1 : (10*pageNumber-1) // avoids array out of bounds if at the end of array
     const pageOfMovies = movies.slice(startIndex, endIndex+1)
-
-    console.log(`pageNumber: ${pageNumber} - startIndex: ${startIndex} - endIndex: ${endIndex} - movies.length: ${movies.length}`)
 
     if(pageOfMovies != null){
         return(
