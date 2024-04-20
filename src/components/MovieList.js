@@ -5,7 +5,7 @@ import hasIntersection from './../util/hasIntersection'
 import { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, sortMoviesByDate } from './../util/sortMovies'
 import { searchMovie, fetchPopular } from './../api/api_handler'
 
-const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavouritesClick, showMovies, showSeries, unselectedGenres, sortParameter, type, searchValue }) => {
+const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavouritesClick, showMovies, showSeries, unselectedGenres, sortParameter, listType, searchValue }) => {
     const [pageNumber, setPageNumber] = useState(1)
     const [maxPageNumberReached, setMaxPageNumberReached] = useState(1)
     const [shouldFetchNextPage, setShouldFetchNextPage] = useState(false)
@@ -14,16 +14,16 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
 
     useEffect(() => {
         const fetchNextPage = async () => {
-            if(type === "search") {
+            if(listType === "search") {
                 let searchResults = await searchMovie(searchValue, pageNumber)
                 updatedMovies.current = movies.concat(searchResults)
             }
-            else if (type === "movie") {
+            else if (listType === "movie") {
                 let fetchedPopularMovies = await fetchPopular("movie", pageNumber)
                 updatedMovies.current = movies.concat(fetchedPopularMovies)
                 localStorage.setItem('react-movie-app-popular-movies', JSON.stringify(updatedMovies.current))
             }
-            else if (type === "tv") {
+            else if (listType === "tv") {
                 let fetchedPopularSeries = await fetchPopular("tv", pageNumber)
                 updatedMovies.current = movies.concat(fetchedPopularSeries)
                 localStorage.setItem('react-movie-app-popular-series', JSON.stringify(updatedMovies.current))
@@ -105,7 +105,7 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                                         </>
                                     }
                                     {
-                                        type === "mymoviequeue" &&
+                                        listType === "mymoviequeue" &&
                                         endIndex + 1 >= movies.length?
                                         <>
                                             <Pagination.Next disabled id="pagination" />

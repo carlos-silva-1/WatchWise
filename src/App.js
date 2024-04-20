@@ -104,12 +104,10 @@ function App() {
   const addFavouriteMovie = async (movie) => {
     let newFavouriteList = []
 
-    if(favourites !== null){
+    if(favourites !== null)
       newFavouriteList = [...favourites, movie]
-    }
-    else{
+    else
       newFavouriteList = [movie]
-    }
 
     setFavourites(newFavouriteList)
     saveFavouritesToLocalStorage(newFavouriteList)
@@ -136,21 +134,17 @@ function App() {
   }
 
   const handleMoviesCheckboxChange = () => {
-    if(showMovies) {
+    if(showMovies)
       setShowMovies(false)
-    }
-    else {
+    else
       setShowMovies(true)
-    }
   }
 
   const handleSeriesCheckboxChange = () => {
-    if(showSeries) {
+    if(showSeries)
       setShowSeries(false)
-    }
-    else {
+    else
       setShowSeries(true)
-    }
   }
 
   const handleFilterGenre = (unselectedGenresArray) => {
@@ -211,7 +205,7 @@ function App() {
                 </div>
 
                 <div className="row">
-                  <MovieList movies={movies} type={"search"} searchValue={searchValue}
+                  <MovieList movies={movies} listType={"search"} searchValue={searchValue}
                   sortParameter={sortParameter} unselectedGenres={unselectedGenres}
                   showMovies={showMovies} showSeries={showSeries}
                   handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
@@ -232,7 +226,7 @@ function App() {
                     </div>
 
                     <div className="row">
-                      <MovieList movies={favourites} type={"mymoviequeue"}
+                      <MovieList movies={favourites} listType={"mymoviequeue"}
                       sortParameter={sortParameter} unselectedGenres={unselectedGenres}
                       showMovies={showMovies} showSeries={showSeries}
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites} 
@@ -255,7 +249,7 @@ function App() {
                     </div>
 
                     <div className="row">
-                      <MovieList movies={popularMovies} type={"movie"}
+                      <MovieList movies={popularMovies} listType={"movie"}
                       sortParameter={sortParameter} unselectedGenres={unselectedGenres}
                       showMovies={showMovies} showSeries={showSeries} 
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites} 
@@ -278,7 +272,7 @@ function App() {
                     </div>
 
                     <div className="row">
-                      <MovieList movies={popularSeries} type={"tv"}
+                      <MovieList movies={popularSeries} listType={"tv"}
                       sortParameter={sortParameter} unselectedGenres={unselectedGenres}
                       showMovies={showMovies} showSeries={showSeries}
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
