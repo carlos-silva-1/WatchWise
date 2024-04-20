@@ -64,38 +64,36 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
     if(pageOfMovies != null){
         return(
             <>
-                {pageOfMovies.map( (movie, index) => (
-                    <>
-                        {
-                            // renders the item if its a movie and 'showMovies' is checked, or if its a series and 'showSeries' is checked &&
-                            // renders the item if none of its genres are in 'unselectedGenres'
-                            ((showMovies && "release_date" in movie) || (showSeries && "first_air_date" in movie)) &&
-                            !hasIntersection(movie.genre_ids, unselectedGenres)? 
+                <div>
+                    <div className="row">
+                        {pageOfMovies.map( (movie, index) => (
                             <>
-                                <Movie movieData={movie} handleMovieClick={handleMovieClick} handleFavouritesClick={handleFavouritesClick} favouriteMovies={favouriteMovies} />
+                                {
+                                    // renders the item if its a movie and 'showMovies' is checked, or if its a series and 'showSeries' is checked &&
+                                    // renders the item if none of its genres are in 'unselectedGenres'
+                                    ((showMovies && "release_date" in movie) || (showSeries && "first_air_date" in movie)) &&
+                                    !hasIntersection(movie.genre_ids, unselectedGenres)? 
+                                    <>
+                                        <Movie movieData={movie} handleMovieClick={handleMovieClick} handleFavouritesClick={handleFavouritesClick} favouriteMovies={favouriteMovies} />
+                                    </>
+                                    :
+                                    <>
+                                    </>
+                                }
                             </>
-                            :
-                            <>
-                            </>
-                        }
-                    </>
-                ))}
-
-                <div className="container">
-                    {
-                        movies.length <= 10?
-                        <>
-                            <div className="row d-flex justify-content-center mt-3 mr-5">
-                                <Pagination className="mr-5">
+                        ))}
+                    </div>
+                
+                    <div className="row d-flex justify-content-center mt-3 mr-5 mb-5 pb-3">
+                        <Pagination className="mr-5 horizontal-center">
+                            {
+                                movies.length <= 10?
+                                <>
                                     <Pagination.Prev disabled id="pagination-disabled"/>
                                     <Pagination.Next disabled id="pagination-disabled"/>
-                                </Pagination>
-                            </div>
-                        </>
-                        :
-                        <>
-                            <div className="row d-flex justify-content-center mt-3 mr-5">
-                                <Pagination className="mr-5">
+                                </>
+                                :
+                                <>
                                     {
                                         pageNumber === 1?
                                         <>
@@ -128,10 +126,10 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                                             />
                                         </>
                                     }
-                                </Pagination>
-                            </div>
-                        </>
-                    }
+                                </>
+                            }
+                        </Pagination>
+                    </div>
                 </div>
             </>
         )
