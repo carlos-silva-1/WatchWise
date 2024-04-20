@@ -232,7 +232,7 @@ function App() {
                     </div>
 
                     <div className="row">
-                      <MovieList movies={favourites} 
+                      <MovieList movies={favourites} type={"mymoviequeue"}
                       sortParameter={sortParameter} unselectedGenres={unselectedGenres}
                       showMovies={showMovies} showSeries={showSeries}
                       handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites} 

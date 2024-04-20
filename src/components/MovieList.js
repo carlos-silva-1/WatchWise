@@ -106,18 +106,28 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                                             <Pagination.Prev id="pagination" onClick={() => {setPageNumber(pageNumber - 1)}}/>
                                         </>
                                     }
-                                    <Pagination.Next id="pagination" 
-                                        onClick={
-                                            () => {
-                                                let newPageNumber = pageNumber + 1 // used for the next if conditional because the value of the state 'pageNumber' updates asynchronously
-                                                setPageNumber(newPageNumber)
-                                                if((newPageNumber % 2 === 1) && (newPageNumber > maxPageNumberReached)) {
-                                                    setMaxPageNumberReached(newPageNumber)
-                                                    setShouldFetchNextPage(true)
+                                    {
+                                        type === "mymoviequeue" &&
+                                        endIndex + 1 >= movies.length?
+                                        <>
+                                            <Pagination.Next disabled id="pagination" />
+                                        </>
+                                        :
+                                        <>
+                                            <Pagination.Next id="pagination" 
+                                                onClick={
+                                                    () => {
+                                                        let newPageNumber = pageNumber + 1 // used for the next if conditional because the value of the state 'pageNumber' updates asynchronously
+                                                        setPageNumber(newPageNumber)
+                                                        if((newPageNumber % 2 === 1) && (newPageNumber > maxPageNumberReached)) {
+                                                            setMaxPageNumberReached(newPageNumber)
+                                                            setShouldFetchNextPage(true)
+                                                        }
+                                                    }
                                                 }
-                                            }
-                                        }
-                                    />
+                                            />
+                                        </>
+                                    }
                                 </Pagination>
                             </div>
                         </>
