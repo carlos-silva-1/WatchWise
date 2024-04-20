@@ -12,6 +12,7 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
     const [shouldUpdateMovies, setShouldUpdateMovies] = useState(false)
     const updatedMovies = useRef()
 
+    // fetches next page from API if 'Next' pagination button is clicked
     useEffect(() => {
         const fetchNextPage = async () => {
             if(listType === "search") {
@@ -37,7 +38,7 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
         }
     }, [shouldFetchNextPage])
 
-    // rerenders the component to execute a conditional that updates 'movies'
+    // rerenders the component so that a conditional that updates 'movies' can be executed
     useEffect(() => {
         if(shouldUpdateMovies === true)
             setShouldUpdateMovies(false)
