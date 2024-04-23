@@ -8,10 +8,13 @@ const searchMovie = async (searchValue, pageNumber = 1) => {
         }
     }
 
-    const response = await fetch(url, options)
-    const responseJSON = await response.json()
-
-    return responseJSON.results
+    try {
+        const response = await fetch(url, options)
+        const responseJSON = await response.json()
+        return responseJSON.results
+    } catch (error) {
+        throw new Error(error);
+    }
 }
 
 const fetchPopular = async (mediaType = "movie", pageNumber = 1) => {
@@ -24,10 +27,13 @@ const fetchPopular = async (mediaType = "movie", pageNumber = 1) => {
         }
     }
 
-    const response = await fetch(url, options)
-    const responseJSON = await response.json()
-
-    return responseJSON.results
+    try{
+        const response = await fetch(url, options)
+        const responseJSON = await response.json()
+        return responseJSON.results
+    } catch (error) {
+        throw new Error(error);
+    }
 }
 
 const getDetails = async (movie) => {
@@ -45,10 +51,13 @@ const getDetails = async (movie) => {
         }
     }
 
-    const response = await fetch(url, options)
-    const responseJSON = await response.json()
-
-    return responseJSON
+    try{
+        const response = await fetch(url, options)
+        const responseJSON = await response.json()
+        return responseJSON
+    } catch (error) {
+        throw new Error(error);
+    }
 }
 
 export { searchMovie, fetchPopular, getDetails }

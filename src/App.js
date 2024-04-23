@@ -31,12 +31,8 @@ function App() {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      try {
-        const searchResults = await searchMovie(searchValue)
-        setMovies(searchResults)
-      } catch (error) {
-        console.error(`Error occured when searching movies: ${error}`)
-      }
+      const searchResults = await searchMovie(searchValue)
+      setMovies(searchResults)
     }
 
     fetchMovies()
@@ -51,17 +47,13 @@ function App() {
     const currentDate = new Date().toLocaleDateString();
 
     const fetchPopularMoviesAndSeries = async () => {
-      try {
-        const fetchedMovies = await fetchPopular("movie")
-        const fetchedSeries = await fetchPopular("tv")
-        setPopularMovies(fetchedMovies)
-        setPopularSeries(fetchedSeries)
-        localStorage.setItem('react-movie-app-popular-movies', JSON.stringify(fetchedMovies))
-        localStorage.setItem('react-movie-app-popular-series', JSON.stringify(fetchedSeries))
-        localStorage.setItem('lastUpdateDate', currentDate);
-      } catch (error) {
-        console.error(`Error occured when fetching popular items: ${error}`)
-      }
+      const fetchedMovies = await fetchPopular("movie")
+      const fetchedSeries = await fetchPopular("tv")
+      setPopularMovies(fetchedMovies)
+      setPopularSeries(fetchedSeries)
+      localStorage.setItem('react-movie-app-popular-movies', JSON.stringify(fetchedMovies))
+      localStorage.setItem('react-movie-app-popular-series', JSON.stringify(fetchedSeries))
+      localStorage.setItem('lastUpdateDate', currentDate);
     }
     
     if (lastUpdateDate !== currentDate) {
@@ -78,14 +70,8 @@ function App() {
     setFavourites(favouriteList)
   }
 
-  const getPopularMovies = () => {
-    const popularMoviesList = JSON.parse(localStorage.getItem('react-movie-app-popular-movies'))
-    setPopularMovies(popularMoviesList)
-  }
-
-  const getPopularSeries = () => {
-    const popularSeriesList = JSON.parse(localStorage.getItem('react-movie-app-popular-series'))
-    setPopularSeries(popularSeriesList)
+  const saveFavouritesToLocalStorage = (items) => {
+    localStorage.setItem('react-movie-app-favourites', JSON.stringify(items))
   }
 
   const handleFavouriteMovie = async (movie) => {
@@ -121,8 +107,14 @@ function App() {
     saveFavouritesToLocalStorage(newFavouriteList)
   }
 
-  const saveFavouritesToLocalStorage = (items) => {
-    localStorage.setItem('react-movie-app-favourites', JSON.stringify(items))
+  const getPopularMovies = () => {
+    const popularMoviesList = JSON.parse(localStorage.getItem('react-movie-app-popular-movies'))
+    setPopularMovies(popularMoviesList)
+  }
+
+  const getPopularSeries = () => {
+    const popularSeriesList = JSON.parse(localStorage.getItem('react-movie-app-popular-series'))
+    setPopularSeries(popularSeriesList)
   }
 
   const showMovieDetails = async (movie) => {
