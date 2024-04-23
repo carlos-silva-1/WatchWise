@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Drop from './Dropdown';
 import Favourite from './Favourite';
 import truncateText from './../util/truncate'
-import { getIMDBID } from './../util/imdbUtil'
+import { getIMDBID } from './IMDB'
 import poster_not_available from './../poster_not_available.jpg';
 
 const Movie = ({ movieData, handleMovieClick, handleFavouritesClick, favouriteMovies }) => {

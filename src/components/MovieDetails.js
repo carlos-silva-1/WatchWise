@@ -3,7 +3,6 @@ import IMDB from './IMDB';
 import formatAsDollarAmount from './../util/formatAsDollar'
 import ReactPlayer from 'react-player'
 import movieTrailer from 'movie-trailer'
-import { goToIMDBPage}  from './../util/imdbUtil'
 import poster_not_available from './../poster_not_available.jpg';
 
 const MovieDetails = ({ movie, details }) => {
@@ -43,7 +42,7 @@ const MovieDetails = ({ movie, details }) => {
                     </div>
                 </div>
                 
-                <IMDB handleIMDBClick={goToIMDBPage} movie={movie}/>
+                <IMDB movie={movie}/>
         	</div>
 
             <div className="row details-body mt-3">
