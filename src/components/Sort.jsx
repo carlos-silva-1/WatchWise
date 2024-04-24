@@ -65,7 +65,7 @@ const sortMoviesByDate = (movies) => {
 const Sort = ({ sortParameter, handleSortClick }) => {
     return(
         <>
-        	<div id="sort">
+        	<div>
         		<Navbar expand="lg" variant="dark">
                     <Form>
                     	{

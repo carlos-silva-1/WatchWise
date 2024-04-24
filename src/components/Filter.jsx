@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 const Filter = ({ showMovies, showSeries, changeShowMovies, changeShowSeries, genres, unselectedGenres, handleFilterGenre }) => {
     return(
         <>
-            <div id="filter">
+            <div className="width-50vw">
 
                 {/* MEDIA TYPE */}
                 <Navbar expand="lg" variant="dark">

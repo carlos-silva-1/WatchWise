@@ -148,22 +148,22 @@ function App() {
   }
 
   return (
-    <div className="container-fluid movie-app">
+    <div className="container-fluid movie-app position-relative">
 
       {/* HEADER */}
-      <div className='d-flex align-items-center mt-4 header'>
+      <div id="header" className='d-flex align-items-center mt-4 w-100 bg-dark-custom z-1'>
 
         <Navbar expand="lg" variant="dark">
           <Container>
             <Navbar.Brand href="/index.html" id='brand'>MyMovieQueue</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" id="navbar-menu-icon"/>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" id="navbar-hamburger-icon"/>
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav>
-                <NavDropdown title="Filter" id="filter-dropdown">
+                <NavDropdown title="Filter" id="filter-dropdown" className="pt-2 pr-4 pl-4">
                   <Filter showMovies={showMovies} showSeries={showSeries} changeShowMovies={handleMoviesCheckboxChange} changeShowSeries={handleSeriesCheckboxChange}
                   genres={genres} unselectedGenres={unselectedGenres} handleFilterGenre={handleFilterGenre}/>
                 </NavDropdown>
-                <NavDropdown title="Sort" id="sort-dropdown">
+                <NavDropdown title="Sort" id="sort-dropdown" className="pt-2">
                   <Sort sortParameter={sortParameter} handleSortClick={handleSortClick}/>
                 </NavDropdown>
               </Nav>

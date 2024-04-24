@@ -53,17 +53,17 @@ const Movie = ({ movieData, handleMovieClick, handleFavouritesClick, favouriteMo
         			</>
         		}
 
-                <div className='overlay stream-overlay d-flex align-items-center justify-content-center'
+                <div className='d-flex align-items-center justify-content-center overlay stream-overlay text-dark'
                      onMouseEnter={() => updateStreamOptions(movieData)}>
                     <Drop streamOptions={streamOptions}/>
                 </div>
                 
-                <div className='overlay favourite-overlay d-flex align-items-center justify-content-center'
+                <div className='pr-2 pb-2 d-flex align-items-center justify-content-center overlay favourite-overlay text-dark'
                      onClick={() => handleFavouritesClick(movieData)}>
                     <Favourite favouriteMovies={favouriteMovies} movie={movieData}/>
                 </div>
 
-                <div className='overlay title-overlay d-flex align-items-center justify-content-center'>
+                <div className='d-flex align-items-center justify-content-center w-100 overlay title-overlay text-dark'>
                     {
                         movieData.title !== undefined?
                         <>

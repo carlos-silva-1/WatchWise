@@ -5,7 +5,7 @@ import hasIntersection from './../util/hasIntersection'
 import { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, sortMoviesByDate } from './Sort'
 import { searchMovie, fetchPopular } from './../api/api_handler'
 
-const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavouritesClick, showMovies, showSeries, unselectedGenres, sortParameter, listType, searchValue }) => {
+const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavouritesClick, showMovies, showSeries, unselectedGenres, sortParameter, listType, searchValue, numMoviesPerPage = 5 }) => {
     const [pageNumber, setPageNumber] = useState(1)
     const [maxPageNumberReached, setMaxPageNumberReached] = useState(1)
     const [shouldFetchNextPage, setShouldFetchNextPage] = useState(false)
@@ -58,8 +58,8 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
             sortMoviesByDate(movies)
     }
 
-    const startIndex = pageNumber === 1? 0 : 10*(pageNumber-1) // avoids negative index if at the start of array
-    const endIndex = (10*pageNumber-1) > movies.length? movies.length-1 : (10*pageNumber-1) // avoids array out of bounds if at the end of array
+    const startIndex = pageNumber === 1? 0 : numMoviesPerPage*(pageNumber-1) // avoids negative index if at the start of array
+    const endIndex = (numMoviesPerPage*pageNumber-1) > movies.length? movies.length-1 : (numMoviesPerPage*pageNumber-1) // avoids array out of bounds if at the end of array
     const pageOfMovies = movies.slice(startIndex, endIndex+1)
 
     if(pageOfMovies != null){
@@ -88,7 +88,7 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                     <div className="row d-flex justify-content-center mt-3 mr-5 mb-5 pb-3">
                         <Pagination className="mr-5 horizontal-center">
                             {
-                                movies.length <= 10?
+                                movies.length <= numMoviesPerPage?
                                 <>
                                     <Pagination.Prev disabled id="pagination-disabled"/>
                                     <Pagination.Next disabled id="pagination-disabled"/>
