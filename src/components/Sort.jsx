@@ -47,18 +47,24 @@ const sortMoviesByPopularity = (movies) => {
 
 const sortMoviesByDate = (movies) => {
     movies.sort((movie1, movie2) => {
-        let movie1Date = "release_date" in movie1? movie1.release_date : movie1.first_air_date
-        let movie2Date = "release_date" in movie2? movie2.release_date : movie2.first_air_date
-
-        movie1Date = stringToDate(movie1Date)
-        movie2Date = stringToDate(movie2Date)
-
-        if(movie1Date < movie2Date)
-            return 1
-        else if(movie1Date > movie2Date)
-            return -1
-        else
+        // in case either movie1 or movie2 is a person (e.g. actor or director), it can't be compared to other items
+        if("gender" in movie1 || "gender" in movie2) {
             return 0
+        }
+        else {
+            let movie1Date = "release_date" in movie1? movie1.release_date : movie1.first_air_date
+            let movie2Date = "release_date" in movie2? movie2.release_date : movie2.first_air_date
+
+            movie1Date = stringToDate(movie1Date)
+            movie2Date = stringToDate(movie2Date)
+
+            if(movie1Date < movie2Date)
+                return 1
+            else if(movie1Date > movie2Date)
+                return -1
+            else
+                return 0
+        }
     })
 }
 
