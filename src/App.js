@@ -153,7 +153,7 @@ function App() {
       {/* HEADER */}
       <div id="header" className='d-flex justify-content-between bg-dark-custom z-1'>
 
-        <Navbar expand="lg" variant="dark">
+        <Navbar expand="lg" variant="dark" className="pl-5">
           <Container>
             <Navbar.Brand href="/index.html" id='brand'>MyMovieQueue</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" id="navbar-hamburger-icon"/>
@@ -171,10 +171,12 @@ function App() {
           </Container>
         </Navbar>
 
-        <Searchbox searchValue={searchValue} setSearchValue={setSearchValue}/>
-
-        <Button variant="outline-warning" className="p-2 mr-3" id='login-btn'>Login</Button>
-        <Button variant="outline-warning" className="p-2" id='sign-up-btn'>Sign Up</Button>
+        <div className="d-flex justify-content-end pr-4 mr-5">
+          <Searchbox searchValue={searchValue} setSearchValue={setSearchValue}/>
+          <Button variant="outline-warning" className="p-2 mr-3 mt-3" id='login-btn'>Login</Button>
+          <Button variant="outline-warning" className="p-2 mt-3" id='sign-up-btn'>Sign Up</Button>
+        </div>
+        
       </div>
 
       {/* BODY */}
