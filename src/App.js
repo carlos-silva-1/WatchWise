@@ -148,10 +148,10 @@ function App() {
   }
 
   return (
-    <div className="container-fluid movie-app position-relative">
+    <div className="container-fluid position-relative">
 
       {/* HEADER */}
-      <div id="header" className='d-flex align-items-center mt-4 w-100 bg-dark-custom z-1'>
+      <div id="header" className='d-flex bg-dark-custom z-1'>
 
         <Navbar expand="lg" variant="dark">
           <Container>
