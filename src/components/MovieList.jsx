@@ -120,15 +120,15 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                             {
                                 movies.length <= numberMoviesPerPage?
                                 <>
-                                    <Pagination.Prev disabled id="pagination-disabled"/>
-                                    <Pagination.Next disabled id="pagination-disabled"/>
+                                    <Pagination.Prev id="pagination-disabled"/>
+                                    <Pagination.Next id="pagination-disabled"/>
                                 </>
                                 :
                                 <>
                                     {
                                         pageNumber === 1?
                                         <>
-                                            <Pagination.Prev disabled id="pagination"/>
+                                            <Pagination.Prev id="pagination-disabled"/>
                                         </>
                                         :
                                         <>
@@ -139,7 +139,7 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                                         listType === "mymoviequeue" &&
                                         endIndex + 1 >= movies.length?
                                         <>
-                                            <Pagination.Next disabled id="pagination" />
+                                            <Pagination.Next id="pagination-disabled" />
                                         </>
                                         :
                                         <>
