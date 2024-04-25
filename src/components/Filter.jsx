@@ -10,26 +10,8 @@ const Filter = ({ showMovies, showSeries, changeShowMovies, changeShowSeries, ge
                 {/* MEDIA TYPE */}
                 <Navbar expand="lg" variant="dark">
                     <h4 className="mr-3">Media Type </h4>
-                    {
-                        showMovies?
-                        <>
-                            <Form.Check className="mr-3" label="Movie" checked={true} onChange={changeShowMovies}/>
-                        </>
-                        :
-                        <>
-                            <Form.Check className="mr-3" label="Movie" onChange={changeShowMovies}/>
-                        </>
-                    }
-                    {
-                        showSeries?
-                        <>
-                            <Form.Check className="mr-3" label="Series" checked={true} onChange={changeShowSeries}/>
-                        </>
-                        :
-                        <>
-                            <Form.Check className="mr-3" label="Series" onChange={changeShowSeries}/>
-                        </>
-                    }
+                    <Form.Check className="mr-3" label="Movie" checked={showMovies} onChange={changeShowMovies}/>
+                    <Form.Check className="mr-3" label="Series" checked={showSeries} onChange={changeShowSeries}/>
                 </Navbar>
 
                 {/* GENRE */}
@@ -39,7 +21,7 @@ const Filter = ({ showMovies, showSeries, changeShowMovies, changeShowSeries, ge
                         {genres.genres.map( (genre, index) => (
                             <>
                                 {
-                                    unselectedGenres.some(unselectedGenre => genre.id === unselectedGenre)?
+                                    unselectedGenres.some(unselectedGenre => unselectedGenre === genre.id)?
                                     <>
                                         <Form.Check className="mr-3" type="switch" label={genre.name} checked={false} onChange={() => handleFilterGenre(unselectedGenres.filter(id => id !== genre.id))}/>
                                     </>
