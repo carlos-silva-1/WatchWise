@@ -151,7 +151,7 @@ function App() {
     <div className="container-fluid position-relative">
 
       {/* HEADER */}
-      <div id="header" className='d-flex bg-dark-custom z-1'>
+      <div id="header" className='d-flex justify-content-between bg-dark-custom z-1'>
 
         <Navbar expand="lg" variant="dark">
           <Container>
