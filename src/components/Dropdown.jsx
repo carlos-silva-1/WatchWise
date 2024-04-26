@@ -5,7 +5,7 @@ const Drop = ({ streamOptions }) => {
     const StreamOptions = Object.entries(streamOptions)
 
     return(
-        <Dropdown className="dropdown-btn">
+        <Dropdown>
             <Dropdown.Toggle variant="warning" id="dropdown-basic" className="dropdown-btn">
                 Stream
             </Dropdown.Toggle>

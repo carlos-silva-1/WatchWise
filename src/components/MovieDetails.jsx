@@ -45,7 +45,7 @@ const MovieDetails = ({ movie, details }) => {
                 <IMDB movie={movie}/>
         	</div>
 
-            <div className="row details-body mt-3">
+            <div className="row mt-3 details-body">
                 <div className="col-auto">
                     {
                         movie.poster_path != null?
@@ -154,7 +154,7 @@ const MovieDetails = ({ movie, details }) => {
                 // Only shows trailer if its a movie
                 "release_date" in movie?
                 <>
-                    <div className="row trailer-wrapper mt-4 mr-3 mb-5">
+                    <div className="row mt-4 mr-3 mb-5 trailer-wrapper">
                         <ReactPlayer className="react-player" width="80%" height="80%" url={trailerURL} controls={true} />
                     </div>
                 </>

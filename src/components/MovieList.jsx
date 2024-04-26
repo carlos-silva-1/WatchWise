@@ -50,7 +50,6 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
     }
 
     const updateNumberMoviesPerPageBasedOnViewportWidth = () => {
-        console.log('updateNumberMoviesPerPageBasedOnViewportWidth')
         if(viewportWidth >= 1785) 
             setNumberMoviesPerPage(5)
         else if(viewportWidth < 1785 && viewportWidth >= 1430)
@@ -66,7 +65,6 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
     // fetches next page from API if 'Next' pagination button is clicked
     useEffect(() => {
         if(shouldFetchNextPage) {
-            console.log("FETCHED")
             fetchNextPage()
             setShouldFetchNextPage(false)
         }
@@ -84,7 +82,6 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
     let viewportWidth
     window.addEventListener('resize', () => {
         viewportWidth = document.documentElement.clientWidth
-        console.log("Viewport width: " + viewportWidth)
         updateNumberMoviesPerPageBasedOnViewportWidth()
     });
 
