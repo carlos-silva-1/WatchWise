@@ -60,6 +60,7 @@ body {
 
 #header {
   position: fixed;
+  top: 0px;
   left: 0px;
   width: 100%;
 }
@@ -162,7 +163,6 @@ body {
   position: absolute;
   background: var(--primary-color);
   height: 42px;
-  transition: 0s;
   opacity: 0;
   font-size: 20px;
 }
@@ -197,7 +197,6 @@ body {
 
 .dropdown-btn {
   height: 42px;
-  transition: 0s;
 }
 
 .dropdown-btn:hover {
