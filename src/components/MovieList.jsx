@@ -50,15 +50,15 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
     }
 
     const updateNumberMoviesPerPageBasedOnViewportWidth = () => {
-        if(viewportWidth >= 1785) 
+        if(viewportWidth >= 1845) 
             setNumberMoviesPerPage(5)
-        else if(viewportWidth < 1785 && viewportWidth >= 1430)
+        else if(viewportWidth < 1845 && viewportWidth >= 1485)
             setNumberMoviesPerPage(4)
-        else if(viewportWidth < 1430 && viewportWidth >= 1060 ) 
+        else if(viewportWidth < 1485 && viewportWidth >= 1130 ) 
             setNumberMoviesPerPage(3)
-        else if(viewportWidth < 1060 && viewportWidth >= 730) 
+        else if(viewportWidth < 1130 && viewportWidth >= 770) 
             setNumberMoviesPerPage(2)
-        else if(viewportWidth < 730) 
+        else if(viewportWidth < 770) 
             setNumberMoviesPerPage(1)
     }
 
