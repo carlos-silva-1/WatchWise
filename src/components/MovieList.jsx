@@ -76,14 +76,18 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
             setShouldUpdateMovies(false)
     }, [shouldUpdateMovies])
 
-    updateMovies()
-    sortMovies()
-
-    let viewportWidth
+    let viewportWidth = window.innerWidth
     window.addEventListener('resize', () => {
         viewportWidth = document.documentElement.clientWidth
         updateNumberMoviesPerPageBasedOnViewportWidth()
     });
+
+    useEffect(() => {
+        updateNumberMoviesPerPageBasedOnViewportWidth()
+    }, [])
+
+    updateMovies()
+    sortMovies()
 
     const startIndex = pageNumber === 1? 0 : numberMoviesPerPage*(pageNumber-1) // avoids negative index if at the start of array
     const endIndex = (numberMoviesPerPage*pageNumber-1) > movies.length? movies.length-1 : (numberMoviesPerPage*pageNumber-1) // avoids array out of bounds if at the end of array
