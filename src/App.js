@@ -148,7 +148,7 @@ function App() {
   }
 
   return (
-    <div className="container-fluid position-relative">
+    <div className="position-relative">
 
       {/* HEADER */}
       <div id="header" className='d-flex justify-content-between bg-dark-custom z-1'>
@@ -194,11 +194,11 @@ function App() {
             <>
               {/* SEARCH RESULTS */}
               <div className="movie-queue">
-                <div className='row d-flex align-items-center'>
+                <div className='d-flex justify-content-center'>
                   <MovieListHeading heading='Search Results'/>
                 </div>
 
-                <div className="row">
+                <div className="d-flex justify-content-center">
                   <MovieList movies={movies} listType={"search"} searchValue={searchValue}
                   sortParameter={sortParameter} unselectedGenres={unselectedGenres}
                   showMovies={showMovies} showSeries={showSeries}
@@ -215,11 +215,11 @@ function App() {
                 (showMovies === true || showSeries === true)?
                 <>
                   <div className="movie-queue pb-5">
-                    <div className='row d-flex align-items-center'>
+                    <div className='d-flex justify-content-center'>
                       <MovieListHeading heading='My Movie Queue'/>
                     </div>
 
-                    <div className="row">
+                    <div className="d-flex justify-content-center">
                       <MovieList movies={favourites} listType={"mymoviequeue"}
                       sortParameter={sortParameter} unselectedGenres={unselectedGenres}
                       showMovies={showMovies} showSeries={showSeries}
@@ -238,11 +238,11 @@ function App() {
                 showMovies === true?
                 <>
                   <div className="movie-queue pb-5 mt-5">
-                    <div className='row d-flex align-items-center'>
+                    <div className='d-flex justify-content-center'>
                       <MovieListHeading heading='Popular Movies'/>
                     </div>
 
-                    <div className="row">
+                    <div className="d-flex justify-content-center">
                       <MovieList movies={popularMovies} listType={"movie"}
                       sortParameter={sortParameter} unselectedGenres={unselectedGenres}
                       showMovies={showMovies} showSeries={showSeries} 
@@ -261,11 +261,11 @@ function App() {
                 showSeries === true?
                 <>
                   <div className="movie-queue mt-5">
-                    <div className='row d-flex align-items-center'>
+                    <div className='d-flex justify-content-center'>
                       <MovieListHeading heading='Popular Series'/>
                     </div>
 
-                    <div className="row">
+                    <div className="d-flex justify-content-center">
                       <MovieList movies={popularSeries} listType={"tv"}
                       sortParameter={sortParameter} unselectedGenres={unselectedGenres}
                       showMovies={showMovies} showSeries={showSeries}
