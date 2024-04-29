@@ -3,7 +3,7 @@ import React from 'react'
 const MovieListHeading = ({ heading }) => {
     return(
         <div>
-            <h1>{heading}</h1>
+            <p className="list-heading">{heading}</p>
         </div>
     )
 }
