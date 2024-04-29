@@ -54,6 +54,7 @@ body {
   color: var(--text-light-color);
   background: var(--background-light-color);
   font-family:Ubuntu, "times new roman", times, roman, serif;
+  font-size: 22px;
 }
 
 /********************************** HEADER **********************************/
@@ -67,17 +68,15 @@ body {
 
 #brand {
   color: var(--primary-color);
-  font-size: 36px;
+  font-size: 1.5em;
 }
 
 #filter-dropdown {
   color: var(--text-light-color);
-  font-size: 22px;
 }
 
 #sort-dropdown {
   color: var(--text-light-color);
-  font-size: 22px;
 }
 
 #filter-dropdown:hover,
@@ -87,8 +86,7 @@ body {
 
 .searchbox {
   position: relative;
-  right: 300px;
-  width: 400px;
+  width: 20vw;
 }
 
 .searchbox:focus {
@@ -96,18 +94,22 @@ body {
 }
 
 #login-btn {
-  height: 48px;
+  height: 2.5em;
 }
 
 #sign-up-btn {
-  height: 48px;
+  height: 2.5em;
 }
 
 /********************************* MOVIES LIST **********************************/
 
+.list-heading {
+  font-size: 1.5em;
+}
+
 .movie-queue {
   position: relative;
-  top: 100px;
+  top: 10vh;
 }
 
 #pagination {
@@ -141,7 +143,6 @@ body {
 
 .image-container > img {
   border: 1px solid var(--primary-color);
-  height: 500px;
   width: 330px;
 }
 
@@ -162,13 +163,13 @@ body {
 .overlay {
   position: absolute;
   background: var(--primary-color);
-  height: 42px;
+  height: 2em;
   opacity: 0;
-  font-size: 20px;
+  font-size: 0.9em;
 }
 
 .favourite-overlay {
-  width: 42px;
+  width: 2em;
 }
 
 .favourite-overlay:hover {
@@ -196,7 +197,7 @@ body {
 }
 
 .dropdown-btn {
-  height: 42px;
+  height: 2.5em;
 }
 
 .dropdown-btn:hover {
@@ -219,21 +220,12 @@ body {
 
 /********************************* MOVIE DETAILS *********************************/
 
-.details-title {
-  margin-top: 100px;
-  margin-left: 0px;
-}
-
 #imdb-btn {
-  height: 44px;
+  height: 2.5em;
 }
 
 .details-poster {
   border: 1px solid var(--primary-color);
-}
-
-.details-body {
-  margin-top: -20px;
 }
 
 .trailer-wrapper {
@@ -247,144 +239,89 @@ body {
   border: 1px solid var(--primary-color);
   position: absolute;
   top: 0;
-  left: 14px;
+  left: 1%;
 }
 
-/********************************* MAX-WIDTH 1300PX *********************************/
+/********************************* MEDIA QUERIES FOR TABLETS - MAX-WIDTH: 1023 PX *********************************/
 
-@media (max-width: 1300px) {
+@media (max-width: 1023px) {
 
-  /* HEADER */
-
-  .header{
-    height: 160px;
+  body {
+    font-size: 20px;
   }
 
+  .list-heading {
+    font-size: 1.4em;
+  }
+
+  .image-container > img {
+    width: 270px;
+  }
+
+  .favourite-overlay {
+    width: 2.2em;
+  }
+}
+
+/********************************* MEDIA QUERIES FOR MOBILE - MAX-WIDTH: 767 PX *********************************/
+
+@media (max-width: 767px) {
+  #header {
+    position: fixed;
+    height: 8em;
+  }
+  
   #brand {
-    position:relative;
-    top: -40px;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
   }
 
-  #movie-nav-item, 
-  #series-nav-item, 
-  #my-movie-queue-nav-item {
-    top: -40px;
+  #navbar-hamburger-icon {
+    position: fixed;
+    top: 53px;
+    left: 33%;
+    transform: translate(-50%, 0%);
   }
 
   .searchbox {
-    top: 90px;
-    left: 80px;
-    width: calc(var(--screen-width) - 140px);
-  }
-
-  /* MOVIES LIST */
-
-  .movie-queue {
-    top: 180px;
-  }
-
-  /* DETAILS */
-
-  .details-title {
-    margin-top: 180px;
-  }
-
-}
-
-/********************************* MAX-WIDTH 978PX *********************************/
-
-@media (max-width: 978px) {
-
-  /* HEADER */
-
-  #brand {
     position: fixed;
-    left: 94px;
-    top: 7px;
-  }
-
-  #movie-nav-item, 
-  #series-nav-item, 
-  #my-movie-queue-nav-item {
-    font-size: 18px;
-    left: 18%;
-    width: 80px;
-  }
-
-  #navbar-hamburger-icon{
-    position: fixed;
-    left: 368px;
-    top: 24px;
-  }
-
-  #basic-navbar-nav {
-    position: relative;
-    top: 20px;
-    left: 410px;
-    z-index: 2;
-    background: var(--background-dark-color);
-    padding-top: 50px;
-    padding-right: 30px;
-  }
-
-}
-
-/********************************* MAX-WIDTH 646PX *********************************/
-
-@media (max-width: 646px) {
-
-  /* HEADER */
-
-  .header {
-    height: 190px;
-  }
-
-  #brand {
-    position: fixed;
-    top: 0px;
+    top: 85px;
     left: 50%;
-    transform: translateX(-50%);
-  }
-
-  #navbar-hamburger-icon{
-    position: fixed;
-    top: 70px;
-    left: 33%;
-    height: 40px;
-    transform: translateX(-50%);
-  }
-
-  #basic-navbar-nav {
-    top: 60px;
-    left: 5px;
+    transform: translate(-50%, 0%);
+    width: 50%;
   }
 
   #login-btn {
-    top: 68px;
-    left: calc(66% - 70px);
-    transform: translateX(-50%);
+    position: fixed;
+    top: 36px;
+    left: 45%;
+    transform: translate(-50%, 0%);
   }
 
   #sign-up-btn {
-    top: 68px;
+    position: fixed;
+    top: 36px;
     left: 66%;
-    transform: translateX(-50%);
+    transform: translate(-50%, 0%);
   }
 
-  .searchbox {
-    top: 130px;
+  .image-container > img {
+    width: 200px;
   }
 
-  /* MOVIES LIST */
+  .overlay {
+    font-size: 0.8em;
+  }
+
+  .favourite-overlay {
+    width: 2.6em;
+  }
 
   .movie-queue {
-    top: 200px;
+    position: relative;
+    top: 120px;
+    margin-bottom: -50px;
   }
-
-  /* DETAILS */
-
-  .details-title {
-    margin-top: 200px;
-  }
-
 }
