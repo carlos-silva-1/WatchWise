@@ -173,115 +173,116 @@ function App() {
 
         <div className="d-flex justify-content-end pr-4 mr-5">
           <Searchbox searchValue={searchValue} setSearchValue={setSearchValue}/>
-          <Button variant="outline-warning" className="p-2 mr-3 mt-3" id='login-btn'>Login</Button>
-          <Button variant="outline-warning" className="p-2 mt-3" id='sign-up-btn'>Sign Up</Button>
+          <Button variant="outline-warning" className="m-3" id='login-btn'>Login</Button>
+          <Button variant="outline-warning" className="mt-3" id='sign-up-btn'>Sign Up</Button>
         </div>
-        
       </div>
 
-      {/* BODY */}
-      {
-        // If a movie has been clicked, show its details
-        movieHasBeenSelected === true?
-        <>
-          <MovieDetails movie={selectedMovie} details={selectedMovieDetails}/>
-        </>
-        :
-        <>
-          {
-            // IF A SEARCH IS BEING MADE, ONLY SHOW THE SEARCH RESULTS. ELSE SHOW MOVIE QUEUES
-            searchValue !== ''?
-            <>
-              {/* SEARCH RESULTS */}
-              <div className="movie-queue">
-                <div className='d-flex justify-content-center'>
-                  <MovieListHeading heading='Search Results'/>
+      <div>
+        {/* BODY */}
+        {
+          // If a movie has been clicked, show its details
+          movieHasBeenSelected === true?
+          <>
+            <MovieDetails movie={selectedMovie} details={selectedMovieDetails}/>
+          </>
+          :
+          <>
+            {
+              // IF A SEARCH IS BEING MADE, ONLY SHOW THE SEARCH RESULTS. ELSE SHOW MOVIE QUEUES
+              searchValue !== ''?
+              <>
+                {/* SEARCH RESULTS */}
+                <div className="movie-queue">
+                  <div className='d-flex justify-content-center'>
+                    <MovieListHeading heading='Search Results'/>
+                  </div>
+
+                  <div className="d-flex justify-content-center">
+                    <MovieList movies={movies} listType={"search"} searchValue={searchValue}
+                    sortParameter={sortParameter} unselectedGenres={unselectedGenres}
+                    showMovies={showMovies} showSeries={showSeries}
+                    handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
+                    handleMovieClick={showMovieDetails} />
+                  </div>
                 </div>
+              </>
+              :
+              <>
+                {/* MY MOVIE QUEUE */}
+                {
+                  favourites != null && favourites.length !== 0 && 
+                  (showMovies === true || showSeries === true)?
+                  <>
+                    <div className="movie-queue first-movie-list pb-5 mt-5">
+                      <div className='d-flex justify-content-center'>
+                        <MovieListHeading heading='My Movie Queue'/>
+                      </div>
 
-                <div className="d-flex justify-content-center">
-                  <MovieList movies={movies} listType={"search"} searchValue={searchValue}
-                  sortParameter={sortParameter} unselectedGenres={unselectedGenres}
-                  showMovies={showMovies} showSeries={showSeries}
-                  handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                  handleMovieClick={showMovieDetails} />
-                </div>
-              </div>
-            </>
-            :
-            <>
-              {/* MY MOVIE QUEUE */}
-              {
-                favourites != null && favourites.length !== 0 && 
-                (showMovies === true || showSeries === true)?
-                <>
-                  <div className="movie-queue pb-5">
-                    <div className='d-flex justify-content-center'>
-                      <MovieListHeading heading='My Movie Queue'/>
+                      <div className="d-flex justify-content-center">
+                        <MovieList movies={favourites} listType={"mymoviequeue"}
+                        sortParameter={sortParameter} unselectedGenres={unselectedGenres}
+                        showMovies={showMovies} showSeries={showSeries}
+                        handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites} 
+                        handleMovieClick={showMovieDetails}/>
+                      </div>
                     </div>
+                  </>
+                  :
+                  <>
+                  </>
+                }
 
-                    <div className="d-flex justify-content-center">
-                      <MovieList movies={favourites} listType={"mymoviequeue"}
-                      sortParameter={sortParameter} unselectedGenres={unselectedGenres}
-                      showMovies={showMovies} showSeries={showSeries}
-                      handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites} 
-                      handleMovieClick={showMovieDetails}/>
-                    </div>
-                  </div>
-                </>
-                :
-                <>
-                </>
-              }
+                {/* POPULAR MOVIES QUEUE */}
+                {
+                  showMovies === true?
+                  <>
+                    <div className="movie-queue pb-5 mt-5">
+                      <div className='d-flex justify-content-center'>
+                        <MovieListHeading heading='Popular Movies'/>
+                      </div>
 
-              {/* POPULAR MOVIES QUEUE */}
-              {
-                showMovies === true?
-                <>
-                  <div className="movie-queue pb-5 mt-5">
-                    <div className='d-flex justify-content-center'>
-                      <MovieListHeading heading='Popular Movies'/>
+                      <div className="d-flex justify-content-center">
+                        <MovieList movies={popularMovies} listType={"movie"}
+                        sortParameter={sortParameter} unselectedGenres={unselectedGenres}
+                        showMovies={showMovies} showSeries={showSeries} 
+                        handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites} 
+                        handleMovieClick={showMovieDetails}/>
+                      </div>
                     </div>
+                  </>
+                  :
+                  <>
+                  </>
+                }
 
-                    <div className="d-flex justify-content-center">
-                      <MovieList movies={popularMovies} listType={"movie"}
-                      sortParameter={sortParameter} unselectedGenres={unselectedGenres}
-                      showMovies={showMovies} showSeries={showSeries} 
-                      handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites} 
-                      handleMovieClick={showMovieDetails}/>
-                    </div>
-                  </div>
-                </>
-                :
-                <>
-                </>
-              }
+                {/* POPULAR SERIES QUEUE */}
+                {
+                  showSeries === true?
+                  <>
+                    <div className="movie-queue mt-5">
+                      <div className='d-flex justify-content-center'>
+                        <MovieListHeading heading='Popular Series'/>
+                      </div>
 
-              {/* POPULAR SERIES QUEUE */}
-              {
-                showSeries === true?
-                <>
-                  <div className="movie-queue mt-5">
-                    <div className='d-flex justify-content-center'>
-                      <MovieListHeading heading='Popular Series'/>
+                      <div className="d-flex justify-content-center">
+                        <MovieList movies={popularSeries} listType={"tv"}
+                        sortParameter={sortParameter} unselectedGenres={unselectedGenres}
+                        showMovies={showMovies} showSeries={showSeries}
+                        handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
+                        handleMovieClick={showMovieDetails}/>
+                      </div>
                     </div>
-
-                    <div className="d-flex justify-content-center">
-                      <MovieList movies={popularSeries} listType={"tv"}
-                      sortParameter={sortParameter} unselectedGenres={unselectedGenres}
-                      showMovies={showMovies} showSeries={showSeries}
-                      handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
-                      handleMovieClick={showMovieDetails}/>
-                    </div>
-                  </div>
-                </>
-                :
-                <>
-                </>
-              }
-            </>
-          }
-        </>
-      }
+                  </>
+                  :
+                  <>
+                  </>
+                }
+              </>
+            }
+          </>
+        }
+      </div>
     </div>
   );
 }
