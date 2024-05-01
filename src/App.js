@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 import MovieList from './components/MovieList';
@@ -15,6 +15,9 @@ import Sort from './components/Sort';
 import genres from './resources/genres.json';
 import { searchMovie, fetchPopular, getDetails } from './api/api_handler'
 
+import Overlay from 'react-bootstrap/Overlay';
+import Tooltip from 'react-bootstrap/Tooltip';
+
 function App() {
   const [movies, setMovies] = useState([])
   const [popularMovies, setPopularMovies] = useState([])
@@ -28,6 +31,10 @@ function App() {
   const [showSeries, setShowSeries] = useState(true)
   const [unselectedGenres, setUnselectedGenres] = useState([])
   const [sortParameter, setSortParameter] = useState('')
+  const [showFilter, setShowFilter] = useState(false)
+  const [showSort, setShowSort] = useState(false)
+  const filterRef = useRef(null)
+  const sortRef = useRef(null)
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -152,20 +159,34 @@ function App() {
 
       {/* HEADER */}
       <div id="header" className='d-flex justify-content-between bg-dark-custom z-1'>
-
         <Navbar expand="lg" variant="dark" className="pl-5">
           <Container>
             <Navbar.Brand href="/index.html" id='brand'>MyMovieQueue</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" id="navbar-hamburger-icon"/>
+            <Navbar.Toggle id="navbar-hamburger-icon"/>
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav>
-                <NavDropdown title="Filter" id="filter-dropdown" className="pt-2 pr-4 pl-4">
-                  <Filter showMovies={showMovies} showSeries={showSeries} changeShowMovies={handleMoviesCheckboxChange} changeShowSeries={handleSeriesCheckboxChange}
-                  genres={genres} unselectedGenres={unselectedGenres} handleFilterGenre={handleFilterGenre}/>
-                </NavDropdown>
-                <NavDropdown title="Sort" id="sort-dropdown" className="pt-2">
-                  <Sort sortParameter={sortParameter} handleSortClick={handleSortClick}/>
-                </NavDropdown>
+                <Nav.Item className="mr-2">
+                  <Button id="filter-btn" variant="outline-warning" ref={filterRef} onClick={() => setShowFilter(!showFilter)}>Filter &#x25BC;</Button>
+                  <Overlay target={filterRef.current} show={showFilter} placement="bottom">
+                    {(props) => (
+                      <Tooltip id="tooltip-overlay" {...props}>
+                        <Filter showMovies={showMovies} showSeries={showSeries} changeShowMovies={handleMoviesCheckboxChange} changeShowSeries={handleSeriesCheckboxChange}
+                          genres={genres} unselectedGenres={unselectedGenres} handleFilterGenre={handleFilterGenre}/>
+                      </Tooltip>
+                    )}
+                  </Overlay>
+                </Nav.Item>
+
+                <Nav.Item>
+                  <Button id="sort-btn" variant="outline-warning" ref={sortRef} onClick={() => setShowSort(!showSort)}>Sort &#x25BC;</Button>
+                  <Overlay target={sortRef.current} show={showSort} placement="bottom">
+                    {(props) => (
+                      <Tooltip id="tooltip-overlay" {...props}>
+                        <Sort sortParameter={sortParameter} handleSortClick={handleSortClick}/>
+                      </Tooltip>
+                    )}
+                  </Overlay>
+                </Nav.Item>
               </Nav>
             </Navbar.Collapse>
           </Container>
