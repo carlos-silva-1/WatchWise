@@ -71,17 +71,20 @@ body {
   font-size: 1.5em;
 }
 
-#filter-dropdown {
-  color: var(--text-light-color);
+#tooltip-overlay {
+  border: 1px solid var(--primary-color);
+  opacity: 1;
 }
 
-#sort-dropdown {
-  color: var(--text-light-color);
+#tooltip-overlay > div {
+  background-color: var(--background-dark-color);
+  margin-bottom: -6px;
+  margin-top: -6px;
 }
 
-#filter-dropdown:hover,
-#sort-dropdown:hover {
-  color: var(--secondary-color);
+.filter-contents {
+  width: 200px;
+  visibility: none;
 }
 
 .searchbox {
@@ -239,7 +242,8 @@ body {
   border: 1px solid var(--primary-color);
   position: absolute;
   top: 0;
-  left: 1%;
+  left: 50%;
+  transform: translate(-50%, 0%);
 }
 
 /********************************* MEDIA QUERIES FOR TABLETS - MAX-WIDTH: 1023 PX *********************************/
@@ -248,6 +252,17 @@ body {
 
   body {
     font-size: 20px;
+  }
+
+  #navbar-hamburger-icon {
+    position: fixed;
+    top: 16px;
+    left: 40%;
+    transform: translate(-50%, 0%);
+  }
+
+  #filter-btn {
+    margin-bottom: 10px;
   }
 
   .list-heading {
@@ -260,6 +275,14 @@ body {
 
   .favourite-overlay {
     width: 2.2em;
+  }
+
+  #sign-up-btn {
+    margin-right: -24px;
+  }
+
+  .details-poster {
+    width: 400px;
   }
 }
 
@@ -285,12 +308,20 @@ body {
     transform: translate(-50%, 0%);
   }
 
+  #filter-btn, 
+  #sort-btn {
+    position: relative;
+    right: 26px;
+    top: 20px;
+  }
+
   .searchbox {
     position: fixed;
     top: 85px;
     left: 50%;
     transform: translate(-50%, 0%);
     width: 50%;
+    z-index: -1;
   }
 
   #login-btn {
@@ -323,5 +354,14 @@ body {
     position: relative;
     top: 120px;
     margin-bottom: -50px;
+  }
+
+  .details {
+    position: relative;
+    top: 100px;
+  }
+
+  .details-poster {
+    width: 200px;
   }
 }
