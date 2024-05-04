@@ -6,46 +6,42 @@ import { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, 
 import { searchMovie, fetchPopular } from './../api/api_handler'
 
 const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavouritesClick, showMovies, showSeries, unselectedGenres, sortParameter, listType, searchValue }) => {
+    const [moviesLocalState, setMoviesLocalState] = useState(movies)
     const [pageNumber, setPageNumber] = useState(1)
     const [shouldFetchNextPage, setShouldFetchNextPage] = useState(false)
-    const [shouldUpdateMovies, setShouldUpdateMovies] = useState(false)
     const [numberMoviesPerPage, setNumberMoviesPerPage] = useState(5)
     const [numberOfFetches, setNumberOfFetches] = useState(1)
-    const updatedMovies = useRef()
 
     const fetchNextPage = async () => {
         if(listType === "search") {
             let searchResults = await searchMovie(searchValue, pageNumber)
-            updatedMovies.current = movies.concat(searchResults)
+            let newMovies = moviesLocalState.concat(searchResults)
+            setMoviesLocalState(newMovies)
         }
         else if (listType === "movie") {
             let fetchedPopularMovies = await fetchPopular("movie", pageNumber)
-            updatedMovies.current = movies.concat(fetchedPopularMovies)
-            localStorage.setItem('react-movie-app-popular-movies', JSON.stringify(updatedMovies.current))
+            let newMovies = moviesLocalState.concat(fetchedPopularMovies)
+            setMoviesLocalState(newMovies)
+            localStorage.setItem('react-movie-app-popular-movies', JSON.stringify(newMovies))
         }
         else if (listType === "tv") {
             let fetchedPopularSeries = await fetchPopular("tv", pageNumber)
-            updatedMovies.current = movies.concat(fetchedPopularSeries)
-            localStorage.setItem('react-movie-app-popular-series', JSON.stringify(updatedMovies.current))
+            let newMovies = moviesLocalState.concat(fetchedPopularSeries)
+            setMoviesLocalState(newMovies)
+            localStorage.setItem('react-movie-app-popular-series', JSON.stringify(newMovies))
         }
-        setShouldUpdateMovies(true)
-    }
-
-    const updateMovies = () => {
-        if(updatedMovies.current != null)
-            movies = updatedMovies.current
     }
 
     const sortMovies = () => {
-        if(movies != null) {
+        if(moviesLocalState != null) {
             if(sortParameter.toLowerCase() === "alphabetically")
-                sortMoviesAlphabetically(movies)
+                sortMoviesAlphabetically(moviesLocalState)
             else if(sortParameter.toLowerCase() === "ranking")
-                sortMoviesByRanking(movies)
+                sortMoviesByRanking(moviesLocalState)
             else if(sortParameter.toLowerCase() === "popularity")
-                sortMoviesByPopularity(movies)
+                sortMoviesByPopularity(moviesLocalState)
             else if(sortParameter.toLowerCase() === "release date")
-                sortMoviesByDate(movies)
+                sortMoviesByDate(moviesLocalState)
         }
     }
 
@@ -70,12 +66,6 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
         }
     }, [shouldFetchNextPage])
 
-    // rerenders the component so that 'movies' can be updated with items in next pages that were recently fetched
-    useEffect(() => {
-        if(shouldUpdateMovies === true)
-            setShouldUpdateMovies(false)
-    }, [shouldUpdateMovies])
-
     let viewportWidth = window.innerWidth
     window.addEventListener('resize', () => {
         viewportWidth = document.documentElement.clientWidth
@@ -86,12 +76,15 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
         updateNumberMoviesPerPageBasedOnViewportWidth()
     }, [])
 
-    updateMovies()
+    useEffect(() => {
+        setMoviesLocalState(movies)
+    }, [movies])
+
     sortMovies()
 
     const startIndex = pageNumber === 1? 0 : numberMoviesPerPage*(pageNumber-1) // avoids negative index if at the start of array
-    const endIndex = (numberMoviesPerPage*pageNumber-1) > movies.length? movies.length-1 : (numberMoviesPerPage*pageNumber-1) // avoids array out of bounds if at the end of array
-    const pageOfMovies = movies.slice(startIndex, endIndex+1)
+    const endIndex = (numberMoviesPerPage*pageNumber-1) > moviesLocalState.length? moviesLocalState.length-1 : (numberMoviesPerPage*pageNumber-1) // avoids array out of bounds if at the end of array
+    const pageOfMovies = moviesLocalState.slice(startIndex, endIndex+1)
 
     if(pageOfMovies != null){
         return(
@@ -119,7 +112,7 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                     <div className="row d-flex justify-content-center mt-3 mr-5 mb-5 pb-3">
                         <Pagination className="mr-5 horizontal-center">
                             {
-                                movies.length <= numberMoviesPerPage?
+                                moviesLocalState.length <= numberMoviesPerPage?
                                 <>
                                     <Pagination.Prev id="pagination-disabled"/>
                                     <Pagination.Next id="pagination-disabled"/>
@@ -138,7 +131,7 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                                     }
                                     {
                                         listType === "mymoviequeue" &&
-                                        endIndex + 1 >= movies.length?
+                                        endIndex + 1 >= moviesLocalState.length?
                                         <>
                                             <Pagination.Next id="pagination-disabled" />
                                         </>
@@ -149,6 +142,7 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                                                     () => {
                                                         let newPageNumber = pageNumber + 1 // used for the next if conditional because the value of the state 'pageNumber' updates asynchronously
                                                         setPageNumber(newPageNumber)
+                                                        // 20 is the number of items fetched in any single fetch
                                                         if((newPageNumber * numberMoviesPerPage) / (20 * numberOfFetches) > 1) {
                                                             setShouldFetchNextPage(true)
                                                             setNumberOfFetches(numberOfFetches + 1)
