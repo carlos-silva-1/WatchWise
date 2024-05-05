@@ -9,6 +9,7 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
     const [moviesLocalState, setMoviesLocalState] = useState(movies)
     const [pageNumber, setPageNumber] = useState(1)
     const [shouldFetchNextPage, setShouldFetchNextPage] = useState(false)
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth)
     const [numberMoviesPerPage, setNumberMoviesPerPage] = useState(5)
     const [numberOfFetches, setNumberOfFetches] = useState(1)
 
@@ -46,17 +47,33 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
     }
 
     const updateNumberMoviesPerPageBasedOnViewportWidth = () => {
-        if(viewportWidth >= 1845) 
+        console.log(`updateNumberMoviesPerPageBasedOnViewportWidth - ${windowWidth}`)
+        if(windowWidth >= 1845) 
             setNumberMoviesPerPage(5)
-        else if(viewportWidth < 1845 && viewportWidth >= 1485)
+        else if(windowWidth < 1845 && windowWidth >= 1485)
             setNumberMoviesPerPage(4)
-        else if(viewportWidth < 1485 && viewportWidth >= 1150 ) 
+        else if(windowWidth < 1485 && windowWidth >= 1150 ) 
             setNumberMoviesPerPage(3)
-        else if(viewportWidth < 1150 && viewportWidth >= 770) 
+        else if(windowWidth < 1150 && windowWidth >= 770) 
             setNumberMoviesPerPage(2)
-        else if(viewportWidth < 770) 
+        else if(windowWidth < 770) 
             setNumberMoviesPerPage(1)
     }
+
+    const handleResize = () => {
+        setWindowWidth(window.innerWidth)
+    }
+
+    useEffect(() => {
+        window.addEventListener('resize', handleResize)
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
+
+    useEffect(() => {
+        updateNumberMoviesPerPageBasedOnViewportWidth()
+    }, [windowWidth])
 
     // fetches next page from API if 'Next' pagination button is clicked
     useEffect(() => {
@@ -65,16 +82,6 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
             setShouldFetchNextPage(false)
         }
     }, [shouldFetchNextPage])
-
-    let viewportWidth = window.innerWidth
-    window.addEventListener('resize', () => {
-        viewportWidth = document.documentElement.clientWidth
-        updateNumberMoviesPerPageBasedOnViewportWidth()
-    });
-
-    useEffect(() => {
-        updateNumberMoviesPerPageBasedOnViewportWidth()
-    }, [])
 
     useEffect(() => {
         setMoviesLocalState(movies)
