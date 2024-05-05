@@ -8,13 +8,11 @@ import MovieDetails from './components/MovieDetails';
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
 import Filter from './components/Filter';
 import Sort from './components/Sort';
 import genres from './resources/genres.json';
 import { searchMovie, fetchPopular, getDetails } from './api/api_handler'
-
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 
