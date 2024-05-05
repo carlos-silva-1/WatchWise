@@ -126,7 +126,7 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                                         </>
                                         :
                                         <>
-                                            <Pagination.Prev id="pagination" onClick={() => {setPageNumber(pageNumber - 1)}}/>
+                                            <Pagination.Prev id="pagination" onClick={() => {setPageNumber(prevPageNumber => prevPageNumber - 1)}}/>
                                         </>
                                     }
                                     {
@@ -140,12 +140,11 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                                             <Pagination.Next id="pagination" 
                                                 onClick={
                                                     () => {
-                                                        let newPageNumber = pageNumber + 1 // used for the next if conditional because the value of the state 'pageNumber' updates asynchronously
-                                                        setPageNumber(newPageNumber)
+                                                        setPageNumber(prevPageNumber => prevPageNumber + 1)
                                                         // 20 is the number of items fetched in any single fetch
-                                                        if((newPageNumber * numberMoviesPerPage) / (20 * numberOfFetches) > 1) {
+                                                        if(((pageNumber+1) * numberMoviesPerPage) / (20 * numberOfFetches) > 1) {
                                                             setShouldFetchNextPage(true)
-                                                            setNumberOfFetches(numberOfFetches + 1)
+                                                            setNumberOfFetches(prevNumberOfFetches => prevNumberOfFetches + 1)
                                                         }
                                                     }
                                                 }
