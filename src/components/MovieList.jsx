@@ -47,7 +47,6 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
     }
 
     const updateNumberMoviesPerPageBasedOnViewportWidth = () => {
-        console.log(`updateNumberMoviesPerPageBasedOnViewportWidth - ${windowWidth}`)
         if(windowWidth >= 1845) 
             setNumberMoviesPerPage(5)
         else if(windowWidth < 1845 && windowWidth >= 1485)
