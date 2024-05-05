@@ -17,7 +17,7 @@ import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 
 function App() {
-  const [movies, setMovies] = useState([])
+  const [searchResults, setSearchResults] = useState([])
   const [popularMovies, setPopularMovies] = useState([])
   const [popularSeries, setPopularSeries] = useState([])
   const [favourites, setFavourites] = useState([])
@@ -35,12 +35,12 @@ function App() {
   const sortRef = useRef(null)
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      const searchResults = await searchMovie(searchValue)
-      setMovies(searchResults)
+    const fetchSearchResults = async () => {
+      const fetchedMovies = await searchMovie(searchValue)
+      setSearchResults(fetchedMovies)
     }
 
-    fetchMovies()
+    fetchSearchResults()
   }, [searchValue])
 
   useEffect(() => {
@@ -218,7 +218,7 @@ function App() {
                   </div>
 
                   <div className="d-flex justify-content-center">
-                    <MovieList movies={movies} listType={"search"} searchValue={searchValue}
+                    <MovieList movies={searchResults} listType={"search"} searchValue={searchValue}
                     sortParameter={sortParameter} unselectedGenres={unselectedGenres}
                     showMovies={showMovies} showSeries={showSeries}
                     handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
