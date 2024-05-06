@@ -15,6 +15,7 @@ import genres from './resources/genres.json';
 import { searchMovie, fetchPopular, getDetails } from './api/api_handler'
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
+import useLocalStorage from './hooks/useLocalStorage'
 
 function App() {
   const [searchResults, setSearchResults] = useState([])
@@ -33,6 +34,11 @@ function App() {
   const [showSort, setShowSort] = useState(false)
   const filterRef = useRef(null)
   const sortRef = useRef(null)
+  
+  const [popularMoviesLocalStorage, setPopularMoviesLocalStorage] = useLocalStorage('popular-movies', [])
+  const [popularSeriesLocalStorage, setPopularSeriesLocalStorage] = useLocalStorage('popular-series', [])
+  const [favouritesLocalStorage, setFavouritesLocalStorage] = useLocalStorage('favourites', [])
+  const [lastUpdateDate, setLastUpdateDate] = useLocalStorage('last-update-date', new Date(1971, 1, 1))
 
   useEffect(() => {
     const fetchSearchResults = async () => {
@@ -44,11 +50,10 @@ function App() {
   }, [searchValue])
 
   useEffect(() => {
-    getFavouriteMovies()
+    setFavourites(favouritesLocalStorage)
   }, [])
 
   useEffect(() => { // Updates popular movies/series once per day
-    const lastUpdateDate = localStorage.getItem('lastUpdateDate');
     const currentDate = new Date().toLocaleDateString();
 
     const fetchPopularMoviesAndSeries = async () => {
@@ -56,32 +61,23 @@ function App() {
       const fetchedSeries = await fetchPopular("tv")
       setPopularMovies(fetchedMovies)
       setPopularSeries(fetchedSeries)
-      localStorage.setItem('react-movie-app-popular-movies', JSON.stringify(fetchedMovies))
-      localStorage.setItem('react-movie-app-popular-series', JSON.stringify(fetchedSeries))
-      localStorage.setItem('lastUpdateDate', currentDate);
+      setPopularMoviesLocalStorage(fetchedMovies)
+      setPopularSeriesLocalStorage(fetchedSeries)
+      setLastUpdateDate(currentDate)
     }
     
     if (lastUpdateDate !== currentDate) {
       fetchPopularMoviesAndSeries()
     }
     else {
-      getPopularMovies()
-      getPopularSeries()
+      setPopularMovies(popularMoviesLocalStorage)
+      setPopularSeries(popularSeriesLocalStorage)
     }
   }, []);
 
-  const getFavouriteMovies = () => {
-    const favouriteList = JSON.parse(localStorage.getItem('react-movie-app-favourites'))
-    setFavourites(favouriteList)
-  }
-
-  const saveFavouritesToLocalStorage = (items) => {
-    localStorage.setItem('react-movie-app-favourites', JSON.stringify(items))
-  }
-
   const handleFavouriteMovie = async (movie) => {
     let favouriteMoviesIDs = []
-    if(favourites !== null)
+    if(favourites != null)
       favouriteMoviesIDs = favourites.map(obj => obj.id);
     
     if(favouriteMoviesIDs.includes(movie.id)) {
@@ -101,7 +97,7 @@ function App() {
       newFavouriteList = [movie]
 
     setFavourites(newFavouriteList)
-    saveFavouritesToLocalStorage(newFavouriteList)
+    setFavouritesLocalStorage(newFavouriteList)
   }
 
   const removeFavouriteMovie = (movie) => {
@@ -109,17 +105,7 @@ function App() {
       favourite.id !== movie.id
     ))
     setFavourites(newFavouriteList)
-    saveFavouritesToLocalStorage(newFavouriteList)
-  }
-
-  const getPopularMovies = () => {
-    const popularMoviesList = JSON.parse(localStorage.getItem('react-movie-app-popular-movies'))
-    setPopularMovies(popularMoviesList)
-  }
-
-  const getPopularSeries = () => {
-    const popularSeriesList = JSON.parse(localStorage.getItem('react-movie-app-popular-series'))
-    setPopularSeries(popularSeriesList)
+    setFavouritesLocalStorage(newFavouriteList)
   }
 
   const showMovieDetails = async (movie) => {
@@ -128,28 +114,6 @@ function App() {
     setSelectedMovie(movie)
     setSelectedMovieDetails(details)
     setMovieHasBeenSelected(true)
-  }
-
-  const handleMoviesCheckboxChange = () => {
-    if(showMovies)
-      setShowMovies(false)
-    else
-      setShowMovies(true)
-  }
-
-  const handleSeriesCheckboxChange = () => {
-    if(showSeries)
-      setShowSeries(false)
-    else
-      setShowSeries(true)
-  }
-
-  const handleFilterGenre = (unselectedGenresArray) => {
-    setUnselectedGenres(unselectedGenresArray)
-  }
-
-  const handleSortClick = (selectedSortParameter) => {
-    setSortParameter(selectedSortParameter)
   }
 
   return (
@@ -168,8 +132,8 @@ function App() {
                   <Overlay target={filterRef.current} show={showFilter} placement="bottom">
                     {(props) => (
                       <Tooltip id="tooltip-overlay" {...props}>
-                        <Filter showMovies={showMovies} showSeries={showSeries} changeShowMovies={handleMoviesCheckboxChange} changeShowSeries={handleSeriesCheckboxChange}
-                          genres={genres} unselectedGenres={unselectedGenres} handleFilterGenre={handleFilterGenre}/>
+                        <Filter showMovies={showMovies} showSeries={showSeries} changeShowMovies={() => setShowMovies(!showMovies)} changeShowSeries={() => setShowSeries(!showSeries)}
+                          genres={genres} unselectedGenres={unselectedGenres} handleFilterGenre={setUnselectedGenres}/>
                       </Tooltip>
                     )}
                   </Overlay>
@@ -180,7 +144,7 @@ function App() {
                   <Overlay target={sortRef.current} show={showSort} placement="bottom">
                     {(props) => (
                       <Tooltip id="tooltip-overlay" {...props}>
-                        <Sort sortParameter={sortParameter} handleSortClick={handleSortClick}/>
+                        <Sort sortParameter={sortParameter} handleSortClick={setSortParameter}/>
                       </Tooltip>
                     )}
                   </Overlay>
