@@ -68,7 +68,7 @@ const sortMoviesByDate = (movies) => {
     })
 }
 
-const Sort = ({ sortParameter, handleSortClick }) => {
+const Sort = ({ sortParameter, setSortParameter }) => {
     return(
         <>
         	<div>
@@ -77,41 +77,41 @@ const Sort = ({ sortParameter, handleSortClick }) => {
                     	{
                     		sortParameter.toLowerCase() === "alphabetically"?
                     		<>
-                    			<Form.Check className="mr-4" inline type={'radio'} checked={true} name="sort-group" label="Alphabetically" onClick={() => handleSortClick('')}/>
+                    			<Form.Check className="mr-4" inline type={'radio'} checked={true} name="sort-group" label="Alphabetically" onClick={() => setSortParameter('')}/>
                     		</>
                     		:
                     		<>
-                    			<Form.Check className="mr-4" inline type={'radio'} checked={false} name="sort-group" label="Alphabetically" onClick={() => handleSortClick('alphabetically')}/>
+                    			<Form.Check className="mr-4" inline type={'radio'} checked={false} name="sort-group" label="Alphabetically" onClick={() => setSortParameter('alphabetically')}/>
                     		</>
                     	}
                         {
                             sortParameter.toLowerCase() === "ranking"?
                             <>
-                                <Form.Check className="mr-4" inline type={'radio'} checked={true} name="sort-group" label="Ranking" onClick={() => handleSortClick('')}/>
+                                <Form.Check className="mr-4" inline type={'radio'} checked={true} name="sort-group" label="Ranking" onClick={() => setSortParameter('')}/>
                             </>
                             :
                             <>
-                                <Form.Check className="mr-4" inline type={'radio'} checked={false} name="sort-group" label="Ranking" onClick={() => handleSortClick('ranking')}/>
+                                <Form.Check className="mr-4" inline type={'radio'} checked={false} name="sort-group" label="Ranking" onClick={() => setSortParameter('ranking')}/>
                             </>
                         }
                         {
                             sortParameter.toLowerCase() === "popularity"?
                             <>
-                                <Form.Check className="mr-4" inline type={'radio'} checked={true} name="sort-group" label="Popularity" onClick={() => handleSortClick('')}/>
+                                <Form.Check className="mr-4" inline type={'radio'} checked={true} name="sort-group" label="Popularity" onClick={() => setSortParameter('')}/>
                             </>
                             :
                             <>
-                                <Form.Check className="mr-4" inline type={'radio'} checked={false} name="sort-group" label="Popularity" onClick={() => handleSortClick('popularity')}/>
+                                <Form.Check className="mr-4" inline type={'radio'} checked={false} name="sort-group" label="Popularity" onClick={() => setSortParameter('popularity')}/>
                             </>
                         }
                         {
                             sortParameter.toLowerCase() === "release date"?
                             <>
-                                <Form.Check inline type={'radio'} checked={true} name="sort-group" label="Release Date" onClick={() => handleSortClick('')}/>
+                                <Form.Check inline type={'radio'} checked={true} name="sort-group" label="Release Date" onClick={() => setSortParameter('')}/>
                             </>
                             :
                             <>
-                                <Form.Check inline type={'radio'} checked={false} name="sort-group" label="Release Date" onClick={() => handleSortClick('release date')}/>
+                                <Form.Check inline type={'radio'} checked={false} name="sort-group" label="Release Date" onClick={() => setSortParameter('release date')}/>
                             </>
                         }
                     </Form>

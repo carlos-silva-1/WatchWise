@@ -1,8 +1,7 @@
 import React from 'react'
-import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 
-const Filter = ({ showMovies, showSeries, changeShowMovies, changeShowSeries, genres, unselectedGenres, handleFilterGenre }) => {
+const Filter = ({ showMovies, showSeries, changeShowMovies, changeShowSeries, genres, unselectedGenres, setUnselectedGenres }) => {
     return(
         <>
             <div className="width-50vw filter-contents">
@@ -23,11 +22,11 @@ const Filter = ({ showMovies, showSeries, changeShowMovies, changeShowSeries, ge
                                 {
                                     unselectedGenres.some(unselectedGenre => unselectedGenre === genre.id)?
                                     <>
-                                        <Form.Check className="mr-3" type="switch" label={genre.name} checked={false} onChange={() => handleFilterGenre(unselectedGenres.filter(id => id !== genre.id))}/>
+                                        <Form.Check className="mr-3" type="switch" label={genre.name} checked={false} onChange={() => setUnselectedGenres(unselectedGenres.filter(id => id !== genre.id))}/>
                                     </>
                                     :
                                     <>
-                                        <Form.Check className="mr-3" type="switch" label={genre.name} checked={true} onChange={() => handleFilterGenre([...unselectedGenres, genre.id])}/>
+                                        <Form.Check className="mr-3" type="switch" label={genre.name} checked={true} onChange={() => setUnselectedGenres([...unselectedGenres, genre.id])}/>
                                     </>
                                 }
                             </>

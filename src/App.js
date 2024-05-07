@@ -133,7 +133,7 @@ function App() {
                     {(props) => (
                       <Tooltip id="tooltip-overlay" {...props}>
                         <Filter showMovies={showMovies} showSeries={showSeries} changeShowMovies={() => setShowMovies(!showMovies)} changeShowSeries={() => setShowSeries(!showSeries)}
-                          genres={genres} unselectedGenres={unselectedGenres} handleFilterGenre={setUnselectedGenres}/>
+                          genres={genres} unselectedGenres={unselectedGenres} setUnselectedGenres={setUnselectedGenres}/>
                       </Tooltip>
                     )}
                   </Overlay>
@@ -144,7 +144,7 @@ function App() {
                   <Overlay target={sortRef.current} show={showSort} placement="bottom">
                     {(props) => (
                       <Tooltip id="tooltip-overlay" {...props}>
-                        <Sort sortParameter={sortParameter} handleSortClick={setSortParameter}/>
+                        <Sort sortParameter={sortParameter} setSortParameter={setSortParameter}/>
                       </Tooltip>
                     )}
                   </Overlay>
