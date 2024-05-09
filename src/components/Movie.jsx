@@ -3,7 +3,8 @@ import Drop from './Dropdown';
 import Favourite from './Favourite';
 import truncateText from './../util/truncate'
 import { getIMDBID } from './IMDB'
-import poster_not_available from './../poster_not_available.jpg';
+import poster_not_available from './../poster_not_available.jpg'
+import PropTypes from 'prop-types'
 
 const Movie = ({ movieData, handleMovieClick, handleFavouritesClick, favouriteMovies }) => {
 	const [streamOptions, setStreamOptions] = useState({})
@@ -78,6 +79,13 @@ const Movie = ({ movieData, handleMovieClick, handleFavouritesClick, favouriteMo
             </div>
         </>
     )
+}
+
+Movie.propTypes = {
+    movieData: PropTypes.object.isRequired,
+    handleMovieClick: PropTypes.func.isRequired,
+    handleFavouritesClick: PropTypes.func.isRequired,
+    favouriteMovies: PropTypes.array.isRequired
 }
 
 export default Movie

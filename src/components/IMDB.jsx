@@ -1,5 +1,6 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
+import PropTypes from 'prop-types'
 
 const getIMDBID = async (movie) => {
     const url = "release_date" in movie? 
@@ -42,6 +43,10 @@ const IMDB = ({ movie }) => {
             </Button>
         </>
     )
+}
+
+IMDB.propTypes = {
+    movie: PropTypes.object.isRequired
 }
 
 export default IMDB

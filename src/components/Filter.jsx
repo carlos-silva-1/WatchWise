@@ -1,5 +1,6 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form';
+import PropTypes from 'prop-types'
 
 const Filter = ({ showMovies, showSeries, changeShowMovies, changeShowSeries, genres, unselectedGenres, setUnselectedGenres }) => {
     return(
@@ -36,6 +37,16 @@ const Filter = ({ showMovies, showSeries, changeShowMovies, changeShowSeries, ge
             </div>
         </>
     )
+}
+
+Filter.propTypes = {
+    showMovies: PropTypes.bool.isRequired,
+    showSeries: PropTypes.bool.isRequired, 
+    changeShowMovies: PropTypes.func.isRequired,
+    changeShowSeries: PropTypes.func.isRequired,
+    genres: PropTypes.object.isRequired,
+    unselectedGenres: PropTypes.array.isRequired,
+    setUnselectedGenres: PropTypes.func.isRequired
 }
 
 export default Filter

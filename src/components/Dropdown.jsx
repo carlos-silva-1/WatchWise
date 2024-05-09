@@ -1,5 +1,6 @@
 import React from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
+import PropTypes from 'prop-types'
 
 const Drop = ({ streamOptions }) => {
     const StreamOptions = Object.entries(streamOptions)
@@ -19,6 +20,10 @@ const Drop = ({ streamOptions }) => {
             </Dropdown.Menu>
         </Dropdown>
     )
+}
+
+Drop.propTypes = {
+  streamOptions: PropTypes.object.isRequired
 }
 
 export default Drop

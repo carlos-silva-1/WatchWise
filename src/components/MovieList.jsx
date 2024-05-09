@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import Pagination from 'react-bootstrap/Pagination';
 import Movie from './Movie'
 import hasIntersection from './../util/hasIntersection'
 import { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, sortMoviesByDate } from './Sort'
 import { searchMovie, fetchPopular } from './../api/api_handler'
+import PropTypes from 'prop-types'
 
 const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavouritesClick, showMovies, showSeries, unselectedGenres, sortParameter, listType, searchValue }) => {
     const [moviesLocalState, setMoviesLocalState] = useState(movies)
@@ -171,7 +172,19 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
             </>
         )
     }
+}
 
+MovieList.propTypes = {
+    favouriteMovies: PropTypes.array.isRequired,
+    movies: PropTypes.array.isRequired, 
+    handleMovieClick: PropTypes.func.isRequired,
+    handleFavouritesClick: PropTypes.func.isRequired,
+    showMovies: PropTypes.bool.isRequired,
+    showSeries: PropTypes.bool.isRequired,
+    unselectedGenres: PropTypes.array.isRequired,
+    sortParameter: PropTypes.string.isRequired,
+    listType: PropTypes.string.isRequired, 
+    searchValue: PropTypes.string
 }
 
 export default MovieList

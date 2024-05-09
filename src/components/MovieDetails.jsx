@@ -3,7 +3,8 @@ import IMDB from './IMDB';
 import formatAsDollarAmount from './../util/formatAsDollar'
 import ReactPlayer from 'react-player'
 import movieTrailer from 'movie-trailer'
-import poster_not_available from './../poster_not_available.jpg';
+import poster_not_available from './../poster_not_available.jpg'
+import PropTypes from 'prop-types'
 
 const MovieDetails = ({ movie, details }) => {
     const [trailerURL, setTrailerURL] = useState("")
@@ -169,6 +170,11 @@ const MovieDetails = ({ movie, details }) => {
             </div>
         </>
     )
+}
+
+MovieDetails.propTypes = {
+    movie: PropTypes.object.isRequired,
+    details: PropTypes.object.isRequired
 }
 
 export default MovieDetails

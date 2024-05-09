@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import stringToDate from './../util/stringToDate'
+import PropTypes from 'prop-types'
 
 const sortMoviesAlphabetically = (movies) => {
     movies.sort((movie1, movie2) => {
@@ -119,6 +120,11 @@ const Sort = ({ sortParameter, setSortParameter }) => {
         	</div>    
         </>
     )
+}
+
+Sort.propTypes = {
+    sortParameter: PropTypes.string.isRequired,
+    setSortParameter: PropTypes.func.isRequired
 }
 
 export default Sort

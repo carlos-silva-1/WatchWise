@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const Favourite = ({ favouriteMovies, movie }) => {
     const FavouriteMovies = favouriteMovies
@@ -30,6 +31,11 @@ const Favourite = ({ favouriteMovies, movie }) => {
             }
         </>
     )
+}
+
+Favourite.propTypes = {
+    favouriteMovies: PropTypes.array.isRequired,
+    movie: PropTypes.object.isRequired
 }
 
 export default Favourite
