@@ -197,7 +197,7 @@ function App() {
                   favourites != null && favourites.length !== 0 && 
                   (showMovies === true || showSeries === true)?
                   <>
-                    <div className="movie-queue first-movie-list pb-5 mt-5">
+                    <div className="movie-queue pb-5 mt-5">
                       <div className='d-flex justify-content-center'>
                         <MovieListHeading heading='My Movie Queue'/>
                       </div>
