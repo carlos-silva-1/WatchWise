@@ -4,6 +4,13 @@ import Form from 'react-bootstrap/Form';
 import stringToDate from './../util/stringToDate'
 import PropTypes from 'prop-types'
 
+const SORT_PARAMS = {
+    ALPHABETICALLY: 'alphabetically',
+    RANKING: 'ranking',
+    POPULARITY: 'popularity',
+    RELEASE_DATE: 'release date'
+}
+
 const sortMoviesAlphabetically = (movies) => {
     movies.sort((movie1, movie2) => {
         if(movie1.title && movie2.title)
@@ -75,46 +82,15 @@ const Sort = ({ sortParameter, setSortParameter }) => {
         	<div>
         		<Navbar expand="lg" variant="dark">
                     <Form>
-                    	{
-                    		sortParameter.toLowerCase() === "alphabetically"?
-                    		<>
-                    			<Form.Check className="mr-4" inline type={'radio'} checked={true} name="sort-group" label="Alphabetically" onClick={() => setSortParameter('')}/>
-                    		</>
-                    		:
-                    		<>
-                    			<Form.Check className="mr-4" inline type={'radio'} checked={false} name="sort-group" label="Alphabetically" onClick={() => setSortParameter('alphabetically')}/>
-                    		</>
-                    	}
-                        {
-                            sortParameter.toLowerCase() === "ranking"?
-                            <>
-                                <Form.Check className="mr-4" inline type={'radio'} checked={true} name="sort-group" label="Ranking" onClick={() => setSortParameter('')}/>
-                            </>
-                            :
-                            <>
-                                <Form.Check className="mr-4" inline type={'radio'} checked={false} name="sort-group" label="Ranking" onClick={() => setSortParameter('ranking')}/>
-                            </>
-                        }
-                        {
-                            sortParameter.toLowerCase() === "popularity"?
-                            <>
-                                <Form.Check className="mr-4" inline type={'radio'} checked={true} name="sort-group" label="Popularity" onClick={() => setSortParameter('')}/>
-                            </>
-                            :
-                            <>
-                                <Form.Check className="mr-4" inline type={'radio'} checked={false} name="sort-group" label="Popularity" onClick={() => setSortParameter('popularity')}/>
-                            </>
-                        }
-                        {
-                            sortParameter.toLowerCase() === "release date"?
-                            <>
-                                <Form.Check inline type={'radio'} checked={true} name="sort-group" label="Release Date" onClick={() => setSortParameter('')}/>
-                            </>
-                            :
-                            <>
-                                <Form.Check inline type={'radio'} checked={false} name="sort-group" label="Release Date" onClick={() => setSortParameter('release date')}/>
-                            </>
-                        }
+                        {[SORT_PARAMS.ALPHABETICALLY, SORT_PARAMS.RANKING, SORT_PARAMS.POPULARITY, SORT_PARAMS.RELEASE_DATE].map((parameter, index) => (
+                            <Form.Check key={index} type={'radio'} label={parameter} 
+                                checked={sortParameter.toLowerCase() === parameter? true : false}
+                                onChange={sortParameter.toLowerCase() === parameter?
+                                            () => setSortParameter('')
+                                            :
+                                            () => setSortParameter(parameter)}
+                            />
+                        ))}
                     </Form>
                 </Navbar>
         	</div>    
@@ -128,5 +104,4 @@ Sort.propTypes = {
 }
 
 export default Sort
-
-export { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, sortMoviesByDate }
+export { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, sortMoviesByDate, SORT_PARAMS }
