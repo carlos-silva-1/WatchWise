@@ -16,22 +16,27 @@ import { searchMovie, fetchPopular, getDetails } from './api/api_handler'
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import useLocalStorage from './hooks/useLocalStorage'
+import { LIST_TYPE } from './components/MovieList';
 
 function App() {
+  const [searchValue, setSearchValue] = useState('')
   const [searchResults, setSearchResults] = useState([])
+
   const [popularMovies, setPopularMovies] = useState([])
   const [popularSeries, setPopularSeries] = useState([])
   const [favourites, setFavourites] = useState([])
-  const [searchValue, setSearchValue] = useState('')
-  const [selectedMovie, setSelectedMovie] = useState({})
+
   const [movieHasBeenSelected, setMovieHasBeenSelected] = useState(false)
-  const [selectedMovieDetails, setSelectedMovieDetails] = useState({})
+  const [selectedMovie, setSelectedMovie] = useState({})
+
   const [showMovies, setShowMovies] = useState(true)
   const [showSeries, setShowSeries] = useState(true)
   const [unselectedGenres, setUnselectedGenres] = useState([])
+  
   const [sortParameter, setSortParameter] = useState('')
-  const [showFilter, setShowFilter] = useState(false)
-  const [showSort, setShowSort] = useState(false)
+
+  const [showFilterOverlay, setShowFilterOverlay] = useState(false)
+  const [showSortOverlay, setShowSortOverlay] = useState(false)
   const filterRef = useRef(null)
   const sortRef = useRef(null)
   
@@ -109,11 +114,8 @@ function App() {
   }
 
   const showMovieDetails = async (movie) => {
-    const details = await getDetails(movie)
-
-    setSelectedMovie(movie)
-    setSelectedMovieDetails(details)
     setMovieHasBeenSelected(true)
+    setSelectedMovie(movie)
   }
 
   return (
@@ -128,20 +130,21 @@ function App() {
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav>
                 <Nav.Item className="mr-2">
-                  <Button id="filter-btn" variant="outline-warning" ref={filterRef} onClick={() => setShowFilter(!showFilter)}>Filter &#x25BC;</Button>
-                  <Overlay target={filterRef.current} show={showFilter} placement="bottom">
+                  <Button id="filter-btn" variant="outline-warning" ref={filterRef} onClick={() => setShowFilterOverlay(prevShowFilter => !prevShowFilter)}>Filter &#x25BC;</Button>
+                  <Overlay target={filterRef.current} show={showFilterOverlay} placement="bottom">
                     {(props) => (
                       <Tooltip id="tooltip-overlay" {...props}>
-                        <Filter showMovies={showMovies} showSeries={showSeries} changeShowMovies={() => setShowMovies(!showMovies)} changeShowSeries={() => setShowSeries(!showSeries)}
-                          genres={genres} unselectedGenres={unselectedGenres} setUnselectedGenres={setUnselectedGenres}/>
+                        <Filter showMovies={showMovies} showSeries={showSeries} 
+                        changeShowMovies={() => setShowMovies(prevShowMovies => !prevShowMovies)} changeShowSeries={() => setShowSeries(prevShowSeries => !prevShowSeries)} 
+                        genres={genres} unselectedGenres={unselectedGenres} setUnselectedGenres={setUnselectedGenres}/>
                       </Tooltip>
                     )}
                   </Overlay>
                 </Nav.Item>
 
                 <Nav.Item>
-                  <Button id="sort-btn" variant="outline-warning" ref={sortRef} onClick={() => setShowSort(!showSort)}>Sort &#x25BC;</Button>
-                  <Overlay target={sortRef.current} show={showSort} placement="bottom">
+                  <Button id="sort-btn" variant="outline-warning" ref={sortRef} onClick={() => setShowSortOverlay(prevShowSort => !prevShowSort)}>Sort &#x25BC;</Button>
+                  <Overlay target={sortRef.current} show={showSortOverlay} placement="bottom">
                     {(props) => (
                       <Tooltip id="tooltip-overlay" {...props}>
                         <Sort sortParameter={sortParameter} setSortParameter={setSortParameter}/>
@@ -167,7 +170,7 @@ function App() {
           // If a movie has been clicked, show its details
           movieHasBeenSelected === true?
           <>
-            <MovieDetails movie={selectedMovie} details={selectedMovieDetails}/>
+            <MovieDetails movie={selectedMovie} />
           </>
           :
           <>
@@ -182,7 +185,7 @@ function App() {
                   </div>
 
                   <div className="d-flex justify-content-center">
-                    <MovieList movies={searchResults} listType={"search"} searchValue={searchValue}
+                    <MovieList movies={searchResults} listType={LIST_TYPE.SEARCH_RESULTS} searchValue={searchValue}
                     sortParameter={sortParameter} unselectedGenres={unselectedGenres}
                     showMovies={showMovies} showSeries={showSeries}
                     handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
@@ -203,7 +206,7 @@ function App() {
                       </div>
 
                       <div className="d-flex justify-content-center">
-                        <MovieList movies={favourites} listType={"mymoviequeue"}
+                        <MovieList movies={favourites} listType={LIST_TYPE.FAVOURITES}
                         sortParameter={sortParameter} unselectedGenres={unselectedGenres}
                         showMovies={showMovies} showSeries={showSeries}
                         handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites} 
@@ -226,7 +229,7 @@ function App() {
                       </div>
 
                       <div className="d-flex justify-content-center">
-                        <MovieList movies={popularMovies} listType={"movie"}
+                        <MovieList movies={popularMovies} listType={LIST_TYPE.POPULAR_MOVIES}
                         sortParameter={sortParameter} unselectedGenres={unselectedGenres}
                         showMovies={showMovies} showSeries={showSeries} 
                         handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites} 
@@ -249,7 +252,7 @@ function App() {
                       </div>
 
                       <div className="d-flex justify-content-center">
-                        <MovieList movies={popularSeries} listType={"tv"}
+                        <MovieList movies={popularSeries} listType={LIST_TYPE.POPULAR_SERIES}
                         sortParameter={sortParameter} unselectedGenres={unselectedGenres}
                         showMovies={showMovies} showSeries={showSeries}
                         handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
