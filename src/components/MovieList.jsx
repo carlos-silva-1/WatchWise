@@ -2,9 +2,17 @@ import React, { useState, useEffect } from 'react'
 import Pagination from 'react-bootstrap/Pagination';
 import Movie from './Movie'
 import hasIntersection from './../util/hasIntersection'
-import { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, sortMoviesByDate } from './Sort'
+import { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, sortMoviesByDate, SORT_PARAMS } from './Sort'
 import { searchMovie, fetchPopular } from './../api/api_handler'
 import PropTypes from 'prop-types'
+import useLocalStorage from './../hooks/useLocalStorage'
+
+const LIST_TYPE = {
+    SEARCH_RESULTS: "search_results",
+    FAVOURITES: "favourites",
+    POPULAR_MOVIES: "popular_movies",
+    POPULAR_SERIES: "popular_series"
+}
 
 const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavouritesClick, showMovies, showSeries, unselectedGenres, sortParameter, listType, searchValue }) => {
     const [moviesLocalState, setMoviesLocalState] = useState(movies)
@@ -14,19 +22,29 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
     const [numberMoviesPerPage, setNumberMoviesPerPage] = useState(5)
     const [numberOfFetches, setNumberOfFetches] = useState(1)
 
+    /*
+    const [popularMovies, setPopularMovies] = useState([])
+    const [popularMoviesLocalStorage, setPopularMoviesLocalStorage] = useLocalStorage('popular-movies', [])
+    const [popularSeries, setPopularSeries] = useState([])
+    const [popularSeriesLocalStorage, setPopularSeriesLocalStorage] = useLocalStorage('popular-series', [])
+    const [favourites, setFavourites] = useState([])
+    const [favouritesLocalStorage, setFavouritesLocalStorage] = useLocalStorage('favourites', [])
+    const [lastUpdateDate, setLastUpdateDate] = useLocalStorage('last-update-date', new Date(1971, 1, 1))
+    */
+
     const fetchNextPage = async () => {
-        if(listType === "search") {
+        if(listType === LIST_TYPE.SEARCH_RESULTS) {
             let searchResults = await searchMovie(searchValue, pageNumber)
             let newMovies = moviesLocalState.concat(searchResults)
             setMoviesLocalState(newMovies)
         }
-        else if (listType === "movie") {
+        else if (listType === LIST_TYPE.POPULAR_MOVIES) {
             let fetchedPopularMovies = await fetchPopular("movie", pageNumber)
             let newMovies = moviesLocalState.concat(fetchedPopularMovies)
             setMoviesLocalState(newMovies)
             localStorage.setItem('react-movie-app-popular-movies', JSON.stringify(newMovies))
         }
-        else if (listType === "tv") {
+        else if (listType === LIST_TYPE.POPULAR_SERIES) {
             let fetchedPopularSeries = await fetchPopular("tv", pageNumber)
             let newMovies = moviesLocalState.concat(fetchedPopularSeries)
             setMoviesLocalState(newMovies)
@@ -36,13 +54,13 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
 
     const sortMovies = () => {
         if(moviesLocalState != null) {
-            if(sortParameter.toLowerCase() === "alphabetically")
+            if(sortParameter.toLowerCase() === SORT_PARAMS.ALPHABETICALLY)
                 sortMoviesAlphabetically(moviesLocalState)
-            else if(sortParameter.toLowerCase() === "ranking")
+            else if(sortParameter.toLowerCase() === SORT_PARAMS.RANKING)
                 sortMoviesByRanking(moviesLocalState)
-            else if(sortParameter.toLowerCase() === "popularity")
+            else if(sortParameter.toLowerCase() === SORT_PARAMS.POPULARITY)
                 sortMoviesByPopularity(moviesLocalState)
-            else if(sortParameter.toLowerCase() === "release date")
+            else if(sortParameter.toLowerCase() === SORT_PARAMS.RELEASE_DATE)
                 sortMoviesByDate(moviesLocalState)
         }
     }
@@ -99,7 +117,7 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                 <div>
                     <div className="row">
                         {pageOfMovies.map( (movie, index) => (
-                            <>
+                            <div key={index}>
                                 {
                                     // renders the item if its a movie and 'showMovies' is checked, or if its a series and 'showSeries' is checked &&
                                     // renders the item if none of its genres are in 'unselectedGenres'
@@ -112,7 +130,7 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                                     <>
                                     </>
                                 }
-                            </>
+                            </div>
                         ))}
                     </div>
                 
@@ -137,7 +155,7 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                                         </>
                                     }
                                     {
-                                        listType === "mymoviequeue" &&
+                                        listType === LIST_TYPE.FAVOURITES &&
                                         endIndex + 1 >= moviesLocalState.length?
                                         <>
                                             <Pagination.Next id="pagination-disabled" />
@@ -188,3 +206,4 @@ MovieList.propTypes = {
 }
 
 export default MovieList
+export { LIST_TYPE }
