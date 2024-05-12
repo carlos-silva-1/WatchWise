@@ -17,9 +17,9 @@ const Filter = ({ showMovies, showSeries, changeShowMovies, changeShowSeries, ge
                 {/* GENRE */}
                 <div className="mt-3">
                     <h4 className="mr-3 primary-color">Genres </h4>
-                    <div className="">
+                    <div>
                         {genres.genres.map( (genre, index) => (
-                            <>
+                            <div key={index}>
                                 {
                                     unselectedGenres.some(unselectedGenre => unselectedGenre === genre.id)?
                                     <>
@@ -30,7 +30,7 @@ const Filter = ({ showMovies, showSeries, changeShowMovies, changeShowSeries, ge
                                         <Form.Check className="mr-3" type="switch" label={genre.name} checked={true} onChange={() => setUnselectedGenres([...unselectedGenres, genre.id])}/>
                                     </>
                                 }
-                            </>
+                            </div>
                         ))}
                     </div>
                 </div>
