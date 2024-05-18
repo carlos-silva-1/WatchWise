@@ -84,7 +84,6 @@ body {
 
 .filter-contents {
   width: 200px;
-  visibility: none;
 }
 
 .searchbox {
@@ -96,21 +95,13 @@ body {
   background: var(--background-dark-color);
 }
 
-#login-btn {
-  height: 2.5em;
-}
-
-#sign-up-btn {
-  height: 2.5em;
-}
-
 /********************************* MOVIES LIST **********************************/
 
 .list-heading {
   font-size: 1.5em;
 }
 
-.movie-queue {
+.movie-list {
   position: relative;
   top: 10vh;
 }
@@ -277,10 +268,6 @@ body {
     width: 2.2em;
   }
 
-  #sign-up-btn {
-    margin-right: -24px;
-  }
-
   .details-poster {
     width: 400px;
   }
@@ -303,8 +290,8 @@ body {
 
   #navbar-hamburger-icon {
     position: fixed;
-    top: 53px;
-    left: 33%;
+    top: 105px;
+    left: 50%;
     transform: translate(-50%, 0%);
   }
 
@@ -317,25 +304,10 @@ body {
 
   .searchbox {
     position: fixed;
-    top: 85px;
+    top: 40px;
     left: 50%;
     transform: translate(-50%, 0%);
     width: 50%;
-    z-index: -1;
-  }
-
-  #login-btn {
-    position: fixed;
-    top: 36px;
-    left: 45%;
-    transform: translate(-50%, 0%);
-  }
-
-  #sign-up-btn {
-    position: fixed;
-    top: 36px;
-    left: 66%;
-    transform: translate(-50%, 0%);
   }
 
   .image-container > img {
@@ -350,7 +322,12 @@ body {
     width: 2.6em;
   }
 
-  .movie-queue {
+  .title-overlay {
+    height: 46px;
+    padding-left: 8px;
+  }
+
+  .movie-list {
     position: relative;
     top: 120px;
     margin-bottom: -50px;
