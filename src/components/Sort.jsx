@@ -76,6 +76,19 @@ const sortMoviesByDate = (movies) => {
     })
 }
 
+const sortMovies = (movies, sortParameter) => {
+    if(movies != null) {
+        if(sortParameter.toLowerCase() === SORT_PARAMS.ALPHABETICALLY)
+            sortMoviesAlphabetically(movies)
+        else if(sortParameter.toLowerCase() === SORT_PARAMS.RANKING)
+            sortMoviesByRanking(movies)
+        else if(sortParameter.toLowerCase() === SORT_PARAMS.POPULARITY)
+            sortMoviesByPopularity(movies)
+        else if(sortParameter.toLowerCase() === SORT_PARAMS.RELEASE_DATE)
+            sortMoviesByDate(movies)
+    }
+}
+
 const Sort = ({ sortParameter, setSortParameter }) => {
     return(
         <>
@@ -104,4 +117,4 @@ Sort.propTypes = {
 }
 
 export default Sort
-export { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, sortMoviesByDate, SORT_PARAMS }
+export { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, sortMoviesByDate, sortMovies, SORT_PARAMS }
