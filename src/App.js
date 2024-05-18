@@ -96,9 +96,9 @@ function App() {
       <div id="header" className='d-flex justify-content-between bg-dark-custom z-1'>
         <Navbar expand="lg" variant="dark" className="pl-5">
           <Container>
-            <Navbar.Brand href="/index.html" id='brand'>MyMovieQueue</Navbar.Brand>
+            <Navbar.Brand href="/index.html" id='brand'>WatchWise</Navbar.Brand>
             <Navbar.Toggle id="navbar-hamburger-icon"/>
-            <Navbar.Collapse id="basic-navbar-nav">
+            <Navbar.Collapse>
               <Nav>
                 <Nav.Item className="mr-2">
                   <Button id="filter-btn" variant="outline-warning" ref={filterRef} onClick={() => setShowFilterOverlay(prevShowFilter => !prevShowFilter)}>Filter &#x25BC;</Button>
@@ -148,7 +148,7 @@ function App() {
               searchValue !== ''?
               <>
                 {/* SEARCH RESULTS */}
-                <div className="movie-queue">
+                <div className="movie-list">
                   <div className='d-flex justify-content-center'>
                     <MovieListHeading heading='Search Results'/>
                   </div>
@@ -169,9 +169,9 @@ function App() {
                   favourites != null && favourites.length !== 0 && 
                   (showMovies === true || showSeries === true)?
                   <>
-                    <div className="movie-queue pb-5 mt-5">
+                    <div className="movie-list pb-5 mt-5">
                       <div className='d-flex justify-content-center'>
-                        <MovieListHeading heading='My Movie Queue'/>
+                        <MovieListHeading heading='Favourites'/>
                       </div>
 
                       <div className="d-flex justify-content-center">
@@ -192,7 +192,7 @@ function App() {
                 {
                   showMovies === true?
                   <>
-                    <div className="movie-queue pb-5 mt-5">
+                    <div className="movie-list pb-5 mt-5">
                       <div className='d-flex justify-content-center'>
                         <MovieListHeading heading='Popular Movies'/>
                       </div>
@@ -215,7 +215,7 @@ function App() {
                 {
                   showSeries === true?
                   <>
-                    <div className="movie-queue mt-5">
+                    <div className="movie-list mt-5">
                       <div className='d-flex justify-content-center'>
                         <MovieListHeading heading='Popular Series'/>
                       </div>
