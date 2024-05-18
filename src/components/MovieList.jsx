@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Pagination from 'react-bootstrap/Pagination';
 import Movie from './Movie'
 import hasIntersection from './../util/hasIntersection'
-import { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, sortMoviesByDate, SORT_PARAMS } from './Sort'
+import { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, sortMoviesByDate, sortMovies, SORT_PARAMS } from './Sort'
 import { searchMovie, fetchPopular } from './../api/api_handler'
 import PropTypes from 'prop-types'
 import useLocalStorage from './../hooks/useLocalStorage'
@@ -15,22 +15,49 @@ const LIST_TYPE = {
 }
 
 const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavouritesClick, showMovies, showSeries, unselectedGenres, sortParameter, listType, searchValue }) => {
-    const [moviesLocalState, setMoviesLocalState] = useState(movies)
+    const [moviesLocalState, setMoviesLocalState] = useState([])
     const [pageNumber, setPageNumber] = useState(1)
     const [shouldFetchNextPage, setShouldFetchNextPage] = useState(false)
     const [windowWidth, setWindowWidth] = useState(window.innerWidth)
     const [numberMoviesPerPage, setNumberMoviesPerPage] = useState(5)
     const [numberOfFetches, setNumberOfFetches] = useState(1)
 
-    /*
-    const [popularMovies, setPopularMovies] = useState([])
-    const [popularMoviesLocalStorage, setPopularMoviesLocalStorage] = useLocalStorage('popular-movies', [])
-    const [popularSeries, setPopularSeries] = useState([])
-    const [popularSeriesLocalStorage, setPopularSeriesLocalStorage] = useLocalStorage('popular-series', [])
-    const [favourites, setFavourites] = useState([])
-    const [favouritesLocalStorage, setFavouritesLocalStorage] = useLocalStorage('favourites', [])
     const [lastUpdateDate, setLastUpdateDate] = useLocalStorage('last-update-date', new Date(1971, 1, 1))
-    */
+    const [popularMoviesLocalStorage, setPopularMoviesLocalStorage] = useLocalStorage('popular-movies', [])
+    const [popularSeriesLocalStorage, setPopularSeriesLocalStorage] = useLocalStorage('popular-series', [])
+    const [favouritesLocalStorage, setFavouritesLocalStorage] = useLocalStorage('favourites', [])
+
+    useEffect(() => { // Updates popular movies once per day
+        if(listType === LIST_TYPE.POPULAR_MOVIES) {
+            const currentDate = new Date().toLocaleDateString();
+
+            const fetchPopularMovies = async () => {
+                const fetchedMovies = await fetchPopular("movie")
+                setMoviesLocalState(fetchedMovies)
+                setPopularMoviesLocalStorage(fetchedMovies)
+                setLastUpdateDate(currentDate)
+            }
+
+            if (lastUpdateDate !== currentDate) 
+                fetchPopularMovies()
+        }
+    }, []);
+
+    useEffect(() => { // Updates popular series once per day
+        if(listType === LIST_TYPE.POPULAR_SERIES) {
+            const currentDate = new Date().toLocaleDateString();
+
+            const fetchPopularSeries = async () => {
+                const fetchedSeries = await fetchPopular("tv")
+                setMoviesLocalState(fetchedSeries)
+                setPopularSeriesLocalStorage(fetchedSeries)
+                setLastUpdateDate(currentDate)
+            }
+
+            if (lastUpdateDate !== currentDate) 
+                fetchPopularSeries()
+        }
+    }, []);
 
     const fetchNextPage = async () => {
         if(listType === LIST_TYPE.SEARCH_RESULTS) {
@@ -49,19 +76,6 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
             let newMovies = moviesLocalState.concat(fetchedPopularSeries)
             setMoviesLocalState(newMovies)
             localStorage.setItem('react-movie-app-popular-series', JSON.stringify(newMovies))
-        }
-    }
-
-    const sortMovies = () => {
-        if(moviesLocalState != null) {
-            if(sortParameter.toLowerCase() === SORT_PARAMS.ALPHABETICALLY)
-                sortMoviesAlphabetically(moviesLocalState)
-            else if(sortParameter.toLowerCase() === SORT_PARAMS.RANKING)
-                sortMoviesByRanking(moviesLocalState)
-            else if(sortParameter.toLowerCase() === SORT_PARAMS.POPULARITY)
-                sortMoviesByPopularity(moviesLocalState)
-            else if(sortParameter.toLowerCase() === SORT_PARAMS.RELEASE_DATE)
-                sortMoviesByDate(moviesLocalState)
         }
     }
 
@@ -102,10 +116,15 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
     }, [shouldFetchNextPage])
 
     useEffect(() => {
-        setMoviesLocalState(movies)
-    }, [movies])
+        if(listType === LIST_TYPE.POPULAR_MOVIES)
+            setMoviesLocalState(popularMoviesLocalStorage)
+        if(listType === LIST_TYPE.POPULAR_SERIES)
+            setMoviesLocalState(popularSeriesLocalStorage)
+        if(listType === LIST_TYPE.FAVOURITES)
+            setMoviesLocalState(favouritesLocalStorage)
+    }, [])
 
-    sortMovies()
+    sortMovies(moviesLocalState, sortParameter)
 
     const startIndex = pageNumber === 1? 0 : numberMoviesPerPage*(pageNumber-1) // avoids negative index if at the start of array
     const endIndex = (numberMoviesPerPage*pageNumber-1) > moviesLocalState.length? moviesLocalState.length-1 : (numberMoviesPerPage*pageNumber-1) // avoids array out of bounds if at the end of array
@@ -194,7 +213,7 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
 
 MovieList.propTypes = {
     favouriteMovies: PropTypes.array.isRequired,
-    movies: PropTypes.array.isRequired, 
+    movies: PropTypes.array, 
     handleMovieClick: PropTypes.func.isRequired,
     handleFavouritesClick: PropTypes.func.isRequired,
     showMovies: PropTypes.bool.isRequired,
