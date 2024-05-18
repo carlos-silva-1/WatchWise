@@ -11,13 +11,15 @@ const MovieDetails = ({ movie }) => {
     const [trailerURL, setTrailerURL] = useState("")
     const [details, setDetails] = useState({})
     
-    movieTrailer(movie.title)
+    if("release_date" in movie){
+        movieTrailer(movie.title)
         .then((result) => {
             setTrailerURL(result)
         })
         .catch((error) => {
             console.error("Error:", error);
         });
+    }
 
     const fetchDetails = async (movie) => {
         const details = await getDetails(movie)
@@ -135,11 +137,11 @@ const MovieDetails = ({ movie }) => {
                                         <>
                                             <div id="details-genres" className="mt-4">
                                                 <h2 className="primary-color">Genres</h2>
-                                                {details.genres.map( (genre, index) => {
+                                                {details.genres.map( (genre, index) => (
                                                     <>
                                                         <span key={index} className="mr-4 d-inline">{genre.name}</span>
                                                     </>
-                                                })}
+                                                ))}
                                             </div>
 
                                             <div id="details-release-date" className="mt-4">
@@ -164,11 +166,11 @@ const MovieDetails = ({ movie }) => {
 
                                             <div id="details-companies" className="mt-4">
                                                 <h2 className="primary-color">Production Companies</h2>
-                                                {details.production_companies.map( (company, index) => {
+                                                {details.production_companies.map( (company, index) => (
                                                     <>
                                                         <span key={index} className="mr-4 d-inline">{company.name}</span>
                                                     </>
-                                                })}
+                                                ))}
                                             </div>
                                         </>
                                     }
