@@ -39,7 +39,7 @@ const Stream = ({ movie }) => {
     return(
         <div onMouseEnter={() => updateStreamOptions(movie)}>
             <Dropdown>
-                <Dropdown.Toggle variant="warning" id="dropdown-basic" className="dropdown-btn">
+                <Dropdown.Toggle variant="warning" className="dropdown-btn">
                     Stream
                 </Dropdown.Toggle>
 
