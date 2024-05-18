@@ -87,7 +87,7 @@ const MovieDetails = ({ movie }) => {
                                     {
                                         "release_date" in movie? /* Checks if its a movie: tv series don't have the field 'release_date' */
                                         <>
-                                            <div id="details-genres" className="mt-4">
+                                            <div className="mt-4">
                                                 <h2 className="primary-color">Genres</h2>
                                                 <div>
                                                     {details.genres.map( (genre, index) => {
@@ -100,12 +100,12 @@ const MovieDetails = ({ movie }) => {
                                                 </div>
                                             </div>
 
-                                            <div id="details-release-date" className="mt-4">
+                                            <div className="mt-4">
                                                 <h2 className="primary-color">Release Date</h2>
                                                 {details.release_date}
                                             </div>
 
-                                            <div id="details-runtime" className="mt-4">
+                                            <div className="mt-4">
                                                 <h2 className="primary-color">Runtime</h2>
                                                 {details.runtime} Minutes
                                             </div>
@@ -120,7 +120,7 @@ const MovieDetails = ({ movie }) => {
                                                 {formatAsDollarAmount(details.revenue)}
                                             </div>
 
-                                            <div id="details-companies" className="mt-4">
+                                            <div className="mt-4">
                                                 <h2 className="primary-color">Production Companies</h2>
                                                 <div>
                                                     {details.production_companies.map( (company, index) => {
@@ -135,7 +135,7 @@ const MovieDetails = ({ movie }) => {
                                         </>
                                         :
                                         <>
-                                            <div id="details-genres" className="mt-4">
+                                            <div className="mt-4">
                                                 <h2 className="primary-color">Genres</h2>
                                                 {details.genres.map( (genre, index) => (
                                                     <>
@@ -144,12 +144,12 @@ const MovieDetails = ({ movie }) => {
                                                 ))}
                                             </div>
 
-                                            <div id="details-release-date" className="mt-4">
+                                            <div className="mt-4">
                                                 <h2 className="primary-color">First Air Date</h2>
                                                 {details.first_air_date}
                                             </div>
 
-                                            <div id="details-runtime" className="mt-4">
+                                            <div className="mt-4">
                                                 <h2 className="primary-color">Episode Runtime</h2>
                                                 {details.episode_run_time[0]} Minutes
                                             </div>
@@ -164,7 +164,7 @@ const MovieDetails = ({ movie }) => {
                                                 {details.number_of_episodes}
                                             </div>
 
-                                            <div id="details-companies" className="mt-4">
+                                            <div className="mt-4">
                                                 <h2 className="primary-color">Production Companies</h2>
                                                 {details.production_companies.map( (company, index) => (
                                                     <>
