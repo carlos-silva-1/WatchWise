@@ -22,10 +22,6 @@ function App() {
   const [searchValue, setSearchValue] = useState('')
   const [searchResults, setSearchResults] = useState([])
 
-  const [popularMovies, setPopularMovies] = useState([])
-  const [popularSeries, setPopularSeries] = useState([])
-  const [favourites, setFavourites] = useState([])
-
   const [movieHasBeenSelected, setMovieHasBeenSelected] = useState(false)
   const [selectedMovie, setSelectedMovie] = useState({})
 
@@ -39,58 +35,19 @@ function App() {
   const [showSortOverlay, setShowSortOverlay] = useState(false)
   const filterRef = useRef(null)
   const sortRef = useRef(null)
-  
-  const [popularMoviesLocalStorage, setPopularMoviesLocalStorage] = useLocalStorage('popular-movies', [])
-  const [popularSeriesLocalStorage, setPopularSeriesLocalStorage] = useLocalStorage('popular-series', [])
+
+  const [favourites, setFavourites] = useState([])
   const [favouritesLocalStorage, setFavouritesLocalStorage] = useLocalStorage('favourites', [])
-  const [lastUpdateDate, setLastUpdateDate] = useLocalStorage('last-update-date', new Date(1971, 1, 1))
-
-  useEffect(() => {
-    const fetchSearchResults = async () => {
-      const fetchedMovies = await searchMovie(searchValue)
-      setSearchResults(fetchedMovies)
-    }
-
-    fetchSearchResults()
-  }, [searchValue])
-
-  useEffect(() => {
-    setFavourites(favouritesLocalStorage)
-  }, [])
-
-  useEffect(() => { // Updates popular movies/series once per day
-    const currentDate = new Date().toLocaleDateString();
-
-    const fetchPopularMoviesAndSeries = async () => {
-      const fetchedMovies = await fetchPopular("movie")
-      const fetchedSeries = await fetchPopular("tv")
-      setPopularMovies(fetchedMovies)
-      setPopularSeries(fetchedSeries)
-      setPopularMoviesLocalStorage(fetchedMovies)
-      setPopularSeriesLocalStorage(fetchedSeries)
-      setLastUpdateDate(currentDate)
-    }
-    
-    if (lastUpdateDate !== currentDate) {
-      fetchPopularMoviesAndSeries()
-    }
-    else {
-      setPopularMovies(popularMoviesLocalStorage)
-      setPopularSeries(popularSeriesLocalStorage)
-    }
-  }, []);
 
   const handleFavouriteMovie = async (movie) => {
     let favouriteMoviesIDs = []
     if(favourites != null)
       favouriteMoviesIDs = favourites.map(obj => obj.id);
     
-    if(favouriteMoviesIDs.includes(movie.id)) {
+    if(favouriteMoviesIDs.includes(movie.id))
       removeFavouriteMovie(movie)
-    }
-    else {
+    else 
       addFavouriteMovie(movie)
-    }
   }
 
   const addFavouriteMovie = async (movie) => {
@@ -117,6 +74,20 @@ function App() {
     setMovieHasBeenSelected(true)
     setSelectedMovie(movie)
   }
+
+  useEffect(() => {
+    const fetchSearchResults = async () => {
+      const fetchedMovies = await searchMovie(searchValue)
+      setSearchResults(fetchedMovies)
+    }
+
+    fetchSearchResults()
+  }, [searchValue])
+
+
+  useEffect(() => {
+    setFavourites(favouritesLocalStorage)
+  }, [])
 
   return (
     <div className="position-relative">
@@ -159,8 +130,6 @@ function App() {
 
         <div className="d-flex justify-content-end pr-4 mr-5">
           <Searchbox searchValue={searchValue} setSearchValue={setSearchValue}/>
-          <Button variant="outline-warning" className="m-3" id='login-btn'>Login</Button>
-          <Button variant="outline-warning" className="mt-3" id='sign-up-btn'>Sign Up</Button>
         </div>
       </div>
 
@@ -206,7 +175,7 @@ function App() {
                       </div>
 
                       <div className="d-flex justify-content-center">
-                        <MovieList movies={favourites} listType={LIST_TYPE.FAVOURITES}
+                        <MovieList listType={LIST_TYPE.FAVOURITES}
                         sortParameter={sortParameter} unselectedGenres={unselectedGenres}
                         showMovies={showMovies} showSeries={showSeries}
                         handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites} 
@@ -229,7 +198,7 @@ function App() {
                       </div>
 
                       <div className="d-flex justify-content-center">
-                        <MovieList movies={popularMovies} listType={LIST_TYPE.POPULAR_MOVIES}
+                        <MovieList listType={LIST_TYPE.POPULAR_MOVIES}
                         sortParameter={sortParameter} unselectedGenres={unselectedGenres}
                         showMovies={showMovies} showSeries={showSeries} 
                         handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites} 
@@ -252,7 +221,7 @@ function App() {
                       </div>
 
                       <div className="d-flex justify-content-center">
-                        <MovieList movies={popularSeries} listType={LIST_TYPE.POPULAR_SERIES}
+                        <MovieList listType={LIST_TYPE.POPULAR_SERIES}
                         sortParameter={sortParameter} unselectedGenres={unselectedGenres}
                         showMovies={showMovies} showSeries={showSeries}
                         handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
