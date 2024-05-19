@@ -12,7 +12,7 @@ import Container from 'react-bootstrap/Container';
 import Filter from './components/Filter';
 import Sort from './components/Sort';
 import genres from './resources/genres.json';
-import { searchMovie, fetchPopular, getDetails } from './api/api_handler'
+import { searchMovie } from './api/api_handler'
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import useLocalStorage from './hooks/useLocalStorage'
@@ -27,7 +27,7 @@ function App() {
 
   const [showMovies, setShowMovies] = useState(true)
   const [showSeries, setShowSeries] = useState(true)
-  const [unselectedGenres, setUnselectedGenres] = useState([])
+  const [genresToHide, setGenresToHide] = useState([])
   
   const [sortParameter, setSortParameter] = useState('')
 
@@ -66,6 +66,7 @@ function App() {
     const newFavouriteList = favourites.filter((favourite) => (
       favourite.id !== movie.id
     ))
+
     setFavourites(newFavouriteList)
     setFavouritesLocalStorage(newFavouriteList)
   }
@@ -107,7 +108,7 @@ function App() {
                       <Tooltip id="tooltip-overlay" {...props}>
                         <Filter showMovies={showMovies} showSeries={showSeries} 
                         changeShowMovies={() => setShowMovies(prevShowMovies => !prevShowMovies)} changeShowSeries={() => setShowSeries(prevShowSeries => !prevShowSeries)} 
-                        genres={genres} unselectedGenres={unselectedGenres} setUnselectedGenres={setUnselectedGenres}/>
+                        genres={genres} genresToHide={genresToHide} setGenresToHide={setGenresToHide}/>
                       </Tooltip>
                     )}
                   </Overlay>
@@ -144,7 +145,7 @@ function App() {
           :
           <>
             {
-              // IF A SEARCH IS BEING MADE, ONLY SHOW THE SEARCH RESULTS. ELSE SHOW MOVIE QUEUES
+              // IF A SEARCH IS BEING MADE, ONLY SHOW THE SEARCH RESULTS. ELSE SHOW MOVIE LISTS
               searchValue !== ''?
               <>
                 {/* SEARCH RESULTS */}
@@ -155,7 +156,7 @@ function App() {
 
                   <div className="d-flex justify-content-center">
                     <MovieList movies={searchResults} listType={LIST_TYPE.SEARCH_RESULTS} searchValue={searchValue}
-                    sortParameter={sortParameter} unselectedGenres={unselectedGenres}
+                    sortParameter={sortParameter} genresToHide={genresToHide}
                     showMovies={showMovies} showSeries={showSeries}
                     handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
                     handleMovieClick={showMovieDetails} />
@@ -164,7 +165,7 @@ function App() {
               </>
               :
               <>
-                {/* MY MOVIE QUEUE */}
+                {/* FAVOURITE MOVIES LIST */}
                 {
                   favourites != null && favourites.length !== 0 && 
                   (showMovies === true || showSeries === true)?
@@ -176,7 +177,7 @@ function App() {
 
                       <div className="d-flex justify-content-center">
                         <MovieList listType={LIST_TYPE.FAVOURITES}
-                        sortParameter={sortParameter} unselectedGenres={unselectedGenres}
+                        sortParameter={sortParameter} genresToHide={genresToHide}
                         showMovies={showMovies} showSeries={showSeries}
                         handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites} 
                         handleMovieClick={showMovieDetails}/>
@@ -188,7 +189,7 @@ function App() {
                   </>
                 }
 
-                {/* POPULAR MOVIES QUEUE */}
+                {/* POPULAR MOVIES LIST */}
                 {
                   showMovies === true?
                   <>
@@ -199,7 +200,7 @@ function App() {
 
                       <div className="d-flex justify-content-center">
                         <MovieList listType={LIST_TYPE.POPULAR_MOVIES}
-                        sortParameter={sortParameter} unselectedGenres={unselectedGenres}
+                        sortParameter={sortParameter} genresToHide={genresToHide}
                         showMovies={showMovies} showSeries={showSeries} 
                         handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites} 
                         handleMovieClick={showMovieDetails}/>
@@ -211,7 +212,7 @@ function App() {
                   </>
                 }
 
-                {/* POPULAR SERIES QUEUE */}
+                {/* POPULAR SERIES LIST */}
                 {
                   showSeries === true?
                   <>
@@ -222,7 +223,7 @@ function App() {
 
                       <div className="d-flex justify-content-center">
                         <MovieList listType={LIST_TYPE.POPULAR_SERIES}
-                        sortParameter={sortParameter} unselectedGenres={unselectedGenres}
+                        sortParameter={sortParameter} genresToHide={genresToHide}
                         showMovies={showMovies} showSeries={showSeries}
                         handleFavouritesClick={handleFavouriteMovie} favouriteMovies={favourites}
                         handleMovieClick={showMovieDetails}/>
