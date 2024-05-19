@@ -13,7 +13,7 @@ const searchMovie = async (searchValue, pageNumber = 1) => {
         const responseJSON = await response.json()
         return responseJSON.results
     } catch (error) {
-        throw new Error(error);
+        throw new Error(error)
     }
 }
 
@@ -32,7 +32,7 @@ const fetchPopular = async (mediaType = "movie", pageNumber = 1) => {
         const responseJSON = await response.json()
         return responseJSON.results
     } catch (error) {
-        throw new Error(error);
+        throw new Error(error)
     }
 }
 
@@ -56,7 +56,7 @@ const getDetails = async (movie) => {
         const responseJSON = await response.json()
         return responseJSON
     } catch (error) {
-        throw new Error(error);
+        throw new Error(error)
     }
 }
 
