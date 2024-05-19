@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Stream from './Stream';
 import Favourite from './Favourite';
 import truncateText from './../util/truncate'
-import { getIMDBID } from './IMDB'
 import poster_not_available from './../poster_not_available.jpg'
 import PropTypes from 'prop-types'
 
@@ -11,7 +10,7 @@ const Movie = ({ movieData, handleMovieClick, handleFavouritesClick, favouriteMo
         <>
         	<div className='d-flex justify-content-start m-3 image-container'>
         		{
-        			movieData.poster_path != null?
+        			movieData.poster_path != undefined?
         			<>
         				<img src={`https://image.tmdb.org/t/p/w500/${movieData.poster_path}`} alt='movie poster'
                     	onClick={() => handleMovieClick(movieData)}></img>
@@ -34,7 +33,7 @@ const Movie = ({ movieData, handleMovieClick, handleFavouritesClick, favouriteMo
 
                 <div className='d-flex align-items-center justify-content-center w-100 overlay title-overlay text-dark'>
                     {
-                        movieData.title !== undefined?
+                        movieData.title != undefined?
                         <>
                             {truncateText(movieData.title, 30)}
                         </>
