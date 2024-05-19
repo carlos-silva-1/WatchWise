@@ -6,19 +6,19 @@ import movieTrailer from 'movie-trailer'
 import poster_not_available from './../poster_not_available.jpg'
 import PropTypes from 'prop-types'
 import { getDetails } from './../api/api_handler'
+import { isMovie } from './../util/movieUtils'
 
 const MovieDetails = ({ movie }) => {
     const [trailerURL, setTrailerURL] = useState("")
     const [details, setDetails] = useState({})
-    
-    if("release_date" in movie){
-        movieTrailer(movie.title)
-        .then((result) => {
+
+    const getMovieTrailer = async (movie) => {
+        try {
+            const result = await movieTrailer(movie.title)
             setTrailerURL(result)
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     const fetchDetails = async (movie) => {
@@ -30,13 +30,18 @@ const MovieDetails = ({ movie }) => {
         fetchDetails(movie)
     }, [])
 
+    useEffect(() => {
+        if(isMovie(movie))
+            getMovieTrailer(movie)
+    }, [])
+
     return(
         <>
             <div className="mt-5 pt-5 details">
                 <div>
                     <div className="text-center">
                         {
-                            "release_date" in movie?
+                            isMovie(movie)?
                             <>
                                 <h1>{movie.title}</h1>
                             </>
@@ -48,7 +53,7 @@ const MovieDetails = ({ movie }) => {
                     </div>
 
                     <div className="mt-2 text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#FFC107" className="bi bi-star-fill" viewBox="0 0 16 16" className="mr-2 mb-2 pb-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#FFC107" className="bi bi-star-fill mr-2 mb-2 pb-1" viewBox="0 0 16 16">
                           <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                         </svg>
                         <h3 className="d-inline">{details.vote_average} / 10</h3>
@@ -85,7 +90,7 @@ const MovieDetails = ({ movie }) => {
                                     </div>
 
                                     {
-                                        "release_date" in movie? /* Checks if its a movie: tv series don't have the field 'release_date' */
+                                        isMovie(movie)?
                                         <>
                                             <div className="mt-4">
                                                 <h2 className="primary-color">Genres</h2>
@@ -184,8 +189,7 @@ const MovieDetails = ({ movie }) => {
                 </div>
 
                 {
-                    // Only shows trailer if its a movie
-                    "release_date" in movie?
+                    isMovie(movie)? // Only shows trailer if its a movie
                     <>
                         <h2 className="mt-4 text-center primary-color">Trailer</h2>
                         <div className="mt-4 trailer-wrapper">

@@ -3,6 +3,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import stringToDate from './../util/stringToDate'
 import PropTypes from 'prop-types'
+import { isMovie, isPerson } from './../util/movieUtils'
 
 const SORT_PARAMS = {
     ALPHABETICALLY: 'alphabetically',
@@ -56,12 +57,13 @@ const sortMoviesByPopularity = (movies) => {
 const sortMoviesByDate = (movies) => {
     movies.sort((movie1, movie2) => {
         // in case either movie1 or movie2 is a person (e.g. actor or director), it can't be compared to other items
-        if("gender" in movie1 || "gender" in movie2) {
+        if(isPerson(movie1) || isPerson(movie2)) {
             return 0
         }
         else {
-            let movie1Date = "release_date" in movie1? movie1.release_date : movie1.first_air_date
-            let movie2Date = "release_date" in movie2? movie2.release_date : movie2.first_air_date
+            // movies have a 'release_date' field, while series have 'first_air_date'
+            let movie1Date = isMovie(movie1)? movie1.release_date : movie1.first_air_date
+            let movie2Date = isMovie(movie2)? movie2.release_date : movie2.first_air_date
 
             movie1Date = stringToDate(movie1Date)
             movie2Date = stringToDate(movie2Date)

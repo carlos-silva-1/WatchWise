@@ -1,9 +1,10 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types'
+import { isMovie } from './../util/movieUtils'
 
 const getIMDBID = async (movie) => {
-    const url = "release_date" in movie? 
+    const url = isMovie(movie)? 
                 `https://api.themoviedb.org/3/movie/${movie.id}/external_ids?api_key=${process.env.REACT_APP_TMDB_KEY}`
                 :
                 `https://api.themoviedb.org/3/tv/${movie.id}/external_ids?api_key=${process.env.REACT_APP_TMDB_KEY}`
