@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react'
 import Pagination from 'react-bootstrap/Pagination';
 import Movie from './Movie'
 import hasIntersection from './../util/hasIntersection'
-import { sortMoviesAlphabetically, sortMoviesByRanking, sortMoviesByPopularity, sortMoviesByDate, sortMovies, SORT_PARAMS } from './Sort'
+import { sortMovies } from './Sort'
 import { searchMovie, fetchPopular } from './../api/api_handler'
 import PropTypes from 'prop-types'
 import useLocalStorage from './../hooks/useLocalStorage'
+import { isMovie, isSeries } from './../util/movieUtils'
 
 const LIST_TYPE = {
     SEARCH_RESULTS: "search_results",
@@ -14,7 +15,7 @@ const LIST_TYPE = {
     POPULAR_SERIES: "popular_series"
 }
 
-const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavouritesClick, showMovies, showSeries, unselectedGenres, sortParameter, listType, searchValue }) => {
+const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavouritesClick, showMovies, showSeries, genresToHide, sortParameter, listType, searchValue }) => {
     const [moviesLocalState, setMoviesLocalState] = useState([])
     const [pageNumber, setPageNumber] = useState(1)
     const [shouldFetchNextPage, setShouldFetchNextPage] = useState(false)
@@ -25,7 +26,6 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
     const [lastUpdateDate, setLastUpdateDate] = useLocalStorage('last-update-date', new Date(1971, 1, 1))
     const [popularMoviesLocalStorage, setPopularMoviesLocalStorage] = useLocalStorage('popular-movies', [])
     const [popularSeriesLocalStorage, setPopularSeriesLocalStorage] = useLocalStorage('popular-series', [])
-    const [favouritesLocalStorage, setFavouritesLocalStorage] = useLocalStorage('favourites', [])
 
     useEffect(() => { // Updates popular movies once per day
         if(listType === LIST_TYPE.POPULAR_MOVIES) {
@@ -121,12 +121,12 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
         if(listType === LIST_TYPE.POPULAR_SERIES)
             setMoviesLocalState(popularSeriesLocalStorage)
         if(listType === LIST_TYPE.FAVOURITES)
-            setMoviesLocalState(favouritesLocalStorage)
+            setMoviesLocalState(favouriteMovies)
     }, [])
 
     sortMovies(moviesLocalState, sortParameter)
 
-    const startIndex = pageNumber === 1? 0 : numberMoviesPerPage*(pageNumber-1) // avoids negative index if at the start of array
+    const startIndex = pageNumber === 1? 0 : numberMoviesPerPage*(pageNumber-1)
     const endIndex = (numberMoviesPerPage*pageNumber-1) > moviesLocalState.length? moviesLocalState.length-1 : (numberMoviesPerPage*pageNumber-1) // avoids array out of bounds if at the end of array
     const pageOfMovies = moviesLocalState.slice(startIndex, endIndex+1)
 
@@ -139,9 +139,9 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                             <div key={index}>
                                 {
                                     // renders the item if its a movie and 'showMovies' is checked, or if its a series and 'showSeries' is checked &&
-                                    // renders the item if none of its genres are in 'unselectedGenres'
-                                    ((showMovies && "release_date" in movie) || (showSeries && "first_air_date" in movie)) &&
-                                    !hasIntersection(movie.genre_ids, unselectedGenres)? 
+                                    // renders the item if none of its genres are in 'genresToHide'
+                                    ((showMovies && isMovie(movie)) || (showSeries && isSeries(movie))) &&
+                                    !hasIntersection(movie.genre_ids, genresToHide)? 
                                     <>
                                         <Movie movieData={movie} handleMovieClick={handleMovieClick} handleFavouritesClick={handleFavouritesClick} favouriteMovies={favouriteMovies} />
                                     </>
@@ -174,6 +174,8 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
                                         </>
                                     }
                                     {
+                                        // should only show a disabled 'next' button if its the 'favourites' list because any other list can have
+                                        // a next page if its fetched
                                         listType === LIST_TYPE.FAVOURITES &&
                                         endIndex + 1 >= moviesLocalState.length?
                                         <>
@@ -218,7 +220,7 @@ MovieList.propTypes = {
     handleFavouritesClick: PropTypes.func.isRequired,
     showMovies: PropTypes.bool.isRequired,
     showSeries: PropTypes.bool.isRequired,
-    unselectedGenres: PropTypes.array.isRequired,
+    genresToHide: PropTypes.array.isRequired,
     sortParameter: PropTypes.string.isRequired,
     listType: PropTypes.string.isRequired, 
     searchValue: PropTypes.string
