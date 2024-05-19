@@ -2,7 +2,7 @@ import React from 'react'
 import Form from 'react-bootstrap/Form';
 import PropTypes from 'prop-types'
 
-const Filter = ({ showMovies, showSeries, changeShowMovies, changeShowSeries, genres, unselectedGenres, setUnselectedGenres }) => {
+const Filter = ({ showMovies, showSeries, changeShowMovies, changeShowSeries, genres, genresToHide, setGenresToHide }) => {
     return(
         <>
             <div className="width-50vw filter-contents">
@@ -21,13 +21,13 @@ const Filter = ({ showMovies, showSeries, changeShowMovies, changeShowSeries, ge
                         {genres.genres.map( (genre, index) => (
                             <div key={index}>
                                 {
-                                    unselectedGenres.some(unselectedGenre => unselectedGenre === genre.id)?
+                                    genresToHide.some(unselectedGenre => unselectedGenre === genre.id)?
                                     <>
-                                        <Form.Check className="mr-3" type="switch" label={genre.name} checked={false} onChange={() => setUnselectedGenres(unselectedGenres.filter(id => id !== genre.id))}/>
+                                        <Form.Check className="mr-3" type="switch" label={genre.name} checked={false} onChange={() => setGenresToHide(genresToHide.filter(id => id !== genre.id))}/>
                                     </>
                                     :
                                     <>
-                                        <Form.Check className="mr-3" type="switch" label={genre.name} checked={true} onChange={() => setUnselectedGenres([...unselectedGenres, genre.id])}/>
+                                        <Form.Check className="mr-3" type="switch" label={genre.name} checked={true} onChange={() => setGenresToHide([...genresToHide, genre.id])}/>
                                     </>
                                 }
                             </div>
@@ -45,8 +45,8 @@ Filter.propTypes = {
     changeShowMovies: PropTypes.func.isRequired,
     changeShowSeries: PropTypes.func.isRequired,
     genres: PropTypes.object.isRequired,
-    unselectedGenres: PropTypes.array.isRequired,
-    setUnselectedGenres: PropTypes.func.isRequired
+    genresToHide: PropTypes.array.isRequired,
+    setGenresToHide: PropTypes.func.isRequired
 }
 
 export default Filter
