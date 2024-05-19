@@ -14,12 +14,15 @@ const getIMDBID = async (movie) => {
         accept: 'application/json',
         Authorization: `Bearer ${process.env.REACT_APP_TMDB_TOKEN}`
       }
-    };
+    }
 
-    const response = await fetch(url, options)
-    const responseJSON = await response.json()
-
-    return responseJSON.imdb_id
+    try {
+        const response = await fetch(url, options)
+        const responseJSON = await response.json()
+        return responseJSON.imdb_id
+    } catch (error) {
+        console.error(error)
+    }
 }
 
 const goToIMDBPage = async (movie) => {
