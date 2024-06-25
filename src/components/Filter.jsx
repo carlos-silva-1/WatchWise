@@ -18,7 +18,7 @@ const Filter = ({ showMovies, showSeries, changeShowMovies, changeShowSeries, ge
                 <div className="mt-3">
                     <h4 className="mr-3 primary-color">Genres </h4>
                     <div>
-                        {genres.genres.map( (genre, index) => (
+                        {genres.genres && genres.genres.map( (genre, index) => (
                             <div key={index}>
                                 {
                                     genresToHide.some(unselectedGenre => unselectedGenre === genre.id)?
