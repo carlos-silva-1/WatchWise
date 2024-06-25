@@ -28,7 +28,7 @@ const Stream = ({ movie }) => {
             setStreamOptions(streamingOptionsUSEntries)
           }
           else{
-            const noStreamingOptions = {}
+            const noStreamingOptions = []
             setStreamOptions(noStreamingOptions)
           }
         } catch (error) {
