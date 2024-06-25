@@ -44,7 +44,7 @@ const Stream = ({ movie }) => {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu className="dropdown-menu">
-                    {streamOptions.map((option) => (
+                    {streamOptions && streamOptions.map((option) => (
                         <Dropdown.Item className="dropdown-item" href={option[1][0].link} target="_blank" key={option[0].toString()}>
                             {option[0].toString().toUpperCase()}
                         </Dropdown.Item>
