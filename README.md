@@ -11,4 +11,4 @@ This project was created with:
 * Streaming Availability APIs
 
 This project is hosted:
-https://watchlist-h4xo.onrender.com
+https://watchwise-iprq.onrender.com
