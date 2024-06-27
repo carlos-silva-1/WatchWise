@@ -129,6 +129,11 @@ const MovieList = ({ favouriteMovies, movies, handleMovieClick, handleFavourites
             setMoviesLocalState(movies)
     }, [searchValue, movies])
 
+    useEffect(() => {
+        if(listType === LIST_TYPE.FAVOURITES)
+            setMoviesLocalState(favouriteMovies)
+    }, [favouriteMovies])
+
     sortMovies(moviesLocalState, sortParameter)
 
     const startIndex = pageNumber === 1? 0 : numberMoviesPerPage*(pageNumber-1)
